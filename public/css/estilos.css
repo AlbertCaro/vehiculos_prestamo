@@ -1,0 +1,108 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    position: relative;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+fieldset{
+    background: white;
+}
+.posicionAbsoluta{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    background: rgba(0,0,0,0.6);
+    border-radius: .25em;
+    padding: 30px;
+    z-index: 1;
+}
+.imgBack{
+    position: absolute;
+    right: 50px;
+}
+.imgBack:hover{
+    background: white;
+    border-radius: .75em;
+}
+.center-text{
+    text-align: center;
+}
+.col-centered{
+    margin: 0 auto;
+    float: none;
+}
+.botones{
+    -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    background-color: #2CBBBB;
+    border: 1px solid #27A0A0;
+    display: inline-block;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 8px 18px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+#content {
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 100px;
+}
+.despliega ul, li {
+    list-style:none;
+}         
+.despliega > li {
+    float:left;
+}        
+.despliega li a {
+    background-color: #f8f8f8;
+    text-decoration:none;
+    padding:10px 12px;
+    display:block;
+}
+.despliega li a:hover {
+    background-color:#afb3b8;
+}
+.despliega li ul {
+    display:none;
+    position:absolute;
+}
+.despliega li:hover > ul {
+    display:block;
+}
+.despliega li ul li {
+    position:relative;
+}
+.despliega li ul li ul {
+    right:-140px;
+    top:0px;
+}
+.formCenter{
+    width: 50%;
+    margin: 0 auto;
+}
+.formCenter2{
+    width: 70%;
+    margin: 0 auto;
+}
+.leftText{
+    width: 95%;
+    font-size: 15px;
+    font-weight: bold;
+}
