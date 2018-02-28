@@ -18,48 +18,37 @@
     <script type="text/javascript" src="js/confirmDel.js"></script>
 </head>
 <body>
-<?php
-require_once 'secion.php';
-require_once 'conexion.php';
-error_reporting(E_ALL ^E_NOTICE ^E_WARNING);
-if ($_SESSION["userType"]!=5) {
-    require_once 'php/header.php';
-}
-switch ($_SESSION["userType"]) {
-    case '1':
-        require_once 'php/sol.php';
-        break;
-    case '2':
-        require_once 'php/validaJef.php';
-        break;
-    case '3':
-        require_once 'php/validaDetalles.php';
-        break;
-    case '4':
-        require_once 'php/validaDetallesC.php';
-        break;
-    case '5':
-        require_once 'php/header2.php';
-        break;
-}
-?>
-<a  name="fujo"></a>
-<div class="content-section-a">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-5 col-sm-6">
-                <hr class="section-heading-spacer">
-                <div class="clearfix"></div>
-                <h2 class="section-heading">Flujo de las solicitudes:</h2>
-                <p class="lead">Todas las solicitudes son enviadas a revisión. La primera aprobación estará dada por el <b>jefe inmediato</b> del solicitante, después de su aprobación, la solicitud será enviada al Secretario Administrativo, si la solicitud es aprobada, pasará al Coordinador de Servicios Generales, quien en caso de contar con el vehículo que reúna los requerimientos solicitados dará la respuesta final.</p>
-            </div>
-            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="img/dog.png" alt="">
-            </div>
+
+<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+    <div class="container topnav">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand topnav" href="#">Préstamo de vehículos CUValles</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#reg">Registrarme</a>
+                </li>
+                <li>
+                    <a href="#log">Iniciar sesión</a>
+                </li>
+                <li>
+                    <a href="#contacto">Contacto</a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
-@yield('container')
+</nav>
+
+@yield('content')
+
+<a  name="contacto"></a>
 <div class="banner">
     <div class="container">
         <div class="row">
