@@ -24,7 +24,7 @@ Route::get('/register', function () {
 });
 
 Route::get('/historial', ['as'=>'historical', function (){
-   return view('historical');
+    return view('historical');
 }]);
 
 Route::get('/nueva_solicitud', ['as'=>'new_request',function (){
@@ -53,4 +53,29 @@ Route::get('/gestionar_vehiculos', ['as'=>'manage_vehicles',function (){
 
 Route::get('/gestionar_usuarios', ['as'=>'manage_users',function (){
     return view('manage_users');
+}]);
+
+//Rutas de para agregar
+Route::get('/agregar_conductores', ['as'=>'add_conductor',function (){
+    return view('add_conductor');
+}]);
+
+Route::get('/agregar_eventos', ['as'=>'add_events',function (){
+    return view('add_events');
+}]);
+
+Route::get('/agregar_jefes', ['as'=>'add_bosses',function (){
+    return view('add_bosses');
+}]);
+
+Route::get('/agregar_solicitantes', ['as'=>'add_applicants',function (){
+    return view('add_applicants');
+}]);
+
+Route::get('/agregar_vehiculos', ['as'=>'add_vehicles',function (){
+    return view('add_vehicles');
+}]);
+
+Route::get('/agregar_usuario', ['as'=>'add_users',function (){
+    return view('add_users');
 }]);
