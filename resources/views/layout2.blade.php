@@ -5,6 +5,7 @@
  * Date: 28/02/2018
  * Time: 19:03
  */ ?>
+<?php /** Esto de ser de mientras supongo....*/?>
 <html lang="es">
 <head>
     <meta charset="utf-8">

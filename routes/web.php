@@ -56,6 +56,7 @@ Route::get('/gestionar_usuarios', ['as'=>'manage_users',function (){
 }]);
 
 //Rutas de para agregar
+
 Route::get('/agregar_conductores', ['as'=>'add_conductor',function (){
     return view('add_conductor');
 }]);
