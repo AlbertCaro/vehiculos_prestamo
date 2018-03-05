@@ -36,31 +36,26 @@ class CreateSolicitudTable extends Migration
             $table->integer('estado')->nullable();
             $table->string('reporte', 245)->nullable();
             $table->integer('solicita_conductorl')->nullable();
-            $table->integer('idvehiculo')->unsigned();
-            $table->integer('idsolicitante')->unsigned();
+            $table->integer('idvehiculo')->unsigned();//
+            $table->string('idsolicitante', 10)->unsigned();
             $table->integer('idconductor')->unsigned();
             $table->integer('idtipo_evento')->unsigned();
-            $table->string('jefe_codigo_jefe', 10)->unsigned();
+            $table->string('jefe_codigo_jefe', 10)->unsigned();//
             $table->longText('observaciones')->nullable();
 
             $table->index(["jefe_codigo_jefe"], 'fk_solicitud_jefe1_idx');
 
-            $table->index(["idsolicitante"], 'fk_solicitud_solicitante1_idx');
+            $table->index(["idconductor"], 'fk_solicitud_conductor1_idx');
 
             $table->index(["idvehiculo"], 'fk_solicitud_vehiculo1_idx');
 
-            $table->index(["idconductor"], 'fk_solicitud_conductor1_idx');
+            $table->index(["idsolicitante"], 'fk_solicitud_solicitante1_idx');
 
             $table->index(["idtipo_evento"], 'fk_solicitud_tipo_evento1_idx');
 
 
             $table->foreign('idvehiculo', 'fk_solicitud_vehiculo1_idx')
                 ->references('idvehiculo')->on('vehiculo')
-                ->onDelete('no action')
-                ->onUpdate('no action');
-
-            $table->foreign('idsolicitante', 'fk_solicitud_solicitante1_idx')
-                ->references('idsolicitante')->on('solicitante')
                 ->onDelete('no action')
                 ->onUpdate('no action');
 
@@ -78,6 +73,11 @@ class CreateSolicitudTable extends Migration
                 ->references('codigo_jefe')->on('jefe')
                 ->onDelete('no action')
                 ->onUpdate('no action');
+
+            $table->foreign('idsolicitante', 'fk_solicitud_solicitante1_idx')
+                ->references('idsolicitante')->on('solicitante')
+                ->onDelete('no action')
+                ->onUpdate('no action');
         });
     }
 
@@ -86,8 +86,8 @@ class CreateSolicitudTable extends Migration
      *
      * @return void
      */
-     public function down()
-     {
-       Schema::dropIfExists($this->set_schema_table);
-     }
+    public function down()
+    {
+        Schema::dropIfExists($this->set_schema_table);
+    }
 }
