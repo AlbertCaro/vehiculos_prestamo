@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVehiculoTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'vehiculo';
+    public $set_schema_table = 'categories';
 
     /**
      * Run the migrations.
-     * @table vehiculo
+     * @table categories
      *
      * @return void
      */
@@ -23,10 +23,8 @@ class CreateVehiculoTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('idvehiculo');
+            $table->increments('id');
             $table->string('nombre', 45)->nullable();
-            $table->integer('capacidad')->nullable();
-            $table->integer('estado')->nullable();
         });
     }
 

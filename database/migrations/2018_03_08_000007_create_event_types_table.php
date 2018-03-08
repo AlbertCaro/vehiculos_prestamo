@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdminTable extends Migration
+class CreateEventTypesTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'admin';
+    public $set_schema_table = 'event_types';
 
     /**
      * Run the migrations.
-     * @table admin
+     * @table event_types
      *
      * @return void
      */
@@ -23,11 +23,17 @@ class CreateAdminTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('idadmin');
-            $table->string('pass', 245)->nullable();
-            $table->string('nombre', 45)->nullable();
-            $table->string('email', 45)->nullable();
-            $table->integer('tipo')->nullable();
+            $table->increments('id');
+            $table->string('nombre', 145)->nullable();
+            $table->integer('categories_id');
+
+            $table->index(["categories_id"], 'fk_event_types_categories_idx');
+
+
+            $table->foreign('categories_id', 'fk_event_types_categories_idx')
+                ->references('id')->on('categories')
+                ->onDelete('no action')
+                ->onUpdate('no action');
         });
     }
 

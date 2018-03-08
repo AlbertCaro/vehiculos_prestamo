@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConductorTable extends Migration
+class CreateUsersHasRolesTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'conductor';
+    public $set_schema_table = 'users_has_roles';
 
     /**
      * Run the migrations.
-     * @table conductor
+     * @table users_has_roles
      *
      * @return void
      */
@@ -23,16 +23,21 @@ class CreateConductorTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('idconductor');
-            $table->string('nombre', 145)->nullable();
-            $table->string('celular', 15)->nullable();
-            $table->integer('iddependencia')->unsigned();
+            $table->increments('users_id');
+            $table->integer('roles_id');
 
-            $table->index(["iddependencia"], 'fk_conductor_dependencia1_idx');
+            $table->index(["users_id"], 'fk_users_has_roles_users1_idx');
+
+            $table->index(["roles_id"], 'fk_users_has_roles_roles1_idx');
 
 
-            $table->foreign('iddependencia', 'fk_conductor_dependencia1_idx')
-                ->references('iddependencia')->on('dependencia')
+            $table->foreign('users_id', 'fk_users_has_roles_users1_idx')
+                ->references('id')->on('users')
+                ->onDelete('no action')
+                ->onUpdate('no action');
+
+            $table->foreign('roles_id', 'fk_users_has_roles_roles1_idx')
+                ->references('id')->on('roles')
                 ->onDelete('no action')
                 ->onUpdate('no action');
         });
