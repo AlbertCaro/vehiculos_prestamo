@@ -26,20 +26,7 @@ class CreateUsersHasRolesTable extends Migration
             $table->increments('users_id');
             $table->integer('roles_id');
 
-            $table->index(["users_id"], 'fk_users_has_roles_users1_idx');
 
-            $table->index(["roles_id"], 'fk_users_has_roles_roles1_idx');
-
-
-            $table->foreign('users_id', 'fk_users_has_roles_users1_idx')
-                ->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('no action');
-
-            $table->foreign('roles_id', 'fk_users_has_roles_roles1_idx')
-                ->references('id')->on('roles')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

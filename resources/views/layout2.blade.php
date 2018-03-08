@@ -83,7 +83,7 @@
                 <li>
                     <a href="">Usuarios</a>
                     <ul>
-                        <li><a href='?in=dXNlcg==&ap=MQ=='>Agregar</a></li>
+                        <li><a href='{{route('usuario.create')}}'>Agregar</a></li>
                         <li><a href='?in=dXNlcg==&ap=Mg=='>Gestionar</a></li>
                     </ul>
                 </li>

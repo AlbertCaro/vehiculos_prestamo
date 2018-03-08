@@ -31,13 +31,7 @@ class CreateContactsTable extends Migration
             $table->string('telefono', 12)->nullable();
             $table->integer('drivers_id');
 
-            $table->index(["drivers_id"], 'fk_contacts_drivers1_idx');
 
-
-            $table->foreign('drivers_id', 'fk_contacts_drivers1_idx')
-                ->references('id')->on('drivers')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

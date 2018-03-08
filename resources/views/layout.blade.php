@@ -35,7 +35,7 @@
                             <a href="#reg">Registrarme</a>
                         </li>
                         <li>
-                            <a href="#log">Iniciar sesión</a>
+                            <a href="{{route('login')}}">Iniciar sesión</a>
                         </li>
                         <li>
                             <a href="#contacto">Contacto</a>

@@ -31,15 +31,10 @@ class CreateUsersTable extends Migration
             $table->string('amaterno', 145)->nullable();
             $table->string('email', 145)->nullable();
             $table->string('celular', 12)->nullable();
-            $table->integer('id_jefe');
+            $table->integer('id_jefe')->nullable();
+            $table->timestamps();
+            $table->rememberToken();
 
-            $table->index(["id_jefe"], 'fk_users_users1_idx');
-
-
-            $table->foreign('id_jefe', 'fk_users_users1_idx')
-                ->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

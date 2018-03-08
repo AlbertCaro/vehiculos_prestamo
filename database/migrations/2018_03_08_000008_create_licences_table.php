@@ -29,13 +29,7 @@ class CreateLicencesTable extends Migration
             $table->string('archivo', 145)->nullable();
             $table->integer('drivers_id');
 
-            $table->index(["drivers_id"], 'fk_licences_drivers1_idx');
 
-
-            $table->foreign('drivers_id', 'fk_licences_drivers1_idx')
-                ->references('id')->on('drivers')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

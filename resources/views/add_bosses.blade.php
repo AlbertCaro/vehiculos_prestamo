@@ -15,7 +15,11 @@
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input type="number" class="form-control" name='txt_codigo' placeholder='Código' required/>
+                <input type="text" class="form-control" name='nombre' placeholder='Nombre' required/>
+            </div><br>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" name='apaterno' placeholder='Apellido paterno' required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Nombre</span>

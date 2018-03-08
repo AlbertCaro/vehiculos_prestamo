@@ -27,13 +27,10 @@ class CreateEventTypesTable extends Migration
             $table->string('nombre', 145)->nullable();
             $table->integer('categories_id');
 
-            $table->index(["categories_id"], 'fk_event_types_categories_idx');
 
 
-            $table->foreign('categories_id', 'fk_event_types_categories_idx')
-                ->references('id')->on('categories')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+
+
         });
     }
 

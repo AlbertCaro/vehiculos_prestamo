@@ -30,13 +30,7 @@ class CreateDriversTable extends Migration
             $table->string('amaterno', 75)->nullable();
             $table->string('celular', 12)->nullable();
 
-            $table->index(["dependencies_id"], 'fk_drivers_dependencies1_idx');
 
-
-            $table->foreign('dependencies_id', 'fk_drivers_dependencies1_idx')
-                ->references('id')->on('dependencies')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

@@ -35,41 +35,7 @@ class CreateRequestsTable extends Migration
             $table->integer('vehicles_id');
             $table->integer('jefe_id');
 
-            $table->index(["jefe_id"], 'fk_requests_users2_idx');
 
-            $table->index(["solicitante_id"], 'fk_requests_users1_idx');
-
-            $table->index(["vehicles_id"], 'fk_requests_vehicles1_idx');
-
-            $table->index(["event_types_id"], 'fk_requests_event_types1_idx');
-
-            $table->index(["drivers_id"], 'fk_requests_drivers1_idx');
-
-
-            $table->foreign('event_types_id', 'fk_requests_event_types1_idx')
-                ->references('id')->on('event_types')
-                ->onDelete('no action')
-                ->onUpdate('no action');
-
-            $table->foreign('drivers_id', 'fk_requests_drivers1_idx')
-                ->references('id')->on('drivers')
-                ->onDelete('no action')
-                ->onUpdate('no action');
-
-            $table->foreign('solicitante_id', 'fk_requests_users1_idx')
-                ->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('no action');
-
-            $table->foreign('vehicles_id', 'fk_requests_vehicles1_idx')
-                ->references('id')->on('vehicles')
-                ->onDelete('no action')
-                ->onUpdate('no action');
-
-            $table->foreign('jefe_id', 'fk_requests_users2_idx')
-                ->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

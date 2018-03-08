@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\solicitud;
+use App\Solicitud;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +15,7 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        //
+        return view('new_request');
     }
 
     /**
@@ -42,10 +42,10 @@ class SolicitudController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\solicitud  $solicitud
+     * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show(solicitud $solicitud)
+    public function show(Solicitud $solicitud)
     {
         //
     }
@@ -53,10 +53,10 @@ class SolicitudController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\solicitud  $solicitud
+     * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function edit(solicitud $solicitud)
+    public function edit(Solicitud $solicitud)
     {
         //
     }
@@ -65,10 +65,10 @@ class SolicitudController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\solicitud  $solicitud
+     * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, solicitud $solicitud)
+    public function update(Request $request, Solicitud $solicitud)
     {
         //
     }
@@ -76,10 +76,10 @@ class SolicitudController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\solicitud  $solicitud
+     * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function destroy(solicitud $solicitud)
+    public function destroy(Solicitud $solicitud)
     {
         //
     }
