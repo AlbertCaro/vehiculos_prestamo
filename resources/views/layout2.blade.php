@@ -14,15 +14,15 @@
     <meta name="description" content="Sitio para préstamo de vehículos CUValles">
     <meta name="author" content="UMI CUValles">
     <title>Préstamo de vehículos CUValles</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/landing-page.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/landing-page.css')}}" rel="stylesheet">
+    <link href="{{asset('font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
-    <link rel="stylesheet" href="css/datetimepicker.css">
-    <link rel="stylesheet" href="css/estilos.css">
-    <script type="text/javascript" src="js/causa.js"></script>
-    <script type="text/javascript" src="js/confirmDel.js"></script>
+    <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/estilos.css')}}">
+    <script type="text/javascript" src="{{asset('js/causa.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/confirmDel.js')}}"></script>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
