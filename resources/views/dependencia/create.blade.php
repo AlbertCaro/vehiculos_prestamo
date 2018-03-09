@@ -4,7 +4,7 @@
 @section('content')
 
 
-    <form action="{{route('dependencia.store')}}" method="post">
+    <form action="{{route('dependencia.store')}}" method="post" >
     {{csrf_field()}}
 
     <input type="text" name="nombre" id="nombre">
