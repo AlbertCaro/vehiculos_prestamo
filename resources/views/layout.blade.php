@@ -55,35 +55,35 @@
                             <li>
                                 <a href="">Eventos</a>
                                 <ul>
-                                    <li><a href='?in=ZXZ0&ap=MQ=='>Agregar</a></li>
-                                    <li><a href='?in=ZXZ0&ap=Mg=='>Gestionar</a></li>
+                                    <li><a href='{{route('tipo_evento.create')}}'>Agregar</a></li>
+                                    <li><a href='{{route('tipo_evento.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="">Jefes</a>
                                 <ul>
-                                    <li><a href='?in=Ym9zcw==&ap=MQ=='>Agregar</a></li>
-                                    <li><a href='?in=Ym9zcw==&ap=Mg=='>Gestionar</a></li>
+                                    <li><a href=''>Agregar</a></li>
+                                    <li><a href=''>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="">Solicitantes</a>
                                 <ul>
-                                    <li><a href='?in=c29saQ==&ap=MQ=='>Agregar</a></li>
-                                    <li><a href='?in=c29saQ==&ap=Mg=='>Gestionar</a></li>
+                                    <li><a href=''>Agregar</a></li>
+                                    <li><a href=''>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="">Solicitudes</a>
                                 <ul>
-                                    <li><a href='?in=c29saXQ=&ap=MQ=='>Gestionar</a></li>
+                                    <li><a href='{{route('solicitud.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="">Vehículos</a>
                                 <ul>
-                                    <li><a href='?in=Y2Fy&ap=MQ=='>Agregar</a></li>
-                                    <li><a href='?in=Y2Fy&ap=Mg=='>Gestionar</a></li>
+                                    <li><a href='{{route('vehiculo.create')}}'>Agregar</a></li>
+                                    <li><a href='{{route('vehiculo.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>

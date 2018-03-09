@@ -15,7 +15,8 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        //
+        $vehicles=Vehicle::all();
+        return view("manage_vehicles", compact('vehicles'));
     }
 
     /**
@@ -25,7 +26,7 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        //
+        return view("add_vehicles");
     }
 
     /**
@@ -36,7 +37,14 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $vehicles = Vehicle::create([
+            'placas'=>$request['placas'],
+            'nombre'=>$request['nombre'],
+            'capacidad'=>$request['capacidad'],
+            'estado'=> $request['estado']
+        ]);
+
+        return "creado exitosamente con el id ".$vehicles->id;
     }
 
     /**

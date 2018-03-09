@@ -28,6 +28,7 @@ class CreateVehiclesTable extends Migration
             $table->string('nombre', 45)->nullable();
             $table->string('capacidad', 45)->nullable();
             $table->string('estado', 45)->nullable();
+            $table->timestamps();
         });
     }
 
