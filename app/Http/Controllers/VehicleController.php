@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Vehicle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -39,7 +40,7 @@ class VehicleController extends Controller
     {
         $vehicles = Vehicle::create([
             'placas'=>$request['placas'],
-            'nombre'=>$request['nombre'],
+            'nombre'=>$request['modelo'],
             'capacidad'=>$request['capacidad'],
             'estado'=> $request['estado']
         ]);
@@ -66,7 +67,8 @@ class VehicleController extends Controller
      */
     public function edit(Vehicle $vehicle)
     {
-        //
+       //$vehicles = Category::all('id', $vehicle);
+        return view('add_vehicles', compact('vehicle'));
     }
 
     /**
@@ -87,8 +89,9 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vehicle $vehicle)
+    public function destroy($id)
     {
-        //
+        Vehicle::where('id', $id)->delete();
+        return redirect()->route('vehiculo.index');
     }
 }
