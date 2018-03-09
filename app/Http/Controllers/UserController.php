@@ -16,7 +16,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users=User::all();
+        //recuerden que se manda el nombre de la variable sin $, esta cosa ya sabe a qué se refieren
+        return view('manage_users',compact('users'));
+
     }
 
     /**
