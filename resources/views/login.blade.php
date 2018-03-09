@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1>Inicia Sesión</h1>
+                        <h1>Inicia sesión</h1>
                         <h3>Debes registrarte para iniciar sesión</h3>
                         <div class="form_wh">
                             <form id="login" class="form-horizontal" name='login' action='' method='post'>

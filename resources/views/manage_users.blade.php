@@ -21,7 +21,7 @@
             <tr><td>{{$user->id}}</td><td>{{$user->nombre}} {{$user->apaterno}} {{$user->amaterno}}</td><td>{{$user->email}}</td><td>EL rol</td><td></td><td><a href=''><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td></tr><tr></tr>		</tbody>
             @empty
                 <h1>No hay usuarios</h1>
-                @endforelse
+            @endforelse
         </table>
     </div><br>
 @stop

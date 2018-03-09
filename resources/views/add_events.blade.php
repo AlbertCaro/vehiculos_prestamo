@@ -5,7 +5,7 @@
  * Date: 28/02/2018
  * Time: 15:19
  */ ?>
-@extends('layout2')
+@extends('layout')
 
 @section('content')
     <br><br>

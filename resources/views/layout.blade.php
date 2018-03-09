@@ -7,15 +7,15 @@
         <meta name="description" content="Sitio para préstamo de vehículos CUValles">
         <meta name="author" content="UMI CUValles">
         <title>Préstamo de vehículos CUValles</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/landing-page.css" rel="stylesheet">
-        <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/landing-page.css') }}" rel="stylesheet">
+        <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css">
-        <link rel="stylesheet" href="css/datetimepicker.css">
-        <link rel="stylesheet" href="css/estilos.css">
-        <script type="text/javascript" src="js/causa.js"></script>
-        <script type="text/javascript" src="js/confirmDel.js"></script>
+        <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/datetimepicker.css') }}')}}">
+        <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+        <script type="text/javascript" src="{{ asset('js/causa.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/confirmDel.js') }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -27,19 +27,84 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand topnav" href="#">Préstamo de vehículos CUValles</a>
+                    <a class="navbar-brand topnav" href="{{ route('index') }}">Préstamo de vehículos CUValles</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#reg">Registrarme</a>
-                        </li>
-                        <li>
-                            <a href="{{route('login')}}">Iniciar sesión</a>
-                        </li>
-                        <li>
-                            <a href="#contacto">Contacto</a>
-                        </li>
+                    <ul class="nav navbar-nav navbar-right
+                        @if(!auth()->guest())
+                            {{ "despliega" }}
+                        @endif">
+                        @if(auth()->guest())
+                            <li>
+                                <a href="#contacto">Contacto</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('login') }}">Iniciar sesión</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('register') }}">Registrarme</a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="">Conductores</a>
+                                <ul>
+                                    <li><a href='{{ route('conductor.create') }}'>Agregar</a></li>
+                                    <li><a href='{{ route('conductor.index') }}'>Gestionar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="">Eventos</a>
+                                <ul>
+                                    <li><a href='?in=ZXZ0&ap=MQ=='>Agregar</a></li>
+                                    <li><a href='?in=ZXZ0&ap=Mg=='>Gestionar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="">Jefes</a>
+                                <ul>
+                                    <li><a href='?in=Ym9zcw==&ap=MQ=='>Agregar</a></li>
+                                    <li><a href='?in=Ym9zcw==&ap=Mg=='>Gestionar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="">Solicitantes</a>
+                                <ul>
+                                    <li><a href='?in=c29saQ==&ap=MQ=='>Agregar</a></li>
+                                    <li><a href='?in=c29saQ==&ap=Mg=='>Gestionar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="">Solicitudes</a>
+                                <ul>
+                                    <li><a href='?in=c29saXQ=&ap=MQ=='>Gestionar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="">Vehículos</a>
+                                <ul>
+                                    <li><a href='?in=Y2Fy&ap=MQ=='>Agregar</a></li>
+                                    <li><a href='?in=Y2Fy&ap=Mg=='>Gestionar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="">Usuarios</a>
+                                <ul>
+                                    <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
+                                    <li><a href='{{ route('usuario.index') }}'>Gestionar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    Cerrar sesión
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -94,10 +159,10 @@
                 </div>
             </div>
         </footer>
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/datetimepicker.full.js"></script>
-        <script type="text/javascript" src="js/calendar.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/datetimepicker.full.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/calendar.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     </body>
 </html>
