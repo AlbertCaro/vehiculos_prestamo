@@ -30,8 +30,7 @@ class CreateContactsTable extends Migration
             $table->string('parentesco', 45)->nullable();
             $table->string('telefono', 12)->nullable();
             $table->integer('drivers_id');
-
-
+            $table->timestamps();
         });
     }
 

@@ -23,16 +23,17 @@
                     <td>{{$driver->celular}}</td>
                     <td>
                         <form id="delete_form_{{ $driver->id }}" action="{{ route('conductor.destroy' , $driver->id)}}" method="POST">
-                        <input name="_method" type="hidden" value="DELETE">
-                        {{ csrf_field() }}
-
-                        <a href='' onclick="event.preventDefault();
-                                document.getElementById('delete_form_{{ $driver->id }}').submit();">
-                            <img border='0' alt='Editar' src='img/delete.png' width='50' height='50'>
-                        </a>
+                            <input name="_method" type="hidden" value="DELETE">
+                            {{ csrf_field() }}
+                            <a href='' onclick="event.preventDefault();
+                                    document.getElementById('delete_form_{{ $driver->id }}').submit();">
+                                <img border='0' alt='Editar' src='img/delete.png' width='50' height='50'>
+                            </a>
                         </form>
-                        </td>
-                    <td><a href='{{ route('conductor.edit', $driver) }}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td>
+                    </td>
+                    <td>
+                        <a href='{{ route('conductor.edit') }}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a>
+                    </td>
                 </tr>
             @empty
                 <h1>No hay conductores</h1>

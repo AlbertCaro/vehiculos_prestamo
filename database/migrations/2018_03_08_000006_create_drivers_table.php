@@ -29,8 +29,7 @@ class CreateDriversTable extends Migration
             $table->string('apaterno', 75)->nullable();
             $table->string('amaterno', 75)->nullable();
             $table->string('celular', 12)->nullable();
-
-
+            $table->timestamps();
         });
     }
 
