@@ -37,7 +37,9 @@ class DriverController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $driver = Driver::create([
+            'id' => $request['codigo'],
+            'dependencies_id' => $request['']]);
     }
 
     /**
@@ -80,8 +82,9 @@ class DriverController extends Controller
      * @param  \App\Driver  $driver
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Driver $driver)
+    public function destroy($id)
     {
-        //
+        Driver::where('id', $id)->delete();
+        return 'Eliminado: '.$id;
     }
 }
