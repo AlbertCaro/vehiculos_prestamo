@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contact;
 use App\Driver;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -39,7 +40,23 @@ class DriverController extends Controller
     {
         $driver = Driver::create([
             'id' => $request['codigo'],
-            'dependencies_id' => $request['']]);
+            'dependencies_id' => $request['dependencia'],
+            'nombre' => $request['nombre'],
+            'apaterno' => $request['apaterno'],
+            'amaterno' => $request['amaterno'],
+            'celular' => $request['celular']
+        ]);
+
+        $contact = Contact::create([
+            'nombre' => $request['nombre_cont'],
+            'apaterno' => $request['apaterno_cont'],
+            'amaterno' => $request['amaterno_cont'],
+            'parentesco' => $request['parentesco_cont'],
+            'telefono' => $request['telefono_cont'],
+            'drivers_id' => $request['codigo']
+        ]);
+
+        return "zi";
     }
 
     /**
@@ -62,6 +79,7 @@ class DriverController extends Controller
     public function edit(Driver $driver)
     {
         //
+        return dd($driver);
     }
 
     /**
