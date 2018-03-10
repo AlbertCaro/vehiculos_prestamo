@@ -32,7 +32,7 @@
                         </form>
                     </td>
                     <td>
-                        <a href='{{ route('conductor.edit') }}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a>
+                        <a href='{{ route('conductor.edit', $driver->id) }}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a>
                     </td>
                 </tr>
             @empty

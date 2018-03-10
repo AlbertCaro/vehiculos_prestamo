@@ -1,16 +1,17 @@
 @extends('layout')
 
 @section('content')
-    {{ dd($driver) }}
     <br><br>
     <div class="form_wh formCenter">
-        <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="{{ route('conductor.store') }}" method="post" entype="application/x-www-form-urlencoded">
+        <form id="busqueda_form" class="form-horizontal" name="form_busqueda"
+              action="@if($driver !== null) {{ route('conductor.store') }} @else {{ route('conductor.update') }} @endif"
+              method="post" entype="application/x-www-form-urlencoded">
             <h3>Información sobre el conductor</h3>
             {{ csrf_field() }}
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Código</span>
-                <input type="number" class="form-control" name="codigo" placeholder="Código" required/>
+                <input type="number" class="form-control" name="codigo" placeholder="Código" value="@if($driver !== null) {{old('id', $driver[0]->id)}} @endif" required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Nombre(s)</span>

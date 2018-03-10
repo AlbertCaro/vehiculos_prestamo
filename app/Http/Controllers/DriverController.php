@@ -76,10 +76,11 @@ class DriverController extends Controller
      * @param  \App\Driver  $driver
      * @return \Illuminate\Http\Response
      */
-    public function edit(Driver $driver)
+    public function edit($id)
     {
         //
-        return dd($driver);
+        $driver = Driver::all()->where('id', $id);
+        return view('add_conductor', compact('driver'));
     }
 
     /**
