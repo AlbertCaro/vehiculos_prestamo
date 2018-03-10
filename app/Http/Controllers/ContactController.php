@@ -36,7 +36,9 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$request = session()->get('request');
+
+        return print_r($request);
     }
 
     /**
