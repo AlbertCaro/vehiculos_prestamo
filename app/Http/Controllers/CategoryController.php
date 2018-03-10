@@ -15,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        $categories=Category::all();
+
+        return view('manage_categories',compact('categories'));
     }
 
     /**
@@ -25,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('add_categories');
     }
 
     /**
@@ -36,7 +38,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = Category::create($request->all());
+
+        return "creada exitosamente con el id ".$category->id;
     }
 
     /**
@@ -58,7 +62,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $categoria = Category::find($category);
+        return view('add_categories',compact('categoria'));
     }
 
     /**
@@ -79,8 +84,9 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($category)
     {
-        //
+        Category::where('id', $category)->delete();
+        return 'Eliminado: '.$category;
     }
 }

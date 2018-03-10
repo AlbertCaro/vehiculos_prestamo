@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Vehicle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -39,7 +40,7 @@ class VehicleController extends Controller
     {
         $vehicles = Vehicle::create([
             'placas'=>$request['placas'],
-            'nombre'=>$request['nombre'],
+            'nombre'=>$request['modelo'],
             'capacidad'=>$request['capacidad'],
             'estado'=> $request['estado']
         ]);
@@ -65,8 +66,9 @@ class VehicleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Vehicle $vehicle)
-    {
-        //
+    {//No funcion
+       //$vehicles = Category::all('id', $vehicle);
+        return view('add_vehicles', compact('vehicle'));
     }
 
     /**
@@ -81,14 +83,16 @@ class VehicleController extends Controller
         //
     }
 
-    /**
+    /**   LL
      * Remove the specified resource from storage.
      *
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vehicle $vehicle)
+    //Cambios
+    public function destroy($id)
     {
-        //
+        Vehicle::where('id', $id)->delete();
+        return redirect()->route('vehiculo.index');
     }
 }

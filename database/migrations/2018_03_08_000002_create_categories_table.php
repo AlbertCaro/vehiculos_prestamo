@@ -25,6 +25,7 @@ class CreateCategoriesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 45)->nullable();
+            $table->timestamps(); //necesarios para la fecha de creacion y modificacion
         });
     }
 

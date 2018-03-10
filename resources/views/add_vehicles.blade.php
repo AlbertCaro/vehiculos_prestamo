@@ -14,18 +14,18 @@
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Placas</span>
-                <input type="text" class="form-control" name='txt_placas' placeholder='Placas' required/>
+                <input type="text" class="form-control" name='placas' placeholder='Placas' required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Modelo</span>
-                <input type="text" class="form-control" name="txt_modelo" placeholder="Modelo" required/>
+                <input type="text" class="form-control" name="modelo" placeholder="Modelo" required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Capacidad</span>
-                <input type="number" class="form-control" name="txt_capacidad" placeholder='Capacidad' required/>
+                <input type="number" class="form-control" name="capacidad" placeholder='Capacidad' required/>
             </div><br>
             <input type="submit" class="botones" name="save_btn" value="Guardar"/><br><br>
-            {{csrf_field()}}
+            {{csrf_field()}} <!--funciona-->
             <hr class="intro-divider">
         </form>
     </div>
