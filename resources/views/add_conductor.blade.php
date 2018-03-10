@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    {{ dd($driver) }}
+
     <br><br>
     <div class="form_wh formCenter">
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda"
@@ -12,11 +12,11 @@
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Código</span>
-                <input type="number" class="form-control" name="codigo" placeholder="Código" required/>
+                <input type="number" class="form-control" name="codigo" placeholder="Código" @isset($driver) value="{{$driver->id}}"@endisset required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Nombre(s)</span>
-                <input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required/>
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" @isset($driver) value="{{$driver->nombre}}"@endisset required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Apellido paterno</span>

@@ -78,9 +78,9 @@ class DriverController extends Controller
      */
     public function edit($id)
     {
-        //
-        $res = Driver::all()->where('id', $id);
-        $driver = $res[0];
+        //Añadido, podemos buscar mediante el método find que recibe como parámetro el id de la clase.
+        $driver = Driver::findOrFail($id);//con findOrFail retorna un 404
+
         return view('add_conductor', compact('driver'));
     }
 
@@ -104,7 +104,7 @@ class DriverController extends Controller
      */
     public function destroy($id)
     {
-        Driver::where('id', $id)->delete();
+        Driver::findOrFail($id)->delete();
         return 'Eliminado: '.$id;
     }
 }
