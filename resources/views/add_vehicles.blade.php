@@ -25,7 +25,7 @@
                 <input type="number" class="form-control" name="capacidad" placeholder='Capacidad' required/>
             </div><br>
             <input type="submit" class="botones" name="save_btn" value="Guardar"/><br><br>
-            {{csrf_field()}}
+            {{csrf_field()}} <!--funciona-->
             <hr class="intro-divider">
         </form>
     </div>

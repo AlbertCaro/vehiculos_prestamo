@@ -36,7 +36,7 @@
                                 </a>
                             </form>
                         </td>
-                    <td>
+                    <td> <!--no funciona!!! -->
                         <form id="edit_form_{{$vehicle->id}}" action="{{route('vehiculo.edit', $vehicle->id)}}" method="get">
                             <input name="_method" type="hidden" value="GET">
                             {{ csrf_field() }}

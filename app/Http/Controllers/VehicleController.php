@@ -66,7 +66,7 @@ class VehicleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Vehicle $vehicle)
-    {
+    {//No funcion
        //$vehicles = Category::all('id', $vehicle);
         return view('add_vehicles', compact('vehicle'));
     }
@@ -83,12 +83,13 @@ class VehicleController extends Controller
         //
     }
 
-    /**
+    /**   LL
      * Remove the specified resource from storage.
      *
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
+    //Cambios
     public function destroy($id)
     {
         Vehicle::where('id', $id)->delete();
