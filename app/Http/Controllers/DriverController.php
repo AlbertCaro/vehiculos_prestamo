@@ -79,7 +79,8 @@ class DriverController extends Controller
     public function edit($id)
     {
         //
-        $driver = Driver::all()->where('id', $id);
+        $res = Driver::all()->where('id', $id);
+        $driver = $res[0];
         return view('add_conductor', compact('driver'));
     }
 
