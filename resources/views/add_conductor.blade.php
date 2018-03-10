@@ -1,7 +1,9 @@
 @extends('layout')
 
 @section('content')
-    {{ dd($driver) }}
+    @isset($driver)
+        {{$driver->nombre}}
+        @endisset
     <br><br>
     <div class="form_wh formCenter">
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="{{ route('conductor.store') }}" method="post" entype="application/x-www-form-urlencoded">
@@ -33,7 +35,7 @@
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Licencia</span>
-                <input type="number" class="form-control" name="licencia" placeholder="Número de licencia"required/>
+                <input type="text" class="form-control" name="licencia" placeholder="Número de licencia"required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Fecha de vencimiento</span>
