@@ -14,6 +14,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware(['auth']);
+    }
+
     public function index()
     {
         $users=User::all();
@@ -55,7 +61,7 @@ class UserController extends Controller
         'password'=>Hash::make($request['password']),
        ]);
 
-        return "creado exitosamente con el id".$user->id;
+        return redirect()->route('usuario.index');
     }
 
     /**
@@ -66,7 +72,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        //no sé si implementarlo, la neta.
     }
 
     /**
@@ -75,9 +81,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        return view('add_users',compact('usuario'));
     }
 
     /**
@@ -87,9 +94,20 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        $usuario->update([
+            'nombre'=>$request['nombre'],
+            'apaterno'=>$request['apaterno'],
+            'amaterno'=>$request['amaterno'],
+            'email'=>$request['email'],
+            'cargo'=>$request['cargo'],
+            'celular'=>$request['celular'],
+            'role_id'=> 1,
+            'password'=>Hash::make($request['password']),
+        ]);
+        return redirect()->route('usuario.index');
     }
 
     /**
@@ -98,8 +116,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        $usuario->delete();
+        return redirect()->route('usuario.index');
     }
 }
