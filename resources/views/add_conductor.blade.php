@@ -52,7 +52,7 @@
             <h3>Contacto para casos de emergencia</h3>
             <div class="input-group">
                 <span class="input-group-addon">Contacto</span>
-                <input type="text" class="form-control" name="nombre_cont" placeholder="Nombre del contacto" @isset($contact) value="{{$contact->nombre}}" @endisset required/>
+                <input type="text" class="form-control" name="nombre_cont" placeholder="Nombre del contacto" @isset($contact) value="{{$driver->contact->nombre}}" @endisset required/>
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Apellido paterno</span>
