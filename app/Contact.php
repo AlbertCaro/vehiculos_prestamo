@@ -8,4 +8,8 @@ class Contact extends Model
 {
     //
     protected $fillable=['nombre','apaterno','amaterno','parentesco','telefono','drivers_id'];
+
+    public function driver() {
+        return $this->hasOne(Driver::class);
+    }
 }

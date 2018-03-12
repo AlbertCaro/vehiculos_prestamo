@@ -80,8 +80,9 @@ class DriverController extends Controller
     {
         //Añadido, podemos buscar mediante el método find que recibe como parámetro el id de la clase.
         $driver = Driver::findOrFail($id);//con findOrFail retorna un 404
-
-        return view('add_conductor', compact('driver'));
+        $contact = $driver->contact();
+        return dd($contact);
+        //return view('add_conductor', compact('driver', 'contact'));
     }
 
     /**
@@ -94,6 +95,7 @@ class DriverController extends Controller
     public function update(Request $request, Driver $driver)
     {
         //
+        return "yes";
     }
 
     /**

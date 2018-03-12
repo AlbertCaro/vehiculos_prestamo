@@ -29,16 +29,16 @@ class User extends Authenticatable
     /*
      * Mutadores, sirven para modificar el valor de un atributo antes de ser insertado en la base de datos, Aquí, pondremos todos estos atributos en
      * minúsculas (por ejemplo) el método mb_strtolower se supone que hace que no se generen errores de codificación*/
-    public function setNombreAttribute($valor){
+    public function setNombreAttribute($valor) {
         $this->attributes['nombre'] = mb_strtolower($valor);
     }
-    public function setApaternoAttribute($valor){
+    public function setApaternoAttribute($valor) {
         $this->attributes['apaterno'] = mb_strtolower($valor);
     }
-    public function setAmaternoAttribute($valor){
+    public function setAmaternoAttribute($valor) {
         $this->attributes['amaterno'] = mb_strtolower($valor);
     }
-    public function setCargoAttribute($valor){
+    public function setCargoAttribute($valor) {
         $this->attributes['cargo'] = mb_strtolower($valor);
     }
     public function setEmailAttribute($valor){
@@ -49,17 +49,17 @@ class User extends Authenticatable
      * Los accesores modifican el valor de un atributo antes de ser mostrado, por ejemplo aquí para cada uno de lo siguientes atributos,
      * con la funcion ucwords cada palabra la primer letra, la pone en mayúsculas, ucfirst solo la primer letra de toda la frase la pone en mayúsculas.
      * */
-    public function getNombreAttribute($valor){
+    public function getNombreAttribute($valor) {
         return ucwords($valor);
     }
-    public function getApaternoAttribute($valor){
+    public function getApaternoAttribute($valor) {
         return ucwords($valor);
     }
-    public function getAmaternoAttribute($valor){
+    public function getAmaternoAttribute($valor) {
         return ucwords($valor);
     }
 
-    public function getCargoAttribute($valor){
+    public function getCargoAttribute($valor) {
         return ucfirst($valor);
     }
 
@@ -67,7 +67,7 @@ class User extends Authenticatable
      * Estas son las relaciones*/
 
 
-    public function role(){
+    public function role() {
         return $this->belongsTo(Role::class);
     }
 }
