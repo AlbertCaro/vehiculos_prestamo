@@ -9,4 +9,9 @@ class Solicitud extends Model
     //
     protected $table = 'requests';
 
+
+
+    public function Users(){
+        $this->belongsToMany(Users::class);
+    }
 }

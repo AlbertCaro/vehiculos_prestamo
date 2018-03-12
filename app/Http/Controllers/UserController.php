@@ -17,6 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
+      // dd($users);
         //recuerden que se manda el nombre de la variable sin $, esta cosa ya sabe a qué se refieren
         return view('manage_users',compact('users'));
 
@@ -50,6 +51,7 @@ class UserController extends Controller
         'email'=>$request['email'],
         'cargo'=>$request['cargo'],
         'celular'=>$request['celular'],
+        'role_id'=> 1,
         'password'=>Hash::make($request['password']),
        ]);
 
