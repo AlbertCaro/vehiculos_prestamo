@@ -10,6 +10,7 @@
     <br><br>
     <div class="form_wh formCenter">
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="@if(isset($vehicle)){{route('vehiculo.update', $vehicle->id)}} @else{{route('vehiculo.store')}}@endif" method="post" entype="application/x-www-form-urlencoded">
+            @if(isset($vehicle)){!!method_field('PUT')!!} @else{!! method_field('POST')!!}@endif
             <h3>Vehiculo</h3>
             <hr class="intro-divider">
             <div class="input-group">

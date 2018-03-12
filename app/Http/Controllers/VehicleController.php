@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\Vehicle;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+
 
 class VehicleController extends Controller
 {
@@ -82,7 +80,11 @@ class VehicleController extends Controller
     public function update(Request $request, $id)
     {
         $vehiculo = Vehicle::findOrFail($id);
-        $vehiculo->update($request->all());
+        $vehiculo->update([
+            'placas'=>$request['placas'],
+            'nombre'=>$request['modelo'],
+            'capacidad'=>$request['capacidad'],
+        ]);
         return redirect()->route('vehiculo.index');
     }
 
