@@ -36,14 +36,8 @@
                                 </a>
                             </form>
                         </td>
-                    <td> <!--no funciona!!! -->
-                        <form id="edit_form_{{$vehicle->id}}" action="{{route('vehiculo.edit', $vehicle->id)}}" method="get">
-                            <input name="_method" type="hidden" value="GET">
-                            {{ csrf_field() }}
-                            <a href='' onclick="event.preventDefault(); document.getElementById('edit_form_{{$vehicle->id}}').submit();">
-                                <img border='0' alt='Modificar' src='{{asset('img/edit.png')}}' width='50' height='50'>
-                            </a>
-                        </form>
+                    <td>
+                        <a href='{{route('vehiculo.edit', $vehicle->id)}}'><img border='0' alt='Modificar' src='{{asset('img/edit.png')}}' width='50' height='50'></a>
                     </td>
                 </tr>
                 @empty

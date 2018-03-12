@@ -6,6 +6,7 @@ use App\Category;
 use App\Vehicle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
 class VehicleController extends Controller
 {
@@ -65,9 +66,9 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vehicle $vehicle)
-    {//No funcion
-       //$vehicles = Category::all('id', $vehicle);
+    public function edit($id)
+    {
+        $vehicle = Vehicle::findOrFail($id);
         return view('add_vehicles', compact('vehicle'));
     }
 
@@ -78,9 +79,11 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(Request $request, $id)
     {
-        //
+        $vehiculo = Vehicle::findOrFail($id);
+        $vehiculo->update($request->all());
+        return redirect()->route('vehiculo.index');
     }
 
     /**   LL
@@ -89,10 +92,9 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    //Cambios
     public function destroy($id)
     {
-        Vehicle::where('id', $id)->delete();
+        Vehicle::findOrFail($id)->delete();
         return redirect()->route('vehiculo.index');
     }
 }
