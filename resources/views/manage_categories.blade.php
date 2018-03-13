@@ -28,13 +28,7 @@
                         </form>
                     </td>
                     <td>
-                        <form id="edit_form_{{ $category->id }}" action="{{ route('categoria.edit' , $category->nombre)}}" method="GET">
-                            <input name="_method" type="hidden" value="EDIT">
-                            {{ csrf_field() }}
-                            <a href='' onclick="event.preventDefault();
-                                    document.getElementById('edit_form_{{ $category->id }}').submit();">
-                                <img border='0' alt='Modificar' src='img/edit.png' width='30' height='30'></a>
-                        </form>
+                        <a href='{{route('categoria.edit', $category->id)}}'><img border='0' alt='Modificar' src='img/edit.png' width='30' height='30'></a>
                     </td>
                 </tr><tr></tr>		</tbody>
             @empty

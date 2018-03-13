@@ -26,9 +26,7 @@ class CreateEventTypesTable extends Migration
             $table->increments('id');
             $table->string('nombre', 145)->nullable();
             $table->integer('categories_id');
-
-
-
+            $table->timestamps();
 
 
         });
