@@ -39,7 +39,6 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $category = Category::create($request->all());
-
         return "creada exitosamente con el id ".$category->id;
     }
 
@@ -60,10 +59,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        $categoria = Category::find($category);
-        return view('add_categories',compact('categoria'));
+        $category = Category::findOrFail($id);
+        return view('add_categories',compact('category'));
     }
 
     /**

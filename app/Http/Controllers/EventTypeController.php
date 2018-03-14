@@ -15,7 +15,9 @@ class EventTypeController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event_Type::all();
+
+        return view('manage_events',compact('events'));
     }
 
     /**
@@ -25,7 +27,7 @@ class EventTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('add_events');
     }
 
     /**
@@ -36,7 +38,11 @@ class EventTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $event = Event_Type::created($request->validate([
+            'nombre'=>'nombre',
+            'categories_id'=>'categories_id'
+        ]));
+        return "evento creado exitosamente con el id: ".$event->id;
     }
 
     /**

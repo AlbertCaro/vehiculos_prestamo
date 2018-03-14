@@ -1,6 +1,8 @@
 @extends('layout')
 
 @section('content')
+    {{dd($vehicles)}}
+
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
     <div class="limit">
