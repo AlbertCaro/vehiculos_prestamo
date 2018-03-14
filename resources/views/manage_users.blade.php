@@ -17,6 +17,7 @@
             </tr>
             </thead>
             <tbody class="table-hover">
+
             <!--
             Aquí se ve claramente cómo acceder a una relación de 1:1
             -->
