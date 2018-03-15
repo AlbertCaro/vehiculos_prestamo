@@ -55,8 +55,10 @@
                             <li>
                                 <a href="">Eventos</a>
                                 <ul>
-                                    <li><a href='{{route('tipo_evento.create')}}'>Agregar</a></li>
-                                    <li><a href='{{route('tipo_evento.index')}}'>Gestionar</a></li>
+                                    <li><a href='{{route('tipo_evento.create')}}'>Agregar Eventos</a></li>
+                                    <li><a href='{{route('tipo_evento.index')}}'>Gestionar Eventos</a></li>
+                                    <li><a href='{{route('categoria.create')}}'>Agregar Categoría</a></li>
+                                    <li><a href='{{route('categoria.index')}}'>Gestionar Categoría</a></li>
                                 </ul>
                             </li>
                             <li>

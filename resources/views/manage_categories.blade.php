@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
     <div class="limit">
