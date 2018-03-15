@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['id','nombre'];
+    protected $fillable = ['nombre'];
     //mutador
     //mb_strtolower minusculas
     public function setNombreAttribute($valor){

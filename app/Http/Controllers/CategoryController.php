@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Validation\ValidatesRequests; //validaciones
 use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+    use ValidatesRequests;
     /**
      * Display a listing of the resource.
      *
@@ -38,8 +40,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request -> validate(['nombre'=>'required']);
         $category = Category::create($request->all());
-        return "creada exitosamente con el id ".$category->id;
+        return redirect('categoria');
     }
 
     /**
@@ -72,9 +75,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        return yes;
+        $categoria = Category::find($id);
+        $categoria->update($request->all());
+        return redirect('categoria');
     }
 
     /**
@@ -86,6 +91,6 @@ class CategoryController extends Controller
     public function destroy($category)
     {
         Category::where('id', $category)->delete();
-        return 'Eliminado: '.$category;
+        return redirect('categoria');
     }
 }
