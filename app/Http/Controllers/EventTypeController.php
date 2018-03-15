@@ -43,6 +43,7 @@ class EventTypeController extends Controller
             'categories_id'=>'categories_id'
         ]));
         return "evento creado exitosamente con el id: ".$event->id;
+
     }
 
     /**

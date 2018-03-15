@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
     <a name="sol"></a>
         <div class="intro-header">
             <div class="container">
@@ -63,9 +64,15 @@
                                         <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso" required/>
                                     </div><br>
                                 </div>
+
+
                                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                                     <div class="form-group  col-centered">
                                         <h3>Información sobre el conductor</h3>
+                                        <div class="input-group">
+                                            <label class="radio-inline" for="rdio5">
+                                                <input type="checkbox" id="rdio5" name="solicito_conduc" value="1"/>Solicito conductor</label><br><br>
+                                        </div><br>
                                         <div class="input-group">
                                             <span class="input-group-addon">Código</span>
                                             <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código" required/>
@@ -120,4 +127,12 @@
                 </div>
             </div>
         </div><br>
+    <?php
+    $fechalocal=date('y/m/d');
+    function fechaInvertida($Date){
+        $DateArray = explode("/", $Date);
+        $DateArray2 = explode(" ", $DateArray[2]);
+        return $DateArray2[0]."/".$DateArray[1]."/".$DateArray[0]." ". $DateArray2[1];
+    }
+    ?>
 @stop
