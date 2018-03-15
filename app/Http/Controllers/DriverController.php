@@ -48,7 +48,7 @@ class DriverController extends Controller
         ]);
 
         $contact = Contact::create([
-            'nombre' => $request['nombre_cont'],
+            'nombre' => $request['nombre_contphp'],
             'apaterno' => $request['apaterno_cont'],
             'amaterno' => $request['amaterno_cont'],
             'parentesco' => $request['parentesco_cont'],
