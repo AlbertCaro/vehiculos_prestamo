@@ -83,8 +83,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $usuario = User::findOrFail($id);
-        return view('add_users',compact('usuario'));
+        $user = User::findOrFail($id);
+        return view('add_users',compact('user'));
     }
 
     /**

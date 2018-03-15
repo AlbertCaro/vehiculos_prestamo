@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    {{dd($vehicles)}}
+
 
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
@@ -25,7 +25,7 @@
             -->
             @forelse($users as $user)
 
-            <tr><td>{{$user->id}}</td><td>{{$user->nombre}} {{$user->apaterno}} {{$user->amaterno}}</td><td>{{$user->email}}</td><td>{{$user->role->nombre_mostrado}}</td><td></td><td><a href=''><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td></tr><tr></tr>		</tbody>
+            <tr><td>{{$user->id}}</td><td>{{$user->nombre}} {{$user->apaterno}} {{$user->amaterno}}</td><td>{{$user->email}}</td><td>{{$user->role->nombre_mostrado}}</td><td></td><td><a href='{{route('usuario.edit',$user->id)}}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td></tr><tr></tr>		</tbody>
             @empty
                 <h1>No hay usuarios</h1>
             @endforelse
