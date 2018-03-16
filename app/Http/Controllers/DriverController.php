@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use App\Driver;
+use App\Licence;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -38,22 +39,31 @@ class DriverController extends Controller
      */
     public function store(Request $request)
     {
-        $driver = Driver::create([
+        Driver::create([
             'id' => $request['codigo'],
             'dependencies_id' => $request['dependencia'],
             'nombre' => $request['nombre'],
             'apaterno' => $request['apaterno'],
             'amaterno' => $request['amaterno'],
-            'celular' => $request['celular']
+            'celular' => $request['celular'],
+            'domicilio' => $request['domicilio']
         ]);
 
-        $contact = Contact::create([
-            'nombre' => $request['nombre_contphp'],
+        Licence::create([
+            'numero' => $request['licencia'],
+            'vencimiento' => $request['vencimiento'],
+            'tipo' => $request['tipo_licencia'],
+            'archivo' => "",
+            'driver_id' => $request['codigo']
+        ]);
+
+        Contact::create([
+            'nombre' => $request['nombre_cont'],
             'apaterno' => $request['apaterno_cont'],
             'amaterno' => $request['amaterno_cont'],
             'parentesco' => $request['parentesco_cont'],
             'telefono' => $request['telefono_cont'],
-            'drivers_id' => $request['codigo']
+            'driver_id' => $request['codigo']
         ]);
 
         return "zi";
@@ -80,8 +90,6 @@ class DriverController extends Controller
     {
         //Añadido, podemos buscar mediante el método find que recibe como parámetro el id de la clase.
         $driver = Driver::findOrFail($id);//con findOrFail retorna un 404
-
-        //return dd($driver->contact->nombre);
         return view('add_conductor', compact('driver'));
     }
 
@@ -92,7 +100,7 @@ class DriverController extends Controller
      * @param  \App\Driver  $driver
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Driver $driver)
+    public function update(Request $request, $id)
     {
         //
         return "yes";

@@ -30,7 +30,7 @@ class CreateRequestsTable extends Migration
             $table->date('fecha_respuesta')->nullable();
             $table->date('fecha_evento')->nullable();
             $table->integer('event_types_id');
-            $table->integer('drivers_id');
+            $table->integer('driver_id');
             $table->integer('solicitante_id');
             $table->integer('vehicles_id');
             $table->integer('jefe_id');
