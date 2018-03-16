@@ -42,7 +42,7 @@
                                 <a href="{{ route('login') }}">Iniciar sesión</a>
                             </li>
                             <li>
-                                <a href="{{ route('register') }}">Registrarme</a>
+                                <a href="{{ route('usuario.create') }}">Registrarme</a>
                             </li>
                         @else
                             <li>

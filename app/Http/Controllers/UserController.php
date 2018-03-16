@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class UserController extends Controller
 
     function __construct()
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth'])->except('create','store');
     }
 
     public function index()
@@ -50,7 +51,10 @@ class UserController extends Controller
         /*
          * Sólo en este caso se hará así, ya que se debe encriptar el campo password.
          * */
-       $user = User::create([
+
+        $request['password'] = Hash::make($request['password']);
+        $request['role_id']=1;
+       /*$user = User::create([
         'nombre'=>$request['nombre'],
         'apaterno'=>$request['apaterno'],
         'amaterno'=>$request['amaterno'],
@@ -60,6 +64,9 @@ class UserController extends Controller
         'role_id'=> 1,
         'password'=>Hash::make($request['password']),
        ]);
+*/
+       $user = User::create($request->all());
+
 
         return redirect()->route('usuario.index');
     }
@@ -84,7 +91,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('add_users',compact('user'));
+        $roles = Role::all();
+        return view('add_users',compact('user','roles'));
     }
 
     /**
@@ -97,16 +105,16 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $usuario = User::findOrFail($id);
-        $usuario->update([
-            'nombre'=>$request['nombre'],
-            'apaterno'=>$request['apaterno'],
-            'amaterno'=>$request['amaterno'],
-            'email'=>$request['email'],
-            'cargo'=>$request['cargo'],
-            'celular'=>$request['celular'],
-            'role_id'=> 1,
-            'password'=>Hash::make($request['password']),
-        ]);
+
+
+
+        if($request->has('cambiar_pw')){//si se solicita cambiar contraseña, la cambiamos
+            $request['password'] = Hash::make($request['password']);
+        }else{//si no, la dejamos como estaba, aunque no escriban nada en el campo.
+            $request['password'] = $usuario->password;
+        }
+        $usuario->update($request->all());
+
         return redirect()->route('usuario.index');
     }
 
