@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Role;
+use App\LicenceType;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class RoleController extends Controller
+class LicenceTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles=Role::all();
-        return view('manage_roles',compact('roles'));
+        //
     }
 
     /**
@@ -26,7 +24,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('add_role');
+        //
     }
 
     /**
@@ -37,20 +35,16 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $roles = Role::create(
-            $request->all()
-        );
-        return  redirect()->route('role.index');
+        //
     }
-
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Role  $role
+     * @param  \App\LicenceType  $licenceType
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show(LicenceType $licenceType)
     {
         //
     }
@@ -58,38 +52,34 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Role  $role
+     * @param  \App\LicenceType  $licenceType
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(LicenceType $licenceType)
     {
-        $role = Role::findOrFail($id);
-        return view('add_role',compact('role'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Role  $role
+     * @param  \App\LicenceType  $licenceType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, LicenceType $licenceType)
     {
-        $role = Role::find($id);
-        $role->update($request->all());
-        return redirect('role');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Role  $role
+     * @param  \App\LicenceType  $licenceType
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LicenceType $licenceType)
     {
-        Role::where('id',$id)->delete();
-        return redirect()->route('role.index');
+        //
     }
 }

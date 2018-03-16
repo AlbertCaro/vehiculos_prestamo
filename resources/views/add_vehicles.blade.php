@@ -10,20 +10,27 @@
     <br><br>
     <div class="form_wh formCenter">
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="@if(isset($vehicle)){{route('vehiculo.update', $vehicle->id)}} @else{{route('vehiculo.store')}}@endif" method="post" entype="application/x-www-form-urlencoded">
-            @if(isset($vehicle)){!!method_field('PUT')!!} @else{!! method_field('POST')!!}@endif
+            @if(isset($vehicle))
+                {!!method_field('PUT')!!}
+            @else
+                {!! method_field('POST')!!}
+            @endif
             <h3>Vehiculo</h3>
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Placas</span>
-                <input type="text" class="form-control" name='placas' placeholder='Placas' @isset($vehicle) value="{{$vehicle->placas}}" @endisset required/>
+                <input type="text" class="form-control" name='placas' placeholder='Placas' @isset($vehicle) value="{{$vehicle->placas}}" @endisset/>
+                {{$errors->first('placas')}}
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Modelo</span>
-                <input type="text" class="form-control" name="modelo" placeholder="Modelo" @isset($vehicle) value="{{$vehicle->nombre}}" @endisset required/>
+                <input type="text" class="form-control" name="modelo" placeholder="Modelo" @isset($vehicle) value="{{$vehicle->nombre}}" @endisset/>
+                {{$errors->first('modelo')}}
             </div><br>
             <div class="input-group">
                 <span class="input-group-addon">Capacidad</span>
-                <input type="number" class="form-control" name="capacidad" placeholder='Capacidad' @isset($vehicle) value="{{$vehicle->capacidad}}"@endisset required/>
+                <input type="number" class="form-control" name="capacidad" placeholder='Capacidad' @isset($vehicle) value="{{$vehicle->capacidad}}"@endisset/>
+                {{$errors->first('capacidad')}}
             </div><br>
             <input type="submit" class="botones" name="save_btn" value="Guardar"/><br><br>
             {{csrf_field()}} <!--funciona-->
