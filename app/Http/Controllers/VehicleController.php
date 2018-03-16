@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
+    public function validateForm(Request $request){
+        $this->validate($request,[
+            'placas'=>'required',
+            'nombre'=>'required',
+            'capacidad'=>'required'
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,6 +44,7 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validateForm($request);
         $vehicles = Vehicle::create([
             'placas'=>$request['placas'],
             'nombre'=>$request['modelo'],
@@ -44,7 +52,8 @@ class VehicleController extends Controller
             'estado'=> $request['estado']
         ]);
 
-        return "creado exitosamente con el id ".$vehicles->id;
+
+        return redirect()->route('vehiculo.index');
     }
 
     /**
@@ -79,6 +88,7 @@ class VehicleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validateForm($request);
         $vehiculo = Vehicle::findOrFail($id);
         $vehiculo->update([
             'placas'=>$request['placas'],
