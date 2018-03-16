@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Licence extends Model
 {
-    protected $fillable = ['numero', 'vencimiento', 'archivo', 'driver_id'];
+    protected $fillable = ['numero', 'vencimiento', 'archivo', 'licence_types_id', 'driver_id'];
 
     public function setNumero($value) {
         $this->attributes['nombre'] = mb_strtolower($value);

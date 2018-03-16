@@ -28,7 +28,8 @@ class DriverController extends Controller
      */
     public function create()
     {
-        return view('add_conductor');
+        $license_type = null;
+        return view('add_conductor', compact('license_type'));
     }
 
     /**
@@ -52,7 +53,7 @@ class DriverController extends Controller
         Licence::create([
             'numero' => $request['licencia'],
             'vencimiento' => $request['vencimiento'],
-            'tipo' => $request['tipo_licencia'],
+            'licence_types_id' => $request['tipo_licencia'],
             'archivo' => "",
             'driver_id' => $request['codigo']
         ]);

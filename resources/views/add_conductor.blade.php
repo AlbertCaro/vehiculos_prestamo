@@ -1,11 +1,12 @@
 @extends('layout')
 
 @section('content')
+    {{ $licence_type = null }}
     <br><br>
     <div class="form_wh formCenter">
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda"
               @if(@empty($driver)) action="{{route('conductor.store')}}" @else action="{{route('conductor.update',$driver->id)}}" @endif
-               method="post" entype="application/x-www-form-urlencoded">1
+               method="post" entype="application/x-www-form-urlencoded">
             <h3>Información sobre el conductor</h3>
             @if(@empty($driver)){{method_field('POST')}}@else{{method_field('PUT')}}@endif
             {{ csrf_field() }}
@@ -43,25 +44,11 @@
             </div><br>
             <h5>Tipo de licencia</h5>
             <div class="form-group  col-centered">
-                {{ Form::select('tipo_licencia', [
-                   '' => '',
-                   '0' => 'Automovilista',
-                   '1' => 'Motociclista',
-                   'adult2' => 'Servicio particular',
-                   '2' => 'Permiso provisional de práctica B',
-                   '3' => 'Permiso provisional de práctica A',
-                   '4' => 'Constancia de licencia'
-                   ], 0, ['class' => 'form-control']
-                ) }}
-                <!--select class="form-control" id="tipo_licencia" name="tipo_licencia">
-                    <option>Automovilista</option>
-                    <option>Motociclista</option>
-                    <option>Servicio particular</option>
-                    <option>Permiso provisional de práctica B</option>
-                    <option>Permiso provisional de práctica A</option>
-                    <option>Duplicado</option>
-                    <option>Constancia de licencia</option>
-                </select-->
+                @if(@isset($driver))
+                    {{ Form::select('tipo_licencia', \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id'), $driver->licence->licence_types_id, ['class' => 'form-control']) }}
+                @else
+                    {{ Form::select('tipo_licencia', \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id'), null, ['class' => 'form-control']) }}
+                @endif
             </div><br>
             <h3>Contacto para casos de emergencia</h3>
             <div class="input-group">
