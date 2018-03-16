@@ -63,49 +63,67 @@
                                         <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso" required/>
                                     </div><br>
                                 </div>
-
+                                <script type="text/javascript">
+                                    function enableContent() {
+                                        if (document.getElementById('rdio5').checked === true) {
+                                            document.getElementById('codigoC_txt').disabled = false;
+                                            document.getElementById('nombreC_txt').disabled = false;
+                                            document.getElementById('celularC_txt').disabled = false;
+                                            document.getElementById('licencia_txt').disabled = false;
+                                            document.getElementById('venc_txt').disabled = false;
+                                            document.getElementById('tipoL_txt').disabled = false;
+                                        }else {
+                                            document.getElementById('codigoC_txt').disabled = true;
+                                            document.getElementById('nombreC_txt').disabled = true;
+                                            document.getElementById('celularC_txt').disabled = true;
+                                            document.getElementById('licencia_txt').disabled = true;
+                                            document.getElementById('venc_txt').disabled = true;
+                                            document.getElementById('tipoL_txt').disabled = true;
+                                        }
+                                    }
+                                </script>
                                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                                     <div class="form-group  col-centered">
-                                        <form id="InfoDriver">
                                         <h3>Información sobre el conductor</h3>
                                         <div class="input-group">
                                             <label class="radio-inline" for="rdio5">
                                                 <input type="checkbox" id="rdio5" name="solicito_conduc" value="1"
-                                                       onclick=""/>Solicito conductor</label><br><br>
-                                        </div><br>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Código</span>
-                                            <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código" required/>
-                                        </div><br>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Nombre</span>
-                                            <input type="text" class="form-control" id="nombreC_txt" name="txt_nombreC" placeholder="Nombre" required/>
-                                        </div><br>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Celular</span>
-                                            <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular' required/>
-                                        </div><br>
-                                        <h4>Detalles de la licencia</h4>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Licencia</span>
-                                            <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"required/>
-                                        </div><br>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Fecha de vencimiento</span>
-                                            <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento" required/>
+                                                       onclick="enableContent();"/>Solicito conductor</label><br><br>
                                         </div>
-                                        <h5>Tipo de licencia</h5>
-                                        <div class="form-group  col-centered">
-                                            <select class="form-control" id="tipoL_txt" name="txt_tipoL">
-                                                <option>Automovilista</option>
-                                                <option>Motociclista</option>
-                                                <option>Servicio particular</option>
-                                                <option>Permiso provisional de práctica B</option>
-                                                <option>Permiso provisional de práctica A</option>
-                                                <option>Duplicado</option>
-                                                <option>Constancia de licencia</option>
-                                            </select>
-                                        </div><br>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Código</span>
+                                                <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código" disabled required/>
+                                            </div><br>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Nombre</span>
+                                                <input type="text" class="form-control" id="nombreC_txt" name="txt_nombreC" placeholder="Nombre" disabled required/>
+                                            </div><br>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Celular</span>
+                                                <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular' disabled required/>
+                                            </div><br>
+                                            <h4>Detalles de la licencia</h4>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Licencia</span>
+                                                <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia" disabled required/>
+                                            </div><br>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Fecha de vencimiento</span>
+                                                <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento" disabled required/>
+                                            </div>
+                                            <h5>Tipo de licencia</h5>
+                                            <div class="form-group  col-centered">
+                                                <select class="form-control" id="tipoL_txt" name="txt_tipoL" disabled>
+                                                    <option>Automovilista</option>
+                                                    <option>Motociclista</option>
+                                                    <option>Servicio particular</option>
+                                                    <option>Permiso provisional de práctica B</option>
+                                                    <option>Permiso provisional de práctica A</option>
+                                                    <option>Duplicado</option>
+                                                    <option>Constancia de licencia</option>
+                                                </select>
+                                            </div><br>
+
                                         <h4>Contacto para casos de emergencia</h4>
                                         <div class="input-group">
                                             <span class="input-group-addon">Contacto</span>
