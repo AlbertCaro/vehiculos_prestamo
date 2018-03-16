@@ -29,16 +29,8 @@ function validar() {
             alert("Favor de escribir el otro tipo de evento");
             document.getElementById("otro_evento").focus();
             return false;
-        }else if(continuacion()){
-            return true;
-        }else{
-            return false;
-        }
-    }else if (continuacion()){
-        return true;
-    }else{
-        return false;
-    }
+        }else return continuacion();
+    }else return continuacion();
 }
 function continuacion() {
     var personas = document.getElementById("txt_Personas").value;

@@ -1,7 +1,6 @@
 @extends('layout')
 
 @section('content')
-
     <a name="sol"></a>
         <div class="intro-header">
             <div class="container">
@@ -65,13 +64,14 @@
                                     </div><br>
                                 </div>
 
-
                                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                                     <div class="form-group  col-centered">
+                                        <form id="InfoDriver">
                                         <h3>Información sobre el conductor</h3>
                                         <div class="input-group">
                                             <label class="radio-inline" for="rdio5">
-                                                <input type="checkbox" id="rdio5" name="solicito_conduc" value="1"/>Solicito conductor</label><br><br>
+                                                <input type="checkbox" id="rdio5" name="solicito_conduc" value="1"
+                                                       onclick=""/>Solicito conductor</label><br><br>
                                         </div><br>
                                         <div class="input-group">
                                             <span class="input-group-addon">Código</span>
@@ -97,7 +97,14 @@
                                         <h5>Tipo de licencia</h5>
                                         <div class="form-group  col-centered">
                                             <select class="form-control" id="tipoL_txt" name="txt_tipoL">
-                                                <option>Automovilista</option><option>Motociclista</option><option>Servicio particular</option><option>Permiso provisional de práctica B</option><option>Permiso provisional de práctica A</option><option>Duplicado</option><option>Constancia de licencia</option>								  	</select>
+                                                <option>Automovilista</option>
+                                                <option>Motociclista</option>
+                                                <option>Servicio particular</option>
+                                                <option>Permiso provisional de práctica B</option>
+                                                <option>Permiso provisional de práctica A</option>
+                                                <option>Duplicado</option>
+                                                <option>Constancia de licencia</option>
+                                            </select>
                                         </div><br>
                                         <h4>Contacto para casos de emergencia</h4>
                                         <div class="input-group">
