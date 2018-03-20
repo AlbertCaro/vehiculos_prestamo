@@ -23,6 +23,7 @@
             <!--
             Aquí se ve claramente cómo acceder a una relación de 1:1
             -->
+            {{dd(auth()->user()->roles->toArray())}}
             @forelse($users as $user)
 
             <tr>
