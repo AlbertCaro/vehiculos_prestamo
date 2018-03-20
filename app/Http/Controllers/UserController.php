@@ -19,6 +19,8 @@ class UserController extends Controller
     function __construct()
     {
         $this->middleware(['auth'])->except('create','store');
+        //sólo si es admin podrá ver los usuarios
+        $this->middleware(['roles'])->only('index');
     }
 
     public function index()

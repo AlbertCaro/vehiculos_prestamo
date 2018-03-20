@@ -15,9 +15,18 @@ class CheckRoles
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->role === 'solicitante'){
-            return $next($request);
+
+        foreach(auth()->user()->roles as $role)
+        {
+            if($role->nombre === 'admin'){
+                return $next($request);
+            }
+
         }
+
+
+
+
         return redirect('/');
     }
 
