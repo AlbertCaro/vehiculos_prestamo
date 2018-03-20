@@ -23,13 +23,19 @@
             <!--
             Aquí se ve claramente cómo acceder a una relación de 1:1
             -->
-            {{dd(auth()->user()->roles->toArray())}}
+
+
             @forelse($users as $user)
 
             <tr>
                 <td>{{$user->id}}</td>
                 <td>{{$user->nombre}} {{$user->apaterno}} {{$user->amaterno}}</td>
-                <td>{{$user->email}}</td><td>{{$user->role->nombre_mostrado}}</td>
+                <td>{{$user->email}}</td>
+                <td>
+                    @foreach($user->roles as $role)
+                        {{$role->nombre_mostrado}}
+                        @endforeach
+                </td>
                 <td>
                 <form id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
 
