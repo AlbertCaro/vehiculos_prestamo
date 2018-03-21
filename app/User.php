@@ -18,7 +18,7 @@ class User extends Authenticatable
      * del formulario.
      * */
 
-    protected $fillable =['password','cargo','nombre','apaterno','amaterno','celular','email','role_id'];
+    protected $fillable =['password','cargo','nombre','apaterno','amaterno','celular','email'];
 
 
 
@@ -67,7 +67,23 @@ class User extends Authenticatable
      * Estas son las relaciones*/
 
 
-    public function role() {
-        return $this->belongsTo(Role::class);
+    public function roles() {
+        return $this->belongsToMany(Role::class,'users_has_roles');
     }
+
+    public function hasRoles(array $roles){
+        foreach ($roles as $role) {
+
+            foreach ($this->roles as $userRole){
+                if ($userRole->name === $role){
+                    return true;
+                }
+            }
+
+
+
+        }
+        return false;
+    }
+
 }

@@ -9,10 +9,10 @@
 @section('content')
     <br><br>
     <div class="form_wh formCenter">
-        <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="@if($user===null) {{route('usuario.store')}}@else {{route('usuario.update',$user)}}@endif" method="post" entype="application/x-www-form-urlencoded">
-            <h3>Información del SuperUsuario</h3>
+        <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="@if(@empty($user)) {{route('usuario.store')}}@else {{route('usuario.update',$user)}}@endif" method="post" entype="application/x-www-form-urlencoded">
+            <h3>Alta de un nuevo usuario</h3>
             {{csrf_field()}}
-            @if($user === null)
+            @if(@empty($user))
                 {{method_field('POST')}}
             @else
                 {{method_field('PATCH')}}
@@ -48,9 +48,27 @@
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input type="password" class="form-control" name='password' placeholder='Contraseña' value="@isset($user) {{$user->password}}@endisset" required/>
+                <input type="password" class="form-control" name='password' placeholder='Contraseña' />
+                @if(!@empty($user)) <label>
+                    <input type="checkbox" name="cambiar_pw" > Cambiar contraseña
+                </label>@endif
             </div><br>
 
+
+
+            @isset($roles)
+                <div class="input-group">
+                    <span class="input-group-addon">Rol:</span>
+                    <select name="role_id" id="" class="form-control">
+
+                        @foreach($roles as $rol)
+                            <option value="{{$rol->id}}" @if($rol->id === $user->role->id) selected @endif>{{$rol->nombre_mostrado}}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+                <br>
+                @endisset
 
             <input type="submit" class="botones" name="save_btn" value="Guardar"/><br><br>
             <hr class="intro-divider">

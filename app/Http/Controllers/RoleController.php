@@ -15,7 +15,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles=Role::all();
+        return view('manage_roles',compact('roles'));
     }
 
     /**
@@ -25,7 +26,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('add_role');
     }
 
     /**
@@ -36,8 +37,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $roles = Role::create(
+            $request->all()
+        );
+        return  redirect()->route('role.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -56,9 +61,10 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit($id)
     {
-        //
+        $role = Role::findOrFail($id);
+        return view('add_role',compact('role'));
     }
 
     /**
@@ -68,9 +74,11 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
-        //
+        $role = Role::find($id);
+        $role->update($request->all());
+        return redirect('role');
     }
 
     /**
@@ -79,8 +87,9 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy($id)
     {
-        //
+        Role::where('id',$id)->delete();
+        return redirect()->route('role.index');
     }
 }

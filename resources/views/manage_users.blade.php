@@ -23,12 +23,37 @@
             <!--
             Aquí se ve claramente cómo acceder a una relación de 1:1
             -->
+
+
             @forelse($users as $user)
 
-            <tr><td>{{$user->id}}</td><td>{{$user->nombre}} {{$user->apaterno}} {{$user->amaterno}}</td><td>{{$user->email}}</td><td>{{$user->role->nombre_mostrado}}</td><td></td><td><a href='{{route('usuario.edit',$user->id)}}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td></tr><tr></tr>		</tbody>
+            <tr>
+                <td>{{$user->id}}</td>
+                <td>{{$user->nombre}} {{$user->apaterno}} {{$user->amaterno}}</td>
+                <td>{{$user->email}}</td>
+                <td>
+                    @foreach($user->roles as $role)
+                        {{$role->nombre_mostrado}}
+                        @endforeach
+                </td>
+                <td>
+                <form id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
+
+                    {{method_field('DELETE')}}
+                    {{ csrf_field() }}
+                    <a href='' onclick="event.preventDefault();
+                            document.getElementById('delete_form_{{ $user->id }}').submit();">
+                        <img border='0' alt='Editar' src='img/delete.png' width='50' height='50'>
+                    </a>
+                </form></td>
+                <td>
+                    <a href='{{route('usuario.edit',$user->id)}}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td>
+            </tr>
+
             @empty
                 <h1>No hay usuarios</h1>
             @endforelse
+            </tbody>
         </table>
     </div><br>
 @stop

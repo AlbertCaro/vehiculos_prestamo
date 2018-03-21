@@ -42,7 +42,7 @@
                                 <a href="{{ route('login') }}">Iniciar sesión</a>
                             </li>
                             <li>
-                                <a href="{{ route('register') }}">Registrarme</a>
+                                <a href="{{ route('usuario.create') }}">Registrarme</a>
                             </li>
                         @else
                             <li>
@@ -52,6 +52,7 @@
                                     <li><a href='{{ route('conductor.index') }}'>Gestionar</a></li>
                                 </ul>
                             </li>
+
                             <li>
                                 <a href="">Eventos</a>
                                 <ul>
@@ -61,6 +62,7 @@
                                     <li><a href='{{route('categoria.index')}}'>Gestionar Categoría</a></li>
                                 </ul>
                             </li>
+
                             <li>
                                 <a href="">Jefes</a>
                                 <ul>

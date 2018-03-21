@@ -24,6 +24,7 @@ Route::resource('licencia', 'LicenceController');
 Route::resource('solicitud', 'SolicitudController');
 Route::resource('usuario', 'UserController');
 Route::resource('vehiculo', 'VehicleController');
+Route::resource('role', 'RoleController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

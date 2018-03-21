@@ -27,6 +27,8 @@ class CreateRolesTable extends Migration
             $table->string('nombre', 45)->nullable();
             $table->string('nombre_mostrado', 145)->nullable();
             $table->string('descripcion', 145)->nullable()->comment('cambiar a text cuando tengamos la migración');
+            $table->timestamps();
+
         });
     }
 
