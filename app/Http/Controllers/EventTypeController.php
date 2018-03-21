@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event_Type;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class EventTypeController extends Controller
 {
@@ -15,8 +16,12 @@ class EventTypeController extends Controller
      */
     public function index()
     {
-        $events = Event_Type::all();
-
+    // = Event_Type::all();
+        $events = DB::table('event_types')
+            ->join('categories', 'event_types.categories_id', '=', 'categories.id')
+            ->select('categories.id AS id_cat','categories.nombre as categoria', 'event_types.*')
+            ->get();
+        dd($events);
         return view('manage_events',compact('events'));
     }
 

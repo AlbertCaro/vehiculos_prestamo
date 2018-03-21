@@ -25,7 +25,8 @@ class CreateEventTypesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 145)->nullable();
-            $table->integer('categories_id');
+            $table->integer('categories_id')->unsigned();
+            $table->foreign('categories_id')->references('id')->on('categories');
             $table->timestamps();
 
 

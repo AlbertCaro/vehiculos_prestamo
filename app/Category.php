@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 
 class Category extends Model
 {
@@ -16,5 +17,9 @@ class Category extends Model
     //ucwords cada palabra la primer letra, la pone en mayúsculas, ucfirst solo la primer letra de toda la frase la pone en mayúsculas.
     public function getNombreAttribute($valor){
         return ucfirst($valor);
+    }
+
+    public function event_types(){
+        $this->hasMany(Event_Type::class);
     }
 }

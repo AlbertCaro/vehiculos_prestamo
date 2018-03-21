@@ -20,7 +20,7 @@
                 <td>{{$event->categories_id}}</td>
                 <td>{{$event->nombre}}</td>
                 <td>
-                    <form id="delete_form_{{ $event->id }}" action="{{ route('event.destroy' , $event->id)}}" method="POST">
+                    <form id="delete_form_{{ $event->id }}" action="{{ route('tipo_evento.destroy' , $event->id)}}" method="POST">
                         <input name="_method" type="hidden" value="DELETE">
                         {{ csrf_field() }}
                         <a href='' onclick="event.preventDefault();

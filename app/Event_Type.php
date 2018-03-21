@@ -20,4 +20,8 @@ class Event_Type extends Model
     public function getNombreAttribute($valor){
         return ucfirst($valor);
     }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }
