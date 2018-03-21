@@ -65,8 +65,7 @@
                                 </div>
                                 <script type="text/javascript">
                                     function enableContent() {
-                                        var x = document.getElementById('rdio5').checked;
-                                        if (x === true) {
+                                        if (document.getElementById('rdio5').checked === true) {
                                             document.getElementById('codigoC_txt').disabled = false;
                                             document.getElementById('nombreC_txt').disabled = false;
                                             document.getElementById('celularC_txt').disabled = false;
