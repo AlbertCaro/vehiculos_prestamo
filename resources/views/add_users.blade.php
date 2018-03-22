@@ -20,30 +20,38 @@
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Nombre</span>
-                <input type="text" class="form-control" name="nombre" placeholder="Nombre" value="@isset($user) {{$user->nombre}}@endisset" required/>
-            </div><br>
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre" value="@isset($user) {{old('nombre',$user->nombre)}}@endisset " required/>
+
+            </div>
+            {!! $errors->first('nombre','<span class=error>:message</span') !!}
+            <br>
 
             <div class="input-group">
                 <span class="input-group-addon">Apellido paterno</span>
                 <input type="text" class="form-control" name="apaterno" placeholder="Apellido paterno" value="@isset($user) {{$user->apaterno}}@endisset" required/>
-            </div><br>
+            </div>
+            {!! $errors->first('apaterno','<span class=error>:message</span') !!}<br>
             <div class="input-group">
                 <span class="input-group-addon">Apellido materno</span>
                 <input type="text" class="form-control" name="amaterno" placeholder="Apellido materno" value="@isset($user) {{$user->amaterno}}@endisset" required/>
-            </div><br>
+            </div>
+            {!! $errors->first('amaterno','<span class=error>:message</span') !!}<br>
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                 <input type="text" class="form-control" name='cargo' placeholder='Cargo' value="@isset($user) {{$user->cargo}}@endisset" required/>
-            </div><br>
+            </div>
+            {!! $errors->first('cargo','<span class=error>:message</span') !!}<br>
             <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
                 <input type="text" class="form-control" name='celular' placeholder='Celular' value="@isset($user) {{$user->celular}}@endisset" required/>
-            </div><br>
+            </div>
+            {!! $errors->first('celular','<span class=error>:message</span') !!}<br>
             <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
                 <input type="text" class="form-control" name='email' placeholder='email' value="@isset($user) {{$user->email}}@endisset" required/>
-            </div><br>
+            </div>
+            {!! $errors->first('email','<span class=error>:message</span') !!}<br>
 
 
             <div class="input-group">
@@ -56,13 +64,13 @@
 
 
 
-            @isset($roles)
+            @isset($user->roles)
                 <div class="input-group">
                     <span class="input-group-addon">Rol:</span>
                     <select name="role_id" id="" class="form-control">
 
                         @foreach($roles as $rol)
-                            <option value="{{$rol->id}}" @if($rol->id === $user->role->id) selected @endif>{{$rol->nombre_mostrado}}</option>
+                            <option value="{{$rol->id}}" @if($user->hasRoles([$rol->nombre])) selected @endif>{{$rol->nombre_mostrado}}</option>
                         @endforeach
                     </select>
 
