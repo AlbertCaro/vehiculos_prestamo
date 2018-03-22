@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         $this->middleware(['auth'])->except('create','store');
         //sólo si es admin podrá ver los usuarios
-        $this->middleware(['roles'])->only('index');
+        $this->middleware(['roles:admin'])->only('index');
     }
 
     public function index()
@@ -55,7 +55,6 @@ class UserController extends Controller
          * */
 
         $request['password'] = Hash::make($request['password']);
-        $request['role_id']=1;
        /*$user = User::create([
         'nombre'=>$request['nombre'],
         'apaterno'=>$request['apaterno'],

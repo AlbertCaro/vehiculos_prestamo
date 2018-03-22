@@ -53,6 +53,7 @@
                                 </ul>
                             </li>
 
+                        @if(auth()->user()->hasRoles(['admin']))
                             <li>
                                 <a href="">Eventos</a>
                                 <ul>
@@ -62,7 +63,7 @@
                                     <li><a href='{{route('categoria.index')}}'>Gestionar Categoría</a></li>
                                 </ul>
                             </li>
-
+                            @endif
                             <li>
                                 <a href="">Jefes</a>
                                 <ul>
