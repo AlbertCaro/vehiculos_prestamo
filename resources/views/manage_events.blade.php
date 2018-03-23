@@ -29,8 +29,11 @@
                         </a>
                     </form>
                 </td>
-                <a href='{{route('tipo_evento.edit', $event->id)}}'>
-                    <img border='0' alt='Modificar' src='img/edit.png' width='30' height='30'></a>
+                <td>
+                    <a href='{{route('tipo_evento.edit', $event->id)}}'>
+                        <img border='0' alt='Modificar' src='img/edit.png' width='30' height='30'>
+                    </a>
+                </td>
             </tbody>
             @empty
                 <h1>No hay eventos</h1>

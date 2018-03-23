@@ -15,15 +15,18 @@
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Tipo</span>
-                <input type="text" class="form-control" name="nombre" placeholder="Tipo de evento" required/>
+                <input type="text" class="form-control" name="nombre" placeholder="Tipo de evento"/>
+                {{$errors->first('nombre')}}
             </div><br>
             <h6>Categoría a la que pertenece</h6>
             <div class="form-group  col-centered">
                 <select class="form-control" id="categories_id" name="categories_id">
-                    <option value='1'>Académico</option>
-                    <option value='2'>Gestión </option>
-                    <option value='3'>Vinculación </option>
+                    <option value="0">Seleccionar categoria...</option>
+                    @foreach($categories as $category)
+                    <option value='{{$category->id}}'>{{$category->nombre}}</option>
+                    @endforeach
                 </select>
+                {{$errors->first('categories_id')}}
             </div><br>
             <input type="submit" class="botones" name="save_btn" value="Guardar"/><br><br>
             {{csrf_field()}}

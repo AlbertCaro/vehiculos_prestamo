@@ -24,7 +24,7 @@
                             {{ csrf_field() }}
                             <a href='' onclick="event.preventDefault();
                                     document.getElementById('delete_form_{{ $category->id }}').submit();">
-                                <img border='0' alt='Editar' src='img/delete.png' width='50' height='50'>
+                                <img border='0' alt='Editar' src='img/delete.png' width='30' height='30'>
                             </a>
                         </form>
                     </td>

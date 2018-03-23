@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Event_Type extends Model
 {
 
-    protected $table = 'event_types';
-    protected $fillable =['id', 'nombre', 'categories_id'];
+    //protected $table = 'event__types';
+    protected $fillable =['nombre', 'categories_id'];
 
     //mutador
     //mb_strtolower minusculas

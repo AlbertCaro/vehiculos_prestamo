@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Event_Type;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,7 @@ class EventTypeController extends Controller
             ->join('categories', 'event_types.categories_id', '=', 'categories.id')
             ->select('categories.id AS id_cat','categories.nombre as categoria', 'event_types.*')
             ->get();
-        dd($events);
+        //dd($events);
         return view('manage_events',compact('events'));
     }
 
@@ -32,7 +33,8 @@ class EventTypeController extends Controller
      */
     public function create()
     {
-        return view('add_events');
+        $categories = Category::all();
+        return view('add_events',compact('categories'));
     }
 
     /**
@@ -43,12 +45,13 @@ class EventTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $event = Event_Type::created($request->validate([
-            'nombre'=>'nombre',
-            'categories_id'=>'categories_id'
-        ]));
-        return "evento creado exitosamente con el id: ".$event->id;
-
+        $this->validate($request, [
+            'nombre' => 'required',
+            'categories_id' => 'required|integer|not_in:0'
+        ]);
+        Event_Type::created($request->all());
+        //dd($request);
+        return redirect('tipo_evento');
     }
 
     /**
