@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Event_Type extends Model
 {
 
-    //protected $table = 'event__types';
+
+    protected $table = 'event_types';
+
     protected $fillable =['nombre', 'categories_id'];
 
     //mutador

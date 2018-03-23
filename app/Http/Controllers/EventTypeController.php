@@ -22,6 +22,7 @@ class EventTypeController extends Controller
             ->join('categories', 'event_types.categories_id', '=', 'categories.id')
             ->select('categories.id AS id_cat','categories.nombre as categoria', 'event_types.*')
             ->get();
+
         //dd($events);
         return view('manage_events',compact('events'));
     }
@@ -49,7 +50,7 @@ class EventTypeController extends Controller
             'nombre' => 'required',
             'categories_id' => 'required|integer|not_in:0'
         ]);
-        Event_Type::created($request->all());
+        Event_Type::create($request->all());
         //dd($request);
         return redirect('tipo_evento');
     }
