@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\CreateCategory;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests; //validaciones
 use App\Http\Controllers\Controller;
@@ -38,13 +39,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategory $request)
     {
-        $this->validate($request, [
-            'nombre' => 'required'
-        ]);
         Category::create($request->all());
-        //dd($request);
         return redirect('categoria');
     }
 
@@ -78,7 +75,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateCategory $request, $id)
     {
         $categoria = Category::find($id);
         $categoria->update($request->all());

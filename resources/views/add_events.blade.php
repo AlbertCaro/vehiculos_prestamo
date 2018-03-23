@@ -10,12 +10,17 @@
 @section('content')
     <br><br>
     <div class="form_wh formCenter">
-        <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="{{route('tipo_evento.store')}}" method="post" entype="application/x-www-form-urlencoded">
+        <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="@if(@empty($event)){{route('tipo_evento.store')}} @else {{route('tipo_evento.update', $event->id)}} @endif"  method="post" entype="application/x-www-form-urlencoded">
+            @if(@empty($event))
+
+            @else
+                {{method_field('PUT')}}
+            @endif
             <h3>Tipo de evento</h3>
             <hr class="intro-divider">
             <div class="input-group">
                 <span class="input-group-addon">Tipo</span>
-                <input type="text" class="form-control" name="nombre" placeholder="Tipo de evento"/>
+                <input type="text" class="form-control" name="nombre" placeholder="Tipo de evento" @isset($event) value="{{$event->nombre}}" @endisset/>
                 {{$errors->first('nombre')}}
             </div><br>
             <h6>Categoría a la que pertenece</h6>
