@@ -93,7 +93,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $this->authorize($user);/*revisará la política de acceso para ver si este usuario tiene permiso
+        /*$this->authorize($user);/revisará la política de acceso para ver si este usuario tiene permiso
         de editar el usuario que quiere editar, si no es él mismo, no podrá editarse.
     */
         $roles = Role::all();
