@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Solicitud;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,8 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        return view('new_request');
+        $categories = Category::all();
+        return view('new_request', compact('categories'));
     }
 
     /**

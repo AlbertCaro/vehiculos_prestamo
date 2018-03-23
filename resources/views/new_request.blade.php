@@ -10,7 +10,11 @@
                             <h1 id="pivoteRadios">Haz una nueva solicitud</h1>
                             <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="" method="post" entype="application/x-www-form-urlencoded">
                                 <h3>Tipo de evento</h3>
-                                <label class='radio-inline'><input type='radio' id='rdio1' name='rdio_evt' value='1'/>Académico</label><label class='radio-inline'><input type='radio' id='rdio2' name='rdio_evt' value='2'/>Gestión </label><label class='radio-inline'><input type='radio' id='rdio3' name='rdio_evt' value='3'/>Vinculación </label>					</form>
+                                @foreach($categories as $category)
+                                <label class='radio-inline'>
+                                    <input type='radio' id='rdio{{$category->id}}' name='rdio_evt' value='{{$category->id}}'/>{{$category->nombre}}</label>
+                                @endforeach
+                            </form>
                             <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud" action="" method="post" entype="application/x-www-form-urlencoded"><br>
                                 <div class="col-lg-5 col-sm-6">
                                     <h3>Funcionario que autoriza</h3>
