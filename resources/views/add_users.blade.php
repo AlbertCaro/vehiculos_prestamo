@@ -28,30 +28,32 @@
 
             <div class="input-group">
                 <span class="input-group-addon">Apellido paterno</span>
-                <input type="text" class="form-control" name="apaterno" placeholder="Apellido paterno" value="@isset($user) {{$user->apaterno}}@endisset" required/>
+                <input type="text" class="form-control" name="apaterno" placeholder="Apellido paterno" value="@isset($user) {{$user->apaterno}}@endisset" />
             </div>
-            {!! $errors->first('apaterno','<span class=error>:message</span') !!}<br>
+
+            {!! $errors->first('apaterno','<span class=error>:message</span>') !!}<br>
+
             <div class="input-group">
                 <span class="input-group-addon">Apellido materno</span>
                 <input type="text" class="form-control" name="amaterno" placeholder="Apellido materno" value="@isset($user) {{$user->amaterno}}@endisset" required/>
             </div>
-            {!! $errors->first('amaterno','<span class=error>:message</span') !!}<br>
+            {!! $errors->first('amaterno','<span class=error>:message</span>') !!}<br>
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                 <input type="text" class="form-control" name='cargo' placeholder='Cargo' value="@isset($user) {{$user->cargo}}@endisset" required/>
             </div>
-            {!! $errors->first('cargo','<span class=error>:message</span') !!}<br>
+            {!! $errors->first('cargo','<span class=error>:message</span>') !!}<br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
                 <input type="text" class="form-control" name='celular' placeholder='Celular' value="@isset($user) {{$user->celular}}@endisset" required/>
             </div>
-            {!! $errors->first('celular','<span class=error>:message</span') !!}<br>
+            {!! $errors->first('celular','<span class=error>:message</span>') !!}<br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
                 <input type="text" class="form-control" name='email' placeholder='email' value="@isset($user) {{$user->email}}@endisset" required/>
             </div>
-            {!! $errors->first('email','<span class=error>:message</span') !!}<br>
+            {!! $errors->first('email','<span class=error>:message</span>') !!}<br>
 
 
             <div class="input-group">
