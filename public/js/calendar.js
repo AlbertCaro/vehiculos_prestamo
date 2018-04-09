@@ -1,7 +1,8 @@
 $(document).ready(function(){
-    $('#venc_txt').datepicker({dateFormat: "dd/mm/yy"});
+    $('#venc_txt').datepicker({dateFormat: "yy-mm-dd"});
     $('#fecha_txt').datetimepicker();
     $('#fecha1_txt').datetimepicker();
+    $('#vencimiento').datepicker({dateFormat: "yy-mm-dd"});
     
 	$('#codigoC_txt').autocomplete({
 		source: "php/autoConductor.php",

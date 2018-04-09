@@ -10,7 +10,7 @@ class CreateDependenciesTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'dependencies';
+    public $set_schema_table = 'dependences';
 
     /**
      * Run the migrations.

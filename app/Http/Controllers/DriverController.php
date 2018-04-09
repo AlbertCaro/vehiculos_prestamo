@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use App\Driver;
+use App\Http\Requests\DriverRequest;
 use App\Licence;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,8 +29,7 @@ class DriverController extends Controller
      */
     public function create()
     {
-        $license_type = null;
-        return view('add_conductor', compact('license_type'));
+        return view('add_conductor');
     }
 
     /**
@@ -38,7 +38,7 @@ class DriverController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DriverRequest $request)
     {
         Driver::create([
             'id' => $request['codigo'],
@@ -64,10 +64,11 @@ class DriverController extends Controller
             'amaterno' => $request['amaterno_cont'],
             'parentesco' => $request['parentesco_cont'],
             'telefono' => $request['telefono_cont'],
+            'domicilio' => $request['domicilio_cont'],
             'driver_id' => $request['codigo']
         ]);
 
-        return "zi";
+        return redirect()->route('conductor.index');
     }
 
     /**
@@ -90,8 +91,11 @@ class DriverController extends Controller
     public function edit($id)
     {
         //Añadido, podemos buscar mediante el método find que recibe como parámetro el id de la clase.
-        $driver = Driver::findOrFail($id);//con findOrFail retorna un 404
-        return view('add_conductor', compact('driver'));
+        $driver = Driver::findOrFail($id); //con findOrFail retorna un 404
+        $dataExtra = [$driver->licence->licence_types_id, $driver->dependencies_id];
+        $licence_type = $driver->licence->licence_types_id;
+        $dependence = $driver->dependencies_id;
+        return view('add_conductor', compact('driver', 'licence_type', 'dependence'));
     }
 
     /**
@@ -101,10 +105,34 @@ class DriverController extends Controller
      * @param  \App\Driver  $driver
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DriverRequest $request, $id)
     {
-        //
-        return "yes";
+        $driver = Driver::findOrFail($id);
+        $driver->update([
+            'dependencies_id' => $request['dependencia'],
+            'nombre' => $request['nombre'],
+            'apaterno' => $request['apaterno'],
+            'amaterno' => $request['amaterno'],
+            'celular' => $request['celular'],
+            'domicilio' => $request['domicilio']
+        ]);
+
+        $driver->licence->update([
+            'numero' => $request['licencia'],
+            'vencimiento' => $request['vencimiento'],
+            'licence_types_id' => $request['tipo_licencia'],
+            'archivo' => "",
+        ]);
+
+        $driver->contact->update([
+            'nombre' => $request['nombre_cont'],
+            'apaterno' => $request['apaterno_cont'],
+            'amaterno' => $request['amaterno_cont'],
+            'parentesco' => $request['parentesco_cont'],
+            'telefono' => $request['telefono_cont'],
+            'domicilio' => $request['domicilio_cont']
+        ]);
+        return redirect()->route('conductor.index');
     }
 
     /**
@@ -115,7 +143,10 @@ class DriverController extends Controller
      */
     public function destroy($id)
     {
-        Driver::findOrFail($id)->delete();
-        return 'Eliminado: '.$id;
+        $driver = Driver::findOrFail($id);
+        $driver->licence->delete();
+        $driver->contact->delete();
+        $driver->delete();
+        return redirect()->route('conductor.index');
     }
 }
