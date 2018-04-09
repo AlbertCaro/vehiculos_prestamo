@@ -40,6 +40,10 @@ class Driver extends Model
         return $this->hasOne(Licence::class);
     }
 
+    public function dependence() {
+        return $this->belongsTo(Dependence::class);
+    }
+
     public function request(){
         return $this->belongsTo(Solicitud::class);
     }

@@ -8,11 +8,11 @@ class LicenceType extends Model
 {
     protected $fillable = ['tipo'];
 
-    public function setNombre($value) {
+    public function setTipo($value) {
         $this->attributes['tipo'] = mb_strtolower($value);
     }
 
-    public function getNombre($value) {
+    public function getTipo($value) {
         return ucwords($value);
     }
 
