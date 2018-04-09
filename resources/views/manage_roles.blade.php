@@ -8,6 +8,7 @@
         <table class="table-fill">
             <thead>
             <tr>
+                <th>Rol (no modificar)</th>
                 <th>Nombre mostrado</th>
                 <th>Descripción</th>
                 <th>Eliminar</th>
@@ -17,6 +18,7 @@
             <tbody class="table-hover">
             @forelse($roles as $rol)
                 <tr>
+                    <td>{{$rol->nombre}}</td>
                     <td>{{$rol->nombre_mostrado}}</td>
                     <td>{{$rol->descripcion}}</td>
                     <td>
@@ -41,5 +43,7 @@
                 <h1>No hay roles</h1>
             @endforelse
         </table>
-    </div><br>
+        <br>
+        <a href="{{route('role.create')}}" class="btn btn-primary pull-right">Añadir rol</a>
+    </div><br><br>
 @stop

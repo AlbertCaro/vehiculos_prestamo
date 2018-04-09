@@ -7,6 +7,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -65,8 +66,8 @@ class UserController extends Controller
         'celular'=>$request['celular'],
         'role_id'=> 1,
         'password'=>Hash::make($request['password']),
-       ]);
-*/
+       ]);*/
+
        $user = User::create($request->all());
 
 
@@ -118,9 +119,11 @@ class UserController extends Controller
         }else{//si no, la dejamos como estaba, aunque no escriban nada en el campo.
             $request['password'] = $usuario->password;
         }
+        $usuario->roles()->sync($request->role_id);
         $usuario->update($request->all());
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('usuario.index')->with("mensaje","Editado correctamente");
+
     }
 
     /**
@@ -135,4 +138,16 @@ class UserController extends Controller
         $usuario->delete();
         return redirect()->route('usuario.index');
     }
+
+    public function muestra_jefes(){
+        $users = User::listaByRol('jefe');
+        return view('manage_jefes',compact('users'));
+    }
+
+    public function muestraSolicitantes(){
+        $solicitantes = User::listaByRol('solicitante');
+        return view('manage_jefes',compact('users'));
+    }
+
+
 }

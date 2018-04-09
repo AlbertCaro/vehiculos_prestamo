@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <h3>Vehículo propio</h3>
-                                <label class="radio-inline" for="rdio4"><input type="checkbox" id="rdio4" name="rdio_disp" value="1"/>En caso de no contar con la disponibilidad de un vehículo oficial, esta dispuesto a usar un vehículo propio para hacer el viaje</label><br><br>
+                                <label class="radio-inline" for="rdio4"><input type="checkbox" id="rdio4" name="rdio_disp" value="1"/>En caso de no contar con la disponibilidad de un vehículo oficial, está dispuesto a usar un vehículo propio para hacer el viaje</label><br><br>
                                 <input type="submit" class="botones" id="btn_save" name="save_btn" value="Guardar" onclick="return validar()"/>
                             </form>
                         </div>

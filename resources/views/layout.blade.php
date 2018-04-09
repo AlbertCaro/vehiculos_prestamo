@@ -67,15 +67,14 @@
                             <li>
                                 <a href="">Jefes</a>
                                 <ul>
-                                    <li><a href=''>Agregar</a></li>
-                                    <li><a href=''>Gestionar</a></li>
+                                    <li><a href='{{route('jefes.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="">Solicitantes</a>
                                 <ul>
                                     <li><a href=''>Agregar</a></li>
-                                    <li><a href=''>Gestionar</a></li>
+                                    <li><a href='{{route('solicitantes.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -96,6 +95,7 @@
                                 <ul>
                                     <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
                                     <li><a href='{{ route('usuario.index') }}'>Gestionar</a></li>
+                                    <li><a href='{{ route('role.index') }}'>Roles</a></li>
                                 </ul>
                             </li>
                             <li>
