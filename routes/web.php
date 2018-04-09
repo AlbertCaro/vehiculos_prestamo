@@ -14,7 +14,7 @@ Route::resource('licencia', 'LicenceController');
 Route::resource('solicitud', 'SolicitudController');
 Route::resource('usuario', 'UserController');
 Route::get('jefes',['as'=>'jefes.index','uses'=>'UserController@muestra_jefes']);
-Route::get('solicitantes',['as'=>'solicitantes.index','uses'=>'UserController@muestra_solicitantes']);
+Route::get('solicitantes',['as'=>'solicitantes.index','uses'=>'UserController@muestraSolicitantes']);
 Route::resource('vehiculo', 'VehicleController');
 Route::resource('role', 'RoleController');
 Auth::routes();

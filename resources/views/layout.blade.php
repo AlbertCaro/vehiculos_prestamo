@@ -159,7 +159,7 @@
                                 <a href="#sol">Solicitud</a>
                             </li>
                         </ul>
-                        <p class="copyright text-muted small">Derechos reservados 2017. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
+                        <p class="copyright text-muted small">Derechos reservados {{\Carbon\Carbon::now()}}. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
                     </div>
                 </div>
             </div>
