@@ -41,7 +41,7 @@
                     </td>
                 </tr>
                 @empty
-                <hi>No hay vehiculos</hi>
+                <h1>No hay vehiculos</h1>
                 @endforelse
             </tbody>
         </table>

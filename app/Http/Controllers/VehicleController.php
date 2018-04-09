@@ -11,7 +11,7 @@ class VehicleController extends Controller
     public function validateForm(Request $request){
         $this->validate($request,[
             'placas'=>'required',
-            'nombre'=>'required',
+            'modelo'=>'required',
             'capacidad'=>'required'
         ]);
     }

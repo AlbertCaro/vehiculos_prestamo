@@ -39,4 +39,8 @@ class Driver extends Model
     public function licence() {
         return $this->hasOne(Licence::class);
     }
+
+    public function request(){
+        return $this->belongsTo(Solicitud::class);
+    }
 }
