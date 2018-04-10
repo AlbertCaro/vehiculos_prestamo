@@ -28,7 +28,7 @@
                 <select class="form-control" id="categories_id" name="categories_id">
                     <option value="0">Seleccionar categoria...</option>
                     @foreach($categories as $category)
-                    <option value='{{$category->id}}'>{{$category->nombre}}</option>
+                    <option value='{{$category->id}}' @isset($event) @if($event->categories_id == $category->id) selected @endif @endisset>{{$category->nombre}}</option>
                     @endforeach
                 </select>
                 {{$errors->first('categories_id')}}

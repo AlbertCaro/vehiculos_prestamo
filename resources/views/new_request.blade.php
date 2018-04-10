@@ -8,13 +8,6 @@
                     <div class="col-lg-12">
                         <div class="intro-message">
                             <h1 id="pivoteRadios">Haz una nueva solicitud</h1>
-                            <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="" method="post" entype="application/x-www-form-urlencoded">
-                                <h3>Tipo de evento</h3>
-                                @foreach($categories as $category)
-                                <label class='radio-inline'>
-                                    <input type='radio' id='rdio{{$category->id}}' name='rdio_evt' value='{{$category->id}}'/>{{$category->nombre}}</label>
-                                @endforeach
-                            </form>
                             <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud" action="" method="post" entype="application/x-www-form-urlencoded"><br>
                                 <div class="col-lg-5 col-sm-6">
                                     <h3>Funcionario que autoriza</h3>
@@ -31,17 +24,24 @@
                                         <span class="input-group-addon">Domicilio</span>
                                         <input type="text" class="form-control" name="txt_domicilioE" id="txt_domicilioE" placeholder='Domicilio Completo' required/>
                                     </div><br>
+                                    <div class="form-group  col-centered">
+                                        <label for="slc_tipo">Tipo de evento</label>
+                                        <select class="form-control" id="slc_tipo" name="slc_tipo">
+                                            @foreach($categories as $category)
+                                                    <option value="{{$category->id}}">{{$category->nombre}}</option>
+                                            @endforeach
+                                            <option value="">-Otro</option>
+                                        </select>
+                                    </div>
+
                                     <div id="resultados" class="form-group  col-centered">
 
                                     </div><br>
                                     <div id="otro" class="form-group  col-centered">
 
                                     </div><br>
-                                    <div id="categoria_evento" class="form-group  col-centered">
-
-                                    </div><br>
                                     <div class="form-group  col-centered">
-                                        <label for="sel3">Escala:</label>
+                                        <label for="sel3">Escala</label>
                                         <select class="form-control" id="sel3" name="slc_escala">
                                             <option>Local</option>
                                             <option>Guadalajara</option>
