@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    protected $fillable=['nombre','apaterno','amaterno','parentesco','telefono','driver_id'];
+    protected $fillable=['nombre','apaterno','amaterno','parentesco','telefono','domicilio','driver_id'];
 
     public function setNombreAttribute($value) {
         $this->attributes['nombre'] = mb_strtolower($value);

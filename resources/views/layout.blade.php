@@ -67,15 +67,14 @@
                             <li>
                                 <a href="">Jefes</a>
                                 <ul>
-                                    <li><a href=''>Agregar</a></li>
-                                    <li><a href=''>Gestionar</a></li>
+                                    <li><a href='{{route('jefes.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="">Solicitantes</a>
                                 <ul>
                                     <li><a href=''>Agregar</a></li>
-                                    <li><a href=''>Gestionar</a></li>
+                                    <li><a href='{{route('solicitantes.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -96,6 +95,7 @@
                                 <ul>
                                     <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
                                     <li><a href='{{ route('usuario.index') }}'>Gestionar</a></li>
+                                    <li><a href='{{ route('role.index') }}'>Roles</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -159,7 +159,7 @@
                                 <a href="#sol">Solicitud</a>
                             </li>
                         </ul>
-                        <p class="copyright text-muted small">Derechos reservados 2017. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
+                        <p class="copyright text-muted small">Derechos reservados {{\Carbon\Carbon::now()}}. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
                     </div>
                 </div>
             </div>

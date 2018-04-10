@@ -23,7 +23,8 @@ class EventTypeController extends Controller
             ->join('categories', 'event_types.categories_id', '=', 'categories.id')
             ->select('categories.id AS id_cat','categories.nombre as categoria', 'event_types.*')
             ->get();
-        //dd($events);
+        //$events = Event_Type::first();
+        //dd($events->category());
         return view('manage_events',compact('events'));
     }
 

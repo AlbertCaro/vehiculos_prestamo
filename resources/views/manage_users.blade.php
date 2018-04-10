@@ -2,6 +2,12 @@
 
 @section('content')
 
+    @if(Session('respuesta') !== null)
+        <div class="alert alert-success" role="alert">
+            {{Session::get('respuesta')}}
+        </div>
+
+    @endif
 
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>

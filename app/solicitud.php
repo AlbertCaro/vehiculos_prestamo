@@ -14,4 +14,8 @@ class Solicitud extends Model
     public function Users(){
         $this->belongsToMany(Users::class);
     }
+
+    public function Drivers(){
+        $this->hasMany(Driver::class);
+    }
 }

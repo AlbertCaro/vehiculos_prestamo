@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Licence extends Model
@@ -13,7 +14,7 @@ class Licence extends Model
     }
 
     public function setVencimiento($value) {
-        $this->attributes['vencimiento'] = mb_strtolower($value);
+        $this->attributes['vencimiento'] = Carbon::parse('d/m/Y', $value)->format('Y-m-d');
     }
 
     public function setArchivo($value) {
@@ -24,8 +25,8 @@ class Licence extends Model
         return mb_strtoupper($value);
     }
 
-    public function getVencimiento($value){
-        return ucwords($value);
+    public function getVencimiento(){
+        return $this->attributes['vencimiento']->format('d/m/Y');
     }
 
     public function getArchivo($value) {

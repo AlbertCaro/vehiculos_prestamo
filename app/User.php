@@ -5,6 +5,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -91,6 +92,15 @@ class User extends Authenticatable
 
     public function isAdmin(){
         return $this->hasRoles(['admin']);
+    }
+
+    public static function listaByRol($rol){
+        $users = DB::table('users')->join('users_has_roles','users.id','=','users_has_roles.user_id')
+            ->join('roles','roles.id','=','users_has_roles.role_id')
+            ->select('users.*','roles.nombre as rol')
+            ->where('roles.nombre','=',$rol)
+            ->get();
+        return $users;
     }
 
 }

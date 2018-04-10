@@ -59,22 +59,31 @@
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                 <input type="password" class="form-control" name='password' placeholder='Contraseña' />
-                @if(!@empty($user)) <label>
-                    <input type="checkbox" name="cambiar_pw" > Cambiar contraseña
-                </label>@endif
-            </div><br>
+
+            </div>@if(!@empty($user)) <label>
+                <input type="checkbox" name="cambiar_pw" > Cambiar contraseña
+            </label>@endif<br>
 
 
 
             @isset($user->roles)
-                <div class="input-group">
-                    <span class="input-group-addon">Rol:</span>
-                    <select name="role_id" id="" class="form-control">
+                <div class="modal-title "><h2>Roles para el usuario: </h2></div>
+                <div class="form-check form-check-inline">
+
 
                         @foreach($roles as $rol)
-                            <option value="{{$rol->id}}" @if($user->hasRoles([$rol->nombre])) selected @endif>{{$rol->nombre_mostrado}}</option>
-                        @endforeach
-                    </select>
+
+                            <input type="checkbox"
+                                   name="role_id[]"
+                                   id="{{$rol->id}}"
+                                   value="{{$rol->id}}"
+                                    {{$user->roles->pluck('id')->contains($rol->id) ? 'checked' : '' }}
+                            />
+
+                             <label for="{{$rol->id}}">{{$rol->nombre_mostrado}}</label><br>
+
+                    @endforeach
+
 
                 </div>
                 <br>

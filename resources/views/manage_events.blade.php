@@ -16,6 +16,7 @@
             </thead>
             <tbody class="table-hover">
             @forelse($events as $event)
+
             <tr>
                 <td>{{ucfirst($event->categoria)}}</td>
                 <td>{{ucfirst($event->nombre)}}</td>
