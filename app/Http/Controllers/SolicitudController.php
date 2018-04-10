@@ -17,10 +17,8 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        $jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
-        //dd($jefes);
-        return view('new_request', compact('categories'));
+        return "Una lista con las solicitudes en base a las capacidades del usuario";
+
     }
 
     /**
@@ -30,7 +28,10 @@ class SolicitudController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
+        //dd($jefes);
+        return view('new_request', compact('categories'));
     }
 
     /**

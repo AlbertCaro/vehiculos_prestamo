@@ -46,6 +46,10 @@
                             </li>
                         @else
                             <li>
+                                <a href='{{route('solicitud.create')}}'>Solicitar</a>
+
+                            </li>
+                            <li>
                                 <a href="">Conductores</a>
                                 <ul>
                                     <li><a href='{{ route('conductor.create') }}'>Agregar</a></li>
@@ -83,6 +87,7 @@
                                     <li><a href='{{route('solicitud.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
+
                             <li>
                                 <a href="">Vehículos</a>
                                 <ul>
