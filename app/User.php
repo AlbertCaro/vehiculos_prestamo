@@ -45,6 +45,9 @@ class User extends Authenticatable
     public function setEmailAttribute($valor){
         $this->attributes['email'] = mb_strtolower($valor);
     }
+    public function getFullNameAttribute() {
+        return $this->nombre.' '.$this->apaterno.' '.$this->amaterno;
+    }
 
     /*
      * Los accesores modifican el valor de un atributo antes de ser mostrado, por ejemplo aquí para cada uno de lo siguientes atributos,
@@ -83,9 +86,6 @@ class User extends Authenticatable
                     return true;
                 }
             }
-
-
-
         }
         return false;
     }
@@ -97,10 +97,14 @@ class User extends Authenticatable
     public static function listaByRol($rol){
         $users = DB::table('users')->join('users_has_roles','users.id','=','users_has_roles.user_id')
             ->join('roles','roles.id','=','users_has_roles.role_id')
-            ->select('users.*','roles.nombre as rol')
+            ->select('users.*','roles.nombre as rol',
+                DB::raw("CONCAT(
+                UPPER(LEFT(users.nombre, 1)),SUBSTRING(users.nombre,2, LENGTH(users.nombre)),' ',
+                UPPER(LEFT(users.apaterno, 1)),SUBSTRING(users.apaterno,2,LENGTH(users.apaterno)),' ',
+                UPPER(LEFT(users.amaterno, 1)),SUBSTRING(users.amaterno,2,LENGTH(users.amaterno)),' ',
+                ' (',UPPER(LEFT(roles.nombre, 1)),SUBSTRING(roles.nombre,2,LENGTH(roles.nombre)),')') as full_name"))
             ->where('roles.nombre','=',$rol)
             ->get();
         return $users;
     }
-
 }

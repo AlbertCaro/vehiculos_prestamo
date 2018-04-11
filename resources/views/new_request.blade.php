@@ -8,19 +8,12 @@
                     <div class="col-lg-12">
                         <div class="intro-message">
                             <h1 id="pivoteRadios">Haz una nueva solicitud</h1>
-                            <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="" method="post" entype="application/x-www-form-urlencoded">
-                                <h3>Tipo de evento</h3>
-                                @foreach($categories as $category)
-                                <label class='radio-inline'>
-                                    <input type='radio' id='rdio{{$category->id}}' name='rdio_evt' value='{{$category->id}}'/>{{$category->nombre}}</label>
-                                @endforeach
-                            </form>
                             <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud" action="" method="post" entype="application/x-www-form-urlencoded"><br>
                                 <div class="col-lg-5 col-sm-6">
+                                    {{ csrf_field() }}
                                     <h3>Funcionario que autoriza</h3>
                                     <div class="form-group  col-centered">
-                                        <select class="form-control" id="sel1" name="slc_jefe">
-                                            <option value='8718288'> Víctor Manuel Castillo Girón ( Secretario Académico )</option><option value='2300087'>Francisco Guerrero Muñoz  ( Jefe de Departamento de Ciencias Sociales y Humanidades)</option><option value='2702223'>José Guadalupe Macias Barragán  ( Jefe de Departamento de Ciencias de la Salud )</option><option value='9001638'>José Guadalupe Rosas Elguera ( Director de División de Estudios Científicos y Tecnológicos )</option><option value='7816898'>José Guadalupe Salazar Estrada ( Director de División de Estudios de la Salud)</option><option value='9221425'>José Luis Ramos Quirarte  ( Jefe de Departamento de Ciencias Naturales y Exactas )</option><option value='7813406'>Luz Elena Ramírez Flores  ( Jefe de Departamento de Ciencias del Comportamiento )</option><option value='2216752'>Manuel Bernal Zepeda  ( Jefe de Departamento de Ciencias Económicas y Administrativas )</option><option value='8705631'>María Alicia Peredo Merlo ( Directora de la División de Estudios Económicos y Sociales)</option><option value='8901236'>María Isabel Arreola Caro  ( Secretario Administrativo )</option><option value='2134578'>Mario Martínez García  ( Jefe de Departamento de Ciencias Computacionales e Ingenierías )</option>							  </select>
+                                        {{ Form::select('slc_jefe', \App\User::listaByRol('jefe')->pluck('full_name', 'id'), null, $select_attribs) }}
                                     </div><br>
                                     <h3>Detalles del evento</h3>
                                     <div class="input-group">
@@ -31,13 +24,14 @@
                                         <span class="input-group-addon">Domicilio</span>
                                         <input type="text" class="form-control" name="txt_domicilioE" id="txt_domicilioE" placeholder='Domicilio Completo' required/>
                                     </div><br>
+                                    <h5>Categoría del evento</h5>
+                                    <div class="form-group  col-centered">
+                                        {{ Form::select('categoria_evento', \App\Category::all(['id', 'nombre'])->pluck('nombre','id'), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
+                                    </div><br>
                                     <div id="resultados" class="form-group  col-centered">
 
                                     </div><br>
                                     <div id="otro" class="form-group  col-centered">
-
-                                    </div><br>
-                                    <div id="categoria_evento" class="form-group  col-centered">
 
                                     </div><br>
                                     <div class="form-group  col-centered">
@@ -166,4 +160,29 @@
             document.getElementById('tipo_licencia').disabled = false;
         }
     }
+
+    function generarSelect() {
+        var params = {
+            "category" : $("#categoria_evento").val()
+        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
+
+        $.ajax({
+            data:params,
+            type:'post',
+            beforeSend:function () {
+                $("#resultados").html("<span>Enviando información</span>");
+            },
+            url: '{{ route('select_event') }}',
+            success:function(response) {
+                console.log(response);
+                $("#resultados").html(response);
+            }
+        });
+    }
+
 </script>

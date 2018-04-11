@@ -29,7 +29,8 @@ class DriverController extends Controller
      */
     public function create()
     {
-        return view('add_conductor');
+        $select_attribs = ['class' => 'form-control'];
+        return view('add_conductor', compact('select_attribs'));
     }
 
     /**
@@ -77,9 +78,14 @@ class DriverController extends Controller
      * @param  \App\Driver  $driver
      * @return \Illuminate\Http\Response
      */
-    public function show(Driver $driver)
+    public function show($id)
     {
-        //
+        $driver = Driver::findOrFail($id);
+        $licence_type = $driver->licence->licence_types_id;
+        $dependence = $driver->dependencies_id;
+        $select_attribs = ['class' => 'form-control', 'disabled' => ''];
+        $show = true;
+        return view('add_conductor', compact('driver', 'licence_type', 'dependence', 'show', 'select_attribs'));
     }
 
     /**
@@ -92,10 +98,10 @@ class DriverController extends Controller
     {
         //Añadido, podemos buscar mediante el método find que recibe como parámetro el id de la clase.
         $driver = Driver::findOrFail($id); //con findOrFail retorna un 404
-        $dataExtra = [$driver->licence->licence_types_id, $driver->dependencies_id];
         $licence_type = $driver->licence->licence_types_id;
         $dependence = $driver->dependencies_id;
-        return view('add_conductor', compact('driver', 'licence_type', 'dependence'));
+        $select_attribs = ['class' => 'form-control'];
+        return view('add_conductor', compact('driver', 'licence_type', 'dependence', 'select_attribs'));
     }
 
     /**
