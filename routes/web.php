@@ -5,6 +5,11 @@ Route::get('/', ['as' => 'index', function () {
     return view('index');
 }]);
 
+
+Route::get('terminos_condiciones', ['as' => 'terminos', function () {
+    return view('terms_and_Conditions');
+}]);
+
 Route::resource('categoria', 'CategoryController');
 Route::resource('contacto', 'ContactController');
 Route::resource('dependencia', 'DependenceController');
