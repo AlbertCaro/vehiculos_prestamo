@@ -46,6 +46,10 @@
                             </li>
                         @else
                             <li>
+                                <a href='{{route('solicitud.create')}}'>Solicitar</a>
+
+                            </li>
+                            <li>
                                 <a href="">Conductores</a>
                                 <ul>
                                     <li><a href='{{ route('conductor.create') }}'>Agregar</a></li>
@@ -73,7 +77,7 @@
                             <li>
                                 <a href="">Solicitantes</a>
                                 <ul>
-                                    <li><a href=''>Agregar</a></li>
+                                    <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
                                     <li><a href='{{route('solicitantes.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
@@ -83,6 +87,7 @@
                                     <li><a href='{{route('solicitud.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
+
                             <li>
                                 <a href="">Vehículos</a>
                                 <ul>
@@ -159,7 +164,7 @@
                                 <a href="#sol">Solicitud</a>
                             </li>
                         </ul>
-                        <p class="copyright text-muted small">Derechos reservados 2017. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
+                        <p class="copyright text-muted small">Derechos reservados {{\Carbon\Carbon::now()}}. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
                     </div>
                 </div>
             </div>

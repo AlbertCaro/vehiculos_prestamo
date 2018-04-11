@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Solicitud;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,8 +17,18 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('new_request', compact('categories'));
+
+        $rol = auth()->user()->role;
+        dd($rol);
+        switch ($rol){
+            case 'admin':
+                return "una lista con todas las solcitudes hasta ahora";
+                break;
+            default:
+                "Lo que sea";
+        }
+        return "Una lista con las solicitudes en base a las capacidades del usuario";
+
     }
 
     /**
@@ -27,7 +38,10 @@ class SolicitudController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
+        //dd($jefes);
+        return view('new_request', compact('categories'));
     }
 
     /**

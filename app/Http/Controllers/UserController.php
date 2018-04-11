@@ -145,7 +145,7 @@ class UserController extends Controller
     }
 
     public function muestraSolicitantes(){
-        $solicitantes = User::listaByRol('solicitante');
+        $users = User::listaByRol('solicitante');
         return view('manage_jefes',compact('users'));
     }
 
