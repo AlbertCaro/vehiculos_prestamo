@@ -77,7 +77,7 @@
                             <li>
                                 <a href="">Solicitantes</a>
                                 <ul>
-                                    <li><a href=''>Agregar</a></li>
+                                    <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
                                     <li><a href='{{route('solicitantes.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>

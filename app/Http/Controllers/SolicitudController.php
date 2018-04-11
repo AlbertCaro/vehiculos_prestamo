@@ -17,6 +17,16 @@ class SolicitudController extends Controller
      */
     public function index()
     {
+
+        $rol = auth()->user()->role;
+        dd($rol);
+        switch ($rol){
+            case 'admin':
+                return "una lista con todas las solcitudes hasta ahora";
+                break;
+            default:
+                "Lo que sea";
+        }
         return "Una lista con las solicitudes en base a las capacidades del usuario";
 
     }
