@@ -15,7 +15,7 @@
                                     <div class="form-group  col-centered">
                                         {{ Form::select('slc_jefe', \App\User::listaByRol('jefe')->pluck('full_name', 'id'), null, $select_attribs) }}
                                     </div><br>
-                                    <h3>Detalles del evento</h3>
+                                    <h3>Detalles del evento:</h3>
                                     <div class="input-group">
                                         <span class="input-group-addon">Evento</span>
                                         <input type="text" class="form-control" name="txt_nombreE" id="txt_nombreE" placeholder='Nombre del Evento' required/>
