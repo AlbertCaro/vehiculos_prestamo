@@ -5,6 +5,12 @@
     <br><br>
     <div class="limit">
         <h3 class="center-text">Conductores</h3>
+        @if (session('alert'))
+            <div id="message" class="alert alert-success">
+                {{ session('alert') }}
+            </div>
+        @endif
+        @if(count($drivers) != 0)
         <table class="table-fill">
             <thead>
             <tr>
@@ -15,6 +21,7 @@
             </tr>
             </thead>
             <tbody class="table-hover">
+        @endif
             @forelse($drivers as $driver)
                 <tr>
                     <td>{{$driver->id}}</td>
@@ -30,8 +37,12 @@
                             </a>
                             <input name="_method" type="hidden" value="DELETE">
                             {{ csrf_field() }}
-                            <a href='' onclick="event.preventDefault();
-                                    document.getElementById('delete_form_{{ $driver->id }}').submit();">
+                            <a href='' onclick="
+                                    event.preventDefault();
+                                    if (confirm('¿Está seguro de querer eliminar al conductor {{$driver->nombre}} {{$driver->apaterno}} {{$driver->amaterno}}?')) {
+                                        document.getElementById('delete_form_{{ $driver->id }}').submit();
+                                    }
+                                    ">
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </a>
                         </form>
@@ -40,7 +51,9 @@
             @empty
                 <h1>No hay conductores</h1>
             @endforelse
+        @if(count($drivers) != 0)
             </tbody>
         </table>
+        @endif
     </div><br>
 @stop

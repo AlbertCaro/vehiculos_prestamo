@@ -17,7 +17,7 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-
+        /*
         $rol = auth()->user()->role;
         dd($rol);
         switch ($rol){
@@ -26,8 +26,8 @@ class SolicitudController extends Controller
                 break;
             default:
                 "Lo que sea";
-        }
-        return "Una lista con las solicitudes en base a las capacidades del usuario";
+        }*/
+        return view('new_request');
 
     }
 

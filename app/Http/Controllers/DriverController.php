@@ -72,7 +72,7 @@ class DriverController extends Controller
             'driver_id' => $request['codigo']
         ]);
 
-        return redirect()->route('conductor.index');
+        return redirect()->route('conductor.index')->with('alert','Conductor agregado correctamente.');
     }
 
     /**
@@ -141,7 +141,7 @@ class DriverController extends Controller
             'telefono' => $request['telefono_cont'],
             'domicilio' => $request['domicilio_cont']
         ]);
-        return redirect()->route('conductor.index');
+        return redirect()->route('conductor.index')->with('alert','Información del conductor actualizada correctamente.');
     }
 
     /**
@@ -156,7 +156,7 @@ class DriverController extends Controller
         $driver->licence->delete();
         $driver->contact->delete();
         $driver->delete();
-        return redirect()->route('conductor.index');
+        return redirect()->route('conductor.index')->with('alert','Conductor eliminado correctamente.');
     }
 
     public function autocompletar()
