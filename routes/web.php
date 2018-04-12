@@ -24,6 +24,8 @@ Route::resource('vehiculo', 'VehicleController');
 Route::resource('role', 'RoleController');
 Auth::routes();
 
+Route::get('completa_solicitud',['as'=>'autocompletar','uses'=>'DriverController@autocompletar']);
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('select_event_type', ['as' => 'select_event', function () {

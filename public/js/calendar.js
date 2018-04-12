@@ -5,19 +5,19 @@ $(document).ready(function(){
     $('#vencimiento').datepicker({dateFormat: "yy-mm-dd"});
     
 	$('#codigoC_txt').autocomplete({
-		source: "php/autoConductor.php",
+		source: "/completa_solicitud",
         minLength:1,
         select : function(event, ui){
-        	$("#codigoC_txt").val(ui.item.codigo);
+        	$("#codigoC_txt").val(ui.item.id);
             $("#nombreC_txt").val(ui.item.nombre);
             $("#celularC_txt").val(ui.item.celular);
-            $("#licencia_txt").val(ui.item.licencia);
+            $("#licencia_txt").val(ui.item.num_licencia);
             $("#venc_txt").val(ui.item.vencimiento);
             $("#tipoL_txt").html("<option>"+ui.item.tipo+"</option>");
-            $("#nombreCont_txt").val(ui.item.nomcont);
+            $("#nombreCont_txt").val(ui.item.nombre_contacto);
             $("#parentesco_txt").val(ui.item.parentesco);
             $("#domicilio_txt").val(ui.item.domicilio);
-            $("#telefono_txt").val(ui.item.telefono);
+            $("#telefono_txt").val(ui.item.tel_cont);
         }
 	});
 	$(function() {

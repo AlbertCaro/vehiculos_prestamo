@@ -6,8 +6,11 @@ use App\Contact;
 use App\Driver;
 use App\Http\Requests\DriverRequest;
 use App\Licence;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class DriverController extends Controller
 {
@@ -155,4 +158,25 @@ class DriverController extends Controller
         $driver->delete();
         return redirect()->route('conductor.index');
     }
+
+    public function autocompletar()
+    {
+        $term = Input::get('term');
+        $results = array();
+
+        $queries = DB::table('drivers')
+            ->join('licences', 'drivers.id', '=', 'licences.driver_id')
+            ->join('contacts', 'drivers.id', '=', 'contacts.driver_id')
+            ->join('licence_types', 'licences.licence_types_id', '=', 'licence_types.id')
+            ->select('drivers.*', 'licences.numero as num_licencia', 'licences.archivo', 'licences.vencimiento', 'licence_types.id as tipo', 'contacts.nombre as nombrec', 'contacts.apaterno as apaternoc', 'contacts.amaterno as amaternoc', 'contacts.parentesco', 'contacts.telefono as telefonoc')
+            ->where('drivers.id', 'LIKE', '%' . $term . '%')
+            ->get();
+        //dd($queries);
+        foreach ($queries as $query) {
+            $results[] = ['id' => $query->id, 'dependencia' => $query->dependencies_id, 'nombre' => $query->nombre . ' ' . $query->apaterno . ' ' . $query->amaterno, 'celular' => $query->celular, 'num_licencia' => $query->num_licencia, 'archivo' => $query->archivo, 'vencimiento' => $query->vencimiento, 'tipo' => $query->tipo, 'nombre_contacto' => $query->nombrec . ' ' . $query->apaternoc . ' ' . $query->amaternoc, 'parentesco' => $query->parentesco, 'tel_cont' => $query->telefonoc];
+        }
+
+        return $results;
+    }
+
 }
