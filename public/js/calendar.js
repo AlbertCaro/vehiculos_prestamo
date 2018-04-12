@@ -7,6 +7,7 @@ $(document).ready(function(){
 	$('#codigoC_txt').autocomplete({
 		source: "/completa_solicitud",
         minLength:1,
+		autoFocus:true,
         select : function(event, ui){
         	$("#codigoC_txt").val(ui.item.id);
             $("#nombreC_txt").val(ui.item.nombre);

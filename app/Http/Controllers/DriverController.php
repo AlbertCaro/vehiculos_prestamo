@@ -173,7 +173,7 @@ class DriverController extends Controller
             ->get();
         //dd($queries);
         foreach ($queries as $query) {
-            $results[] = ['id' => $query->id, 'dependencia' => $query->dependencies_id, 'nombre' => $query->nombre . ' ' . $query->apaterno . ' ' . $query->amaterno, 'celular' => $query->celular, 'num_licencia' => $query->num_licencia, 'archivo' => $query->archivo, 'vencimiento' => $query->vencimiento, 'tipo' => $query->tipo, 'nombre_contacto' => $query->nombrec . ' ' . $query->apaternoc . ' ' . $query->amaternoc, 'parentesco' => $query->parentesco, 'tel_cont' => $query->telefonoc];
+            $results[] = ['value' => $query->id, 'dependencia' => $query->dependencies_id, 'nombre' => $query->nombre . ' ' . $query->apaterno . ' ' . $query->amaterno, 'celular' => $query->celular, 'num_licencia' => $query->num_licencia, 'archivo' => $query->archivo, 'vencimiento' => $query->vencimiento, 'tipo' => $query->tipo, 'nombre_contacto' => $query->nombrec . ' ' . $query->apaternoc . ' ' . $query->amaternoc, 'parentesco' => $query->parentesco, 'tel_cont' => $query->telefonoc];
         }
 
         return $results;
