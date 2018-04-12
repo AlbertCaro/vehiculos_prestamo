@@ -21,6 +21,7 @@
         <script type="text/javascript" src="{{ asset('js/datetimepicker.full.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/calendar.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/alberto_methods.js') }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -175,13 +176,4 @@
             </div>
         </footer>
     </body>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            window.setTimeout("fadeMessage();", 1500);
-        })
-
-        function fadeMessage() {
-            $("#message").fadeOut('slow');
-        }
-    </script>
 </html>

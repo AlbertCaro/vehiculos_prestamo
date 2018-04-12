@@ -10,7 +10,7 @@
                 {{ session('alert') }}
             </div>
         @endif
-        @if(count($drivers) != 0)
+        @if(count($drivers))
         <table class="table-fill">
             <thead>
             <tr>
@@ -37,12 +37,9 @@
                             </a>
                             <input name="_method" type="hidden" value="DELETE">
                             {{ csrf_field() }}
-                            <a href='' onclick="
-                                    event.preventDefault();
-                                    if (confirm('¿Está seguro de querer eliminar al conductor {{$driver->nombre}} {{$driver->apaterno}} {{$driver->amaterno}}?')) {
-                                        document.getElementById('delete_form_{{ $driver->id }}').submit();
-                                    }
-                                    ">
+                            <a href='' onclick="deleteElement(
+                                '¿Está seguro de querer eliminar al conductor {{$driver->nombre}} {{$driver->apaterno}} {{$driver->amaterno}}?',
+                                    'delete_form_{{ $driver->id }}');">
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </a>
                         </form>
@@ -51,7 +48,7 @@
             @empty
                 <h1>No hay conductores</h1>
             @endforelse
-        @if(count($drivers) != 0)
+        @if(count($drivers))
             </tbody>
         </table>
         @endif

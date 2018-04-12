@@ -37,6 +37,7 @@ class DriverRequest extends FormRequest
             'apaterno_cont' => 'required|max:75',
             'amaterno_cont' => 'required|max:75',
             'parentesco_cont' => 'required|max:45',
+            'domicilio_cont' => 'required|max:100',
             'telefono_cont' => 'required|max:12'
         ];
     }
