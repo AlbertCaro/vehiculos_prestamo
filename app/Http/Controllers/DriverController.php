@@ -168,12 +168,12 @@ class DriverController extends Controller
             ->join('licences', 'drivers.id', '=', 'licences.driver_id')
             ->join('contacts', 'drivers.id', '=', 'contacts.driver_id')
             ->join('licence_types', 'licences.licence_types_id', '=', 'licence_types.id')
-            ->select('drivers.*', 'licences.numero as num_licencia', 'licences.archivo', 'licences.vencimiento', 'licence_types.id as tipo', 'contacts.nombre as nombrec', 'contacts.apaterno as apaternoc', 'contacts.amaterno as amaternoc', 'contacts.parentesco', 'contacts.telefono as telefonoc')
+            ->select('drivers.*', 'licences.numero as num_licencia', 'licences.archivo', 'licences.vencimiento', 'licence_types.id as tipo', 'contacts.nombre as nombrec', 'contacts.apaterno as apaternoc', 'contacts.amaterno as amaternoc', 'contacts.parentesco', 'contacts.telefono as telefonoc','contacts.domicilio')
             ->where('drivers.id', 'LIKE', '%' . $term . '%')
             ->get();
         //dd($queries);
         foreach ($queries as $query) {
-            $results[] = ['value' => $query->id, 'dependencia' => $query->dependencies_id, 'nombre' => $query->nombre . ' ' . $query->apaterno . ' ' . $query->amaterno, 'celular' => $query->celular, 'num_licencia' => $query->num_licencia, 'archivo' => $query->archivo, 'vencimiento' => $query->vencimiento, 'tipo' => $query->tipo, 'nombre_contacto' => $query->nombrec . ' ' . $query->apaternoc . ' ' . $query->amaternoc, 'parentesco' => $query->parentesco, 'tel_cont' => $query->telefonoc];
+            $results[] = ['value' => $query->id, 'dependencia' => $query->dependencies_id, 'nombre' => $query->nombre . ' ' . $query->apaterno . ' ' . $query->amaterno, 'celular' => $query->celular, 'num_licencia' => $query->num_licencia, 'archivo' => $query->archivo, 'vencimiento' => $query->vencimiento, 'tipo' => $query->tipo, 'nombre_contacto' => $query->nombrec . ' ' . $query->apaternoc . ' ' . $query->amaternoc, 'parentesco' => $query->parentesco, 'tel_cont' => $query->telefonoc,'domicilio'=>$query->domicilio];
         }
 
         return $results;

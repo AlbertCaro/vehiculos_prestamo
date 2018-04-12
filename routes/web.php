@@ -25,7 +25,9 @@ Route::resource('role', 'RoleController');
 Auth::routes();
 
 Route::get('completa_solicitud',['as'=>'autocompletar','uses'=>'DriverController@autocompletar']);
-
+Route::get('terminos', ['as'=>'terminos', function(){
+    return view('terms_and_Conditions');
+}]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('select_event_type', ['as' => 'select_event', function () {

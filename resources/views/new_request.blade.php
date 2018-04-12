@@ -113,8 +113,11 @@
                                     </div><br>
                                 </div>
                             </div>
+                            <br>
                             <h3>Vehículo propio</h3>
                             <label class="radio-inline" for="rdio4"><input type="checkbox" id="rdio4" name="rdio_disp" value="1"/>En caso de no contar con la disponibilidad de un vehículo oficial, está dispuesto a usar un vehículo propio para hacer el viaje</label><br><br>
+                            <h1>Términos y condiciones</h1>
+                            <p>Al hacer clic en guardar, usted acepta los <a href="{{route('terminos')}}" target="_blank">términos y condiciones</a></p>
                             <input type="submit" class="botones" id="btn_save" name="save_btn" value="Guardar" onclick="return validar()"/>
                         </form>
                     </div>
