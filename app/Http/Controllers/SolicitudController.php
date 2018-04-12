@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Contact;
+use App\Driver;
+use App\Licence;
 use App\Solicitud;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,6 +21,7 @@ class SolicitudController extends Controller
      */
     public function index()
     {
+        $solicitudes = Solicitud::all();
         /*
         $rol = auth()->user()->role;
         dd($rol);
@@ -27,7 +32,8 @@ class SolicitudController extends Controller
             default:
                 "Lo que sea";
         }*/
-        return view('new_request');
+        //dd($solicitudes);
+        return view('solicitudes',compact('solicitudes'));
 
     }
 
@@ -52,7 +58,65 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $conductor = Driver::where('id',$request['txt_codigoC'])->get();
+        $id_conductor = null;
+
+        if(!$conductor){
+            $c = Driver::create([
+                'id'=>$request['txt_codigoC'],
+                'nombre'=>$request['txt_nombreC'],
+                'celular'=>$request['txt_celularC'],
+            ]);
+            $id_conductor = $c->id;
+        }else{
+            $id_conductor = $request['txt_codigoC'];
+        }
+
+        $licencia = Licence::where('numero',$request['txt_licencia'])->get();
+        if(!$licencia){
+            $l = Licence::create([
+                'numero'=>$request['txt_licencia'],
+                'vencimiento'=>$request['txt_venc'],
+                'licence_types_id'=>$request['tipo_licencia'],
+                'driver_id'=>$id_conductor,
+            ]);
+
+        }
+        $contacto = Contact::where('driver_id',$id_conductor)->get();
+        if(!$contacto){
+            $contact = Contact::create([
+                'nombre'=>$request['txt_contacto'],
+                'parentesco'=>$request['txt_parentesco'],
+                'domicilio'=>$request['txt_domicilio'],
+                'telefono'=>$request['txt_telefono'],
+                'driver_id'=>$id_conductor,
+            ]);
+        }
+
+        //if($request->has(''))
+       $sol = Solicitud::create([
+           'nombre_evento'=>$request['txt_nombreE'],
+           'domicilio'=>$request['txt_domicilioE'],
+           'escala'=>$request['slc_escala'],
+           'personas'=>$request['txt_Personas'],
+           'estatus'=>1,
+           'fecha_solicitud'=>Carbon::now(),
+           'fecha_evento'=>$request['txt_fecha'],
+           'fecha_regreso'=>$request['txt_fecha1'],
+           'event_types_id'=>$request['tipo_evento'],
+           'driver_id'=>$id_conductor,
+           'vehicles_id'=>1,
+           'solicitante_id'=>auth()->user()->id,
+           'jefe_id'=>$request['slc_jefe'],
+           'distancia'=>$request['txt_kilometros'],
+
+       ]);
+
+
+
+        alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
+        return redirect()->route('solicitud.index');
     }
 
     /**

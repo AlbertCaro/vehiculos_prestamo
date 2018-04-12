@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/datetimepicker.css') }}">
         <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
         <script type="text/javascript" src="{{ asset('js/causa.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/confirmDel.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
@@ -22,6 +23,7 @@
         <script type="text/javascript" src="{{ asset('js/calendar.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/alberto_methods.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -175,5 +177,6 @@
                 </div>
             </div>
         </footer>
+        @include('sweet::alert')
     </body>
 </html>

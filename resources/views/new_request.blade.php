@@ -8,9 +8,10 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                         <h1 id="pivoteRadios">Haz una nueva solicitud</h1>
-                        <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud" action="" method="post" entype="application/x-www-form-urlencoded"><br>
+                        <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud" action="{{route('solicitud.store')}}" method="post" entype="application/x-www-form-urlencoded"><br>
                             <div class="col-lg-5 col-sm-6">
                                 {{ csrf_field() }}
+                                {{method_field('POST')}}
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="form-group  col-centered">
                                     {{ Form::select('slc_jefe', \App\User::listaByRol('jefe')->pluck('full_name', 'id'), null, Config::get('constants.css.select')) }}
@@ -51,8 +52,8 @@
                                     <input type="text" class="form-control" name="txt_kilometros" id="txt_kilometros" placeholder='Distancia dada en kilometros' required/>
                                 </div><br>
                                 <div class="input-group">
-                                    <span class="input-group-addon">Fecha y hora del evento</span>
-                                    <input class="form-control" type="text" id="fecha_txt" name="txt_fecha" placeholder="Fecha y hora del evento" required/>
+                                    <span class="input-group-addon">Fecha y hora de salida</span>
+                                    <input class="form-control" type="text" id="fecha_txt" name="txt_fecha" placeholder="Fecha y hora de salida" required/>
                                 </div><br>
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de regreso</span>
