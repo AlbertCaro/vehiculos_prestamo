@@ -34,8 +34,8 @@ class SolicitudController extends Controller
         si es jefe, las que le han pedido
         si es coordinador de servicios generales, todas
         */
-        dd($solicitudes);
-        return view('solicitudes',compact('solicitudes'));
+        $title = 'Gestionar solicitudes';
+        return view('solicitudes', compact('solicitudes', 'title'));
 
     }
 

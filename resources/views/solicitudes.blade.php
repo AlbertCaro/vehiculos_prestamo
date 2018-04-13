@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', $title)
+
 @section('content')
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
