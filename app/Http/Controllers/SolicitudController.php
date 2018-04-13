@@ -22,16 +22,19 @@ class SolicitudController extends Controller
     public function index()
     {
         $solicitudes = Solicitud::all();
-        /*
-        $rol = auth()->user()->role;
-        dd($rol);
-        switch ($rol){
-            case 'admin':
+
+
+
+        if(auth()->user()->hasRoles(['admin'])){
+
                 return "una lista con todas las solcitudes hasta ahora";
-                break;
-            default:
-                "Lo que sea";
-        }*/
+
+        }/*
+        Si es solicitante solo las del solicitante
+    si es jefe, las que le han pedido
+    si es coordinador de servicios generales, todas
+
+    */
         //dd($solicitudes);
         return view('solicitudes',compact('solicitudes'));
 
@@ -61,8 +64,8 @@ class SolicitudController extends Controller
 
         $conductor = Driver::where('id',$request['txt_codigoC'])->get();
         $id_conductor = null;
-
-        if(!$conductor){
+        //dd($conductor);
+        if($conductor->isEmpty()){
             $c = Driver::create([
                 'id'=>$request['txt_codigoC'],
                 'nombre'=>$request['txt_nombreC'],
@@ -74,7 +77,7 @@ class SolicitudController extends Controller
         }
 
         $licencia = Licence::where('numero',$request['txt_licencia'])->get();
-        if(!$licencia){
+        if($licencia->isEmpty()){
             $l = Licence::create([
                 'numero'=>$request['txt_licencia'],
                 'vencimiento'=>$request['txt_venc'],
@@ -84,7 +87,7 @@ class SolicitudController extends Controller
 
         }
         $contacto = Contact::where('driver_id',$id_conductor)->get();
-        if(!$contacto){
+        if($contacto->isEmpty()){
             $contact = Contact::create([
                 'nombre'=>$request['txt_contacto'],
                 'parentesco'=>$request['txt_parentesco'],
@@ -117,6 +120,7 @@ class SolicitudController extends Controller
 
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
+
         return redirect()->route('solicitud.index');
     }
 
