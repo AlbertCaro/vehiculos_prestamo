@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'Inicio')
+
 @section('content')
     <a  name="fujo"></a>
     <div class="content-section-a">

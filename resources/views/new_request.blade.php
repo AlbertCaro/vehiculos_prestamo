@@ -29,7 +29,7 @@
                                 <div class="form-group  col-centered">
                                     {{ Form::select('categoria_evento', \App\Category::all(['id', 'nombre'])->pluck('nombre','id'), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
                                 </div><br>
-                                <div id="resultados" class="form-group  col-centered">
+                                <div id="select_tipo" class="form-group  col-centered">
                                 </div><br>
                                 <div id="otro" class="form-group  col-centered">
                                 </div><br>
@@ -165,17 +165,13 @@
             data:{"category" : $("#categoria_evento").val()},
             type:'post',
             beforeSend:function () {
-                $("#resultados").html("<span>Enviando información</span>");
+                $("#select_tipo").html("<span>Enviando información</span>");
             },
             url: '{{ route('select_event') }}',
             success:function(response) {
-                $("#resultados").html(response);
+                $("#select_tipo").html(response);
             }
         });
     }
-
-    $(document).ready(function () {
-        window.setTimeout("fadeMessage();", 1500);
-    });
 
 </script>

@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    window.setTimeout("fadeMessage();", 1500);
+});
+
 function fadeMessage() {
     $("#message").fadeOut('slow');
 }
@@ -21,3 +25,7 @@ function deleteElement(message, id) {
         document.getElementById(id).submit();
     });
 }
+
+$(document).ready(function () {
+    window.setTimeout("generarSelect();", 0);
+});
