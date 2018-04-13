@@ -14,7 +14,7 @@
                                 {{method_field('POST')}}
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="form-group  col-centered">
-                                    {{ Form::select('slc_jefe', \App\User::listaByRol('jefe')->pluck('full_name', 'id'), null, Config::get('constants.css.select')) }}
+                                    {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(), null, Config::get('constants.css.select')) }}
                                 </div><br>
                                 <h3>Detalles del evento:</h3>
                                 <div class="input-group">
@@ -27,9 +27,9 @@
                                 </div><br>
                                 <h5>Categoría del evento</h5>
                                 <div class="form-group  col-centered">
-                                    {{ Form::select('categoria_evento', \App\Category::all(['id', 'nombre'])->pluck('nombre','id'), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
+                                    {{ Form::select('categoria_evento', ['' => '- Seleccione una opción -'] + \App\Category::all(['id', 'nombre'])->pluck('nombre','id')->toArray(), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
                                 </div><br>
-                                <div id="resultados" class="form-group  col-centered">
+                                <div id="select_tipo" class="form-group  col-centered">
                                 </div><br>
                                 <div id="otro" class="form-group  col-centered">
                                 </div><br>
@@ -92,7 +92,7 @@
                                     </div>
                                     <h5>Tipo de licencia</h5>
                                     <div class="form-group  col-centered">
-                                        {{ Form::select('tipo_licencia', \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id'), null, ['class' => 'form-control','id'=>'tipo_licencia']) }}
+                                        {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), null, ['class' => 'form-control','id'=>'tipo_licencia']) }}
                                     </div><br>
 
                                     <h4>Contacto para casos de emergencia</h4>
@@ -114,8 +114,8 @@
                                     </div><br>
                                 </div>
                             </div>
-                            <br>
-                            <h3>Vehículo propio</h3>
+                            <br/>
+                            <h3 class="center-text">Vehículo propio</h3>
                             <label class="radio-inline" for="rdio4"><input type="checkbox" id="rdio4" name="rdio_disp" value="1"/>En caso de no contar con la disponibilidad de un vehículo oficial, está dispuesto a usar un vehículo propio para hacer el viaje</label><br><br>
                             <h1>Términos y condiciones</h1>
                             <p>Al hacer clic en guardar, usted acepta los <a href="{{route('terminos')}}" target="_blank">términos y condiciones</a></p>
@@ -165,17 +165,13 @@
             data:{"category" : $("#categoria_evento").val()},
             type:'post',
             beforeSend:function () {
-                $("#resultados").html("<span>Enviando información</span>");
+                $("#select_tipo").html("<span>Enviando información</span>");
             },
             url: '{{ route('select_event') }}',
             success:function(response) {
-                $("#resultados").html(response);
+                $("#select_tipo").html(response);
             }
         });
     }
-
-    $(document).ready(function () {
-        window.setTimeout("fadeMessage();", 1500);
-    });
 
 </script>

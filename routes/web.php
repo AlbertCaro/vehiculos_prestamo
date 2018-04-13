@@ -31,8 +31,12 @@ Route::get('terminos', ['as'=>'terminos', function(){
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('select_event_type', ['as' => 'select_event', function () {
-    $list = DB::table('event_types')
-        ->where('categories_id','=',request()->category)
-        ->get()->pluck('nombre','id');
+    if(request()->category != '') {
+        $list = DB::table('event_types')
+            ->where('categories_id','=',request()->category)
+            ->get()->pluck('nombre','id');
+    } else
+        $list = null;
+
     return view('select_event_types', compact('list'));
 }]);

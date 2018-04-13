@@ -41,16 +41,19 @@
                             </a>
                             <input name="_method" type="hidden" value="DELETE">
                             {{ csrf_field() }}
-                            <a href='' onclick="deleteElement(
-                                '¿Está seguro de querer eliminar al conductor {{$driver->nombre}} {{$driver->apaterno}} {{$driver->amaterno}}?',
-                                    'delete_form_{{ $driver->id }}');">
+                            <a href='' onclick="
+                                    deleteElement(
+                                        '¿Está seguro de querer eliminar al conductor {{$driver->nombre}} {{$driver->apaterno}} {{$driver->amaterno}}?',
+                                        'delete_form_{{ $driver->id }}');
+                                    ">
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </a>
                         </form>
                     </td>
                 </tr>
             @empty
-                <h1>No hay conductores</h1>
+                <h3 class="center-text">No hay conductores</h3>
+                <br/>
             @endforelse
         @if(count($drivers))
             </tbody>
