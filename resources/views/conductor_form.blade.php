@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', $title)
+@section('title', $title) {{-- El título de la página, obtenido desde el controlador. --}}
 
 @section('content')
     <br><br>
@@ -25,8 +25,13 @@
                 <span class="input-group-addon">Código</span>
                 <input type="number" class="form-control" name="codigo" placeholder="Código" maxlength="10"
                        onfocus="hideError('codigo')"
+                       {{-- Si se tiene un error se pone como valor lo que se había introducido en el input anteriormente --}}
                        @if(count($errors)) value="{{ old('codigo') }}"
+                       {{-- Cuando se entra en show o edit se crea el objeto driver, de manera que si no hay error y se entró
+                       para editar o ver se llena el formulario con los datos del registro de la base de datos. --}}
                        @elseif(!@empty($driver)) value="{{ $driver->id }}" @endif
+                       {{-- La variable show determina si se entró para sólo visualizar, de manera que si está seteada
+                       se deshabilitan los campos para no editar. --}}
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_codigo">
@@ -78,8 +83,20 @@
             </div><br/>
             <h5>Dependencia</h5>
             <div class="form-group col-centered">
+                {{-- Cuando se entra desde show o update la variable dependence es el id de la dependencia, pero si se entra
+                desde create dicha variable no está definida, así que las condicionales de abajo definen el valor que tendrá.
+
+                Cuando se tiene un error, la variable dependence toma el valor de lo que había antes de intentar guardar con el error --}}
                 @if(count($errors))  @php $dependence = old('dependencia'); @endphp
+                {{-- Si no está seteada, cuando se entraba desde create, se instancia como nula para que se seleccione la
+                 primera opción por defecto --}}
                 @elseif(!@isset($dependence)) @php $dependence = null; @endphp @endif
+                {{-- La función select requiere como parámetros lo siguiente:
+                 Una cadena que corresponderá al id del select.
+                 Un arreglo dónde la clave es el id y el valor es el nombre, además de que se le añade una opción vacía.
+                 La variable dependence que determinará que opción está seleccionada.
+                 Otro arreglo correspondiente a los demás atributos que tendrá el select.
+                 --}}
                 {{ Form::select('dependencia', ['' => '- Seleccione una opción -'] + \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id')->toArray(),
                 $dependence, $select_attribs + ['onfocus' => 'hideError(\'dependencia\')']) }}
             </div>
@@ -187,6 +204,7 @@
             <div id="error_telefono_contt">
                 {!! $errors->first('telefono_cont','<span class="alert-danger">:message</span></br>') !!}
             </div><br/>
+            {{-- Dependiendo de la variable show se decide si mostrar el botón de editar o el de guardar. --}}
             @if(@isset($show))
                 <a href='{{ route('conductor.edit', $driver->id) }}'>
                     <button type="button" class="botones">Editar</button>

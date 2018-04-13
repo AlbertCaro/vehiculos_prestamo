@@ -1,3 +1,6 @@
+/**
+ * Función para comenzar a ocultar el div de mensaje cuando la página esté lista
+ */
 $(document).ready(function () {
     window.setTimeout("fadeMessage();", 1500);
 });
@@ -6,6 +9,10 @@ function fadeMessage() {
     $("#message").fadeOut('slow');
 }
 
+/**
+ * Recibe el id del input, para así determinar el div que se ocultará al hacer focus en el input
+ * @param field El id
+ */
 function hideError(field) {
     $("#error_"+field).fadeOut('fast');
 }

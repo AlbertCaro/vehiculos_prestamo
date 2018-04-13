@@ -156,13 +156,11 @@
 
     function generarSelect() {
         $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
         });
 
         $.ajax({
-            data:{"category" : $("#categoria_evento").val()},
+            data:{ "category" : $("#categoria_evento").val() },
             type:'post',
             beforeSend:function () {
                 $("#select_tipo").html("<span>Enviando información</span>");
