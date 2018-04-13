@@ -37,15 +37,16 @@ class Solicitud extends Model
         $this->hasMany(Driver::class);
     }
     public function setFechaSolicitudAttribute($value){
-        $this->attributes['fecha_solicitud'] = Carbon::parse($value);
+       // dd($value);
+        $this->attributes['fecha_solicitud'] = Carbon::parse(strtotime($value.':00'));
     }
     public function setFechaEventoAttribute($value){
-        $this->attributes['fecha_evento'] = Carbon::parse($value);
+        $this->attributes['fecha_evento'] = Carbon::parse(strtotime($value));
     }
     public function setFechaRespuestaAttribute($value){
-        $this->attributes['fecha_respuesta'] = Carbon::parse($value);
+        $this->attributes['fecha_respuesta'] = Carbon::parse(strtotime($value));
     }
     public function setFechaRegresoAttribute($value){
-        $this->attributes['fecha_regreso'] = Carbon::parse($value);
+        $this->attributes['fecha_regreso'] = Carbon::parse(strtotime($value));
     }
 }

@@ -95,6 +95,7 @@ class SolicitudController extends Controller
         }
 
         //if($request->has(''))
+        //dd($request['txt_fecha'].':00');
        $sol = Solicitud::create([
            'nombre_evento'=>$request['txt_nombreE'],
            'domicilio'=>$request['txt_domicilioE'],
