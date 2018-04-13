@@ -1,10 +1,10 @@
 /**
  * Función para comenzar a ocultar el div de mensaje cuando la página esté lista
- */
-$(document).ready(function () {
-    window.setTimeout("fadeMessage();", 1500);
-});
 
+$(document).ready(function () {
+    window.setTimeout("fadeMessage();", 3000);
+});
+*/
 function fadeMessage() {
     $("#message").fadeOut('slow');
 }
@@ -32,7 +32,8 @@ function deleteElement(message, id) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33333',
-        confirmButtonText: 'Eliminar'
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar'
     }, function() {
         document.getElementById(id).submit();
     });

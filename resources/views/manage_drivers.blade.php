@@ -15,10 +15,11 @@
         --}}
         @if (session('alert'))
             <div id="message" class="alert alert-success">
+                <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
                 {{ session('alert') }}
             </div>
         @endif
-        {{-- Uso count para determinar si drivers está vacío o no --}}}
+        {{-- Uso count para determinar si drivers está vacío o no --}}
         @if(count($drivers))
         <table class="table-fill">
             <thead>
