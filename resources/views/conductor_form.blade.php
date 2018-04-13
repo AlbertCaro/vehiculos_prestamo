@@ -18,6 +18,7 @@
             <hr class="intro-divider">
             @if (count($errors))
                 <div id="message" class="alert alert-danger">
+                    <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
                     <span>Ha dejado campos vacíos o introdujo datos erróneos</span>
                 </div>
             @endif
@@ -45,6 +46,9 @@
                        @elseif(!@empty($driver)) value="{{ $driver->nombre }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
+            {{-- Los spans que contienen los errores deberán estar dentro de un div para que se oculte correctamente,
+             dicho div deberá comenzar siempre con "error_" y terminar con el nombre del input. Como abajo que se
+             muestra "error_nombre", esto para que funcione la función de JavaScript "hideError()" --}}
             <div id="error_nombre">
                 {!! $errors->first('nombre','<span class="alert-danger">:message</span></br>') !!}
             </div><br/>
