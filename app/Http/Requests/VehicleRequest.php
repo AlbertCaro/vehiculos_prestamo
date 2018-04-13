@@ -26,7 +26,7 @@ class VehicleRequest extends FormRequest
         return [
             'placas'=>'required',
             'modelo'=>'required',
-            'capacidad'=>'required'
+            'capacidad'=>'required|integer|not_in:0'
         ];
     }
 }
