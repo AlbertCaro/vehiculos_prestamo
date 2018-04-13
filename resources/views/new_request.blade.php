@@ -81,6 +81,12 @@
                                         <span class="input-group-addon">Celular</span>
                                         <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular' required/>
                                     </div><br>
+                                    <h5>Dependencia</h5>
+                                    <div class="form-group  col-centered">
+                                        {{ Form::select('dependencia', ['' => '- Seleccione una opción -'] + \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id')->toArray(),
+                                        null, ['class' => 'form-control','id'=>'dependencia', 'onfocus' => 'hideError(\'dependencia\')']) }}
+                                    </div><br>
+
                                     <h4>Detalles de la licencia</h4>
                                     <div class="input-group">
                                         <span class="input-group-addon">Licencia</span>
@@ -156,7 +162,8 @@
 
     function generarSelect() {
         $.ajaxSetup({
-            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
         });
 
         $.ajax({

@@ -22,21 +22,19 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        $solicitudes = Solicitud::all();
-
-
-
-        if(auth()->user()->hasRoles(['admin'])){
-
-                return "una lista con todas las solcitudes hasta ahora";
-
-        }/*
+        if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales'])){
+            $solicitudes = Solicitud::all();
+        } elseif (auth()->user()->hasRoles(['solicitante'])) {
+            $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
+        } elseif (auth()->user()->hasRoles(['jefe'])) {
+            $solicitudes = Solicitud::all()->where('jefe_id', auth()->user()->id);
+        }
+        /*
         Si es solicitante solo las del solicitante
-    si es jefe, las que le han pedido
-    si es coordinador de servicios generales, todas
-
-    */
-        //dd($solicitudes);
+        si es jefe, las que le han pedido
+        si es coordinador de servicios generales, todas
+        */
+        dd($solicitudes);
         return view('solicitudes',compact('solicitudes'));
 
     }
@@ -62,15 +60,15 @@ class SolicitudController extends Controller
      */
     public function store(GuardaSolicitudRequest $request)
     {
-
         $conductor = Driver::where('id',$request['txt_codigoC'])->get();
         $id_conductor = null;
         //dd($conductor);
         if($conductor->isEmpty()){
-            $c = Driver::create([
+            $c = (new \App\Driver)->create([
                 'id'=>$request['txt_codigoC'],
                 'nombre'=>$request['txt_nombreC'],
                 'celular'=>$request['txt_celularC'],
+                'dependencies_id' => $request['dependencia']
             ]);
             $id_conductor = $c->id;
         }else{
@@ -79,7 +77,7 @@ class SolicitudController extends Controller
 
         $licencia = Licence::where('numero',$request['txt_licencia'])->get();
         if($licencia->isEmpty()){
-            $l = Licence::create([
+            $l = (new \App\Licence)->create([
                 'numero'=>$request['txt_licencia'],
                 'vencimiento'=>$request['txt_venc'],
                 'licence_types_id'=>$request['tipo_licencia'],
@@ -89,7 +87,7 @@ class SolicitudController extends Controller
         }
         $contacto = Contact::where('driver_id',$id_conductor)->get();
         if($contacto->isEmpty()){
-            $contact = Contact::create([
+            $contact = (new \App\Contact)->create([
                 'nombre'=>$request['txt_contacto'],
                 'parentesco'=>$request['txt_parentesco'],
                 'domicilio'=>$request['txt_domicilio'],
@@ -100,7 +98,7 @@ class SolicitudController extends Controller
 
         //if($request->has(''))
         //dd($request['txt_fecha'].':00');
-       $sol = Solicitud::create([
+       $sol = (new \App\Solicitud)->create([
            'nombre_evento'=>$request['txt_nombreE'],
            'domicilio'=>$request['txt_domicilioE'],
            'escala'=>$request['slc_escala'],
