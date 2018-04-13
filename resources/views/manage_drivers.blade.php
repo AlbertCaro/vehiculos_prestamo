@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', $title)
+@section('title', $title) {{-- Aquí se recibe el título determinado desde cada método en el controlador.  --}}
 
 @section('content')
     <link rel="stylesheet" href="css/tabla.css">
@@ -9,11 +9,16 @@
         <br/>
         <h1 class="center-text">{{ $title }}</h1>
         <br/>
+        {{--
+        Si enviaste la alerta con with, cuando se realizó un cambio, se muestra el div con la alerta.
+        Dicho div se oculta con AJAX, cosa que no necesitas hacer siempre y cuando el div tenga "message" como id.
+        --}}
         @if (session('alert'))
             <div id="message" class="alert alert-success">
                 {{ session('alert') }}
             </div>
         @endif
+        {{-- Uso count para determinar si drivers está vacío o no --}}}
         @if(count($drivers))
         <table class="table-fill">
             <thead>
@@ -37,12 +42,12 @@
                                 <button type="button" class="btn btn-info">Detalles</button>
                             </a>
                             <a href='{{ route('conductor.edit', $driver->id) }}'>
-                                <button id="delete_button" type="button" class="btn btn-success">Editar</button>
+                                <button type="button" class="btn btn-success">Editar</button>
                             </a>
                             <input name="_method" type="hidden" value="DELETE">
                             {{ csrf_field() }}
                             <a href='' onclick="
-                                    deleteElement(
+                                    deleteElement( //Ir a /public/js/messages_methods.js para saber como funciona esta función
                                         '¿Está seguro de querer eliminar al conductor {{$driver->nombre}} {{$driver->apaterno}} {{$driver->amaterno}}?',
                                         'delete_form_{{ $driver->id }}');
                                     ">

@@ -23,7 +23,7 @@ class DriverController extends Controller
     public function index()
     {
         $drivers = Driver::all();
-        $title = 'Gestionar conductores';
+        $title = 'Gestionar conductores'; //Título de la página
         return view('manage_drivers', compact('drivers', 'title'));
     }
 
@@ -34,7 +34,7 @@ class DriverController extends Controller
      */
     public function create()
     {
-        $select_attribs = ['class' => 'form-control'];
+        $select_attribs = ['class' => 'form-control']; //Atributos base del select
         $title = 'Agregar conductor';
         return view('conductor_form', compact('select_attribs', 'title'));
     }
@@ -75,7 +75,8 @@ class DriverController extends Controller
             'driver_id' => $request['codigo']
         ]);
 
-        return redirect()->route('conductor.index')->with('alert','Conductor agregado correctamente.');
+        //Retornamos vista con with() para mostrar un div de mensaje después de un cambio realizado
+        return redirect()->route('conductor.index')->with('alert', 'Conductor agregado correctamente.');
     }
 
     /**
@@ -87,11 +88,11 @@ class DriverController extends Controller
     public function show($id)
     {
         $driver = Driver::findOrFail($id);
-        $licence_type = $driver->licence->licence_types_id;
-        $dependence = $driver->dependencies_id;
-        $select_attribs = ['class' => 'form-control', 'disabled' => ''];
-        $show = true;
-        $title = 'Detalles del conductor';
+        $licence_type = $driver->licence->licence_types_id; //Se obtiene id de la licencia para mostrarse en el select
+        $dependence = $driver->dependencies_id; //Lo mismo que la de arriba, pero para la dependencia
+        $select_attribs = ['class' => 'form-control', 'disabled' => '']; //Atributos base que tendrá el select, tiene disabled para deshabilitar el select
+        $show = true; //Variable que determina si se deshabilitarán los campos para sólo mostrar los datos, además de cambiar del botón
+        $title = 'Detalles del conductor'; //Título de la página
         return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'show', 'select_attribs', 'title'));
     }
 
@@ -105,10 +106,10 @@ class DriverController extends Controller
     {
         //Añadido, podemos buscar mediante el método find que recibe como parámetro el id de la clase.
         $driver = Driver::findOrFail($id); //con findOrFail retorna un 404
-        $licence_type = $driver->licence->licence_types_id;
-        $dependence = $driver->dependencies_id;
-        $select_attribs = ['class' => 'form-control'];
-        $title = 'Editar conductor';
+        $licence_type = $driver->licence->licence_types_id; //Se obtiene id de la licencia para mostrarse en el select
+        $dependence = $driver->dependencies_id; //Lo mismo que la de arriba, pero para la dependencia
+        $select_attribs = ['class' => 'form-control']; //Atributos base que tendrá el select
+        $title = 'Editar conductor'; //Título de la página
         return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'select_attribs', 'title'));
     }
 
@@ -146,6 +147,7 @@ class DriverController extends Controller
             'telefono' => $request['telefono_cont'],
             'domicilio' => $request['domicilio_cont']
         ]);
+        //Retornamos vista con with() para mostrar un div de mensaje después de un cambio realizado
         return redirect()->route('conductor.index')->with('alert', 'Información del conductor actualizada correctamente.');
     }
 
@@ -161,6 +163,7 @@ class DriverController extends Controller
         $driver->licence->delete();
         $driver->contact->delete();
         $driver->delete();
+        //Retornamos vista con with() para mostrar un div de mensaje después de un cambio realizado
         return redirect()->route('conductor.index')->with('alert','Conductor eliminado correctamente.');
     }
 
@@ -173,12 +176,22 @@ class DriverController extends Controller
             ->join('licences', 'drivers.id', '=', 'licences.driver_id')
             ->join('contacts', 'drivers.id', '=', 'contacts.driver_id')
             ->join('licence_types', 'licences.licence_types_id', '=', 'licence_types.id')
-            ->select('drivers.*', 'licences.numero as num_licencia', 'licences.archivo', 'licences.vencimiento', 'licence_types.id as tipo', 'contacts.nombre as nombrec', 'contacts.apaterno as apaternoc', 'contacts.amaterno as amaternoc', 'contacts.parentesco', 'contacts.telefono as telefonoc','contacts.domicilio')
+            ->select('drivers.*', 'licences.numero as num_licencia', 'licences.archivo', 'licences.vencimiento',
+                'licence_types.id as tipo', 'contacts.nombre as nombrec', 'contacts.apaterno as apaternoc',
+                'contacts.amaterno as amaternoc', 'contacts.parentesco', 'contacts.telefono as telefonoc',
+                'contacts.domicilio')
             ->where('drivers.id', 'LIKE', '%' . $term . '%')
             ->get();
         //dd($queries);
         foreach ($queries as $query) {
-            $results[] = ['value' => $query->id, 'dependencia' => $query->dependencies_id, 'nombre' => $query->nombre . ' ' . $query->apaterno . ' ' . $query->amaterno, 'celular' => $query->celular, 'num_licencia' => $query->num_licencia, 'archivo' => $query->archivo, 'vencimiento' => $query->vencimiento, 'tipo' => $query->tipo, 'nombre_contacto' => $query->nombrec . ' ' . $query->apaternoc . ' ' . $query->amaternoc, 'parentesco' => $query->parentesco, 'tel_cont' => $query->telefonoc,'domicilio'=>$query->domicilio];
+            $results[] = [
+                'value' => $query->id,
+                'dependencia' => $query->dependencies_id,
+                'nombre' => $query->nombre . ' ' . $query->apaterno . ' ' . $query->amaterno, 'celular' => $query->celular,
+                'num_licencia' => $query->num_licencia, 'archivo' => $query->archivo, 'vencimiento' => $query->vencimiento,
+                'tipo' => $query->tipo, 'nombre_contacto' => $query->nombrec . ' ' . $query->apaternoc . ' ' . $query->amaternoc,
+                'parentesco' => $query->parentesco, 'tel_cont' => $query->telefonoc,'domicilio'=>$query->domicilio
+            ];
         }
 
         return $results;
