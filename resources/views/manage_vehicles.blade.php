@@ -8,25 +8,21 @@
     <div class="limit">
         <h1 class="center-text">{{$title}}</h1>
         <br/>
-
         @if (session('alert'))
             <div id="message" class="alert alert-success">
                 {{ session('alert') }}
             </div>
         @endif
-
-        @if(count($vehicles))
-            <table class="table-fill">
-                <thead>
-                <tr>
-                    <th>Placas</th>
-                    <th>Modelo</th>
-                    <th>Capacidad</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody class="table-hover">
-            @endif
+         <table class="table-fill">
+             <thead>
+             <tr>
+                 <th>Placas</th>
+                 <th>Modelo</th>
+                 <th>Capacidad</th>
+                 <th>Acciones</th>
+             </tr>
+             </thead>
+             <tbody class="table-hover">
             @forelse($vehicles as $vehicle)
                 <tr>
                     <td>{{$vehicle->placas}}</td>
@@ -43,6 +39,7 @@
                             </a>
                             <input name="_method" type="hidden" value="DELETE">
                             {{ csrf_field() }}
+                            <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
                             <a href='' onclick="
                                     deleteElement( //Ir a /public/js/messages_methods.js para saber como funciona esta función
                                     '¿Está seguro de querer eliminar el vehiculo {{$vehicle->id}} con las placas {{$vehicle->placas}}?',
@@ -54,12 +51,11 @@
                     </td>
                 </tr>
                 @empty
-                <h3 class="text-center">No hay vehiculos</h3>
-                <br/>
+                <tr>
+                    <td colspan="6">No hay solicitudes</td>
+                </tr>
                 @endforelse
-            @if(count($vehicles))
             </tbody>
         </table>
-        @endif
     </div><br>
 @stop
