@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Contact;
 use App\Driver;
+use App\Http\Requests\GuardaSolicitudRequest;
 use App\Licence;
 use App\Solicitud;
 use App\User;
@@ -59,7 +60,7 @@ class SolicitudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GuardaSolicitudRequest $request)
     {
 
         $conductor = Driver::where('id',$request['txt_codigoC'])->get();
