@@ -30,7 +30,3 @@ function deleteElement(message, id) {
         document.getElementById(id).submit();
     });
 }
-
-$(document).ready(function () {
-    window.setTimeout("generarSelect();", 0);
-});

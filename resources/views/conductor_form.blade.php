@@ -80,7 +80,7 @@
             <div class="form-group col-centered">
                 @if(count($errors))  @php $dependence = old('dependencia'); @endphp
                 @elseif(!@isset($dependence)) @php $dependence = null; @endphp @endif
-                {{ Form::select('dependencia', \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id'),
+                {{ Form::select('dependencia', ['' => '- Seleccione una opción -'] + \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id')->toArray(),
                 $dependence, $select_attribs + ['onfocus' => 'hideError(\'dependencia\')']) }}
             </div>
             <div id="error_dependencia">
@@ -114,7 +114,7 @@
             <div class="form-group col-centered">
                 @if(count($errors)) @php $licence_type = old('tipo_licencia'); @endphp
                 @elseif(!@isset($dependence)) @php $licence_type = null; @endphp @endif
-                {{ Form::select('tipo_licencia', \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id'),
+                {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(),
                 $licence_type, $select_attribs + ['onfocus' => 'hideError(\'tipo_licencia\')']) }}
             </div>
             <div id="error_tipo_licencia">
