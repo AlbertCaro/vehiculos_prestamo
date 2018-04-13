@@ -24,7 +24,7 @@ class GuardaSolicitudRequest extends FormRequest
     public function rules()
     {
         return [
-            'txt_codigo'=>'required',
+            'txt_codigoC'=>'required',
             'txt_nombreC'=>'required',
             'txt_celularC'=>'required',
             'txt_licencia'=>'required',

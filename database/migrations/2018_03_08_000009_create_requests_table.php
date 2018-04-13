@@ -34,8 +34,6 @@ class CreateRequestsTable extends Migration
             $table->integer('solicitante_id');
             $table->integer('vehicles_id');
             $table->integer('jefe_id');
-
-
         });
     }
 
