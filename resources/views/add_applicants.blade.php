@@ -6,6 +6,9 @@
  * Time: 15:28
  */ ?>
 @extends('layout')
+
+<!-- TODO: Implementar aquí directiva section para 'title', así se mostrará el nombre corrercto de la vista en el título -->
+
 @section('content')
     <br><br>
     <div class="form_wh formCenter">

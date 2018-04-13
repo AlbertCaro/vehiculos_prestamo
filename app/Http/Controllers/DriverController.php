@@ -23,7 +23,8 @@ class DriverController extends Controller
     public function index()
     {
         $drivers = Driver::all();
-        return view('manage_drivers', compact('drivers'));
+        $title = 'Gestionar conductores';
+        return view('manage_drivers', compact('drivers', 'title'));
     }
 
     /**
@@ -34,7 +35,8 @@ class DriverController extends Controller
     public function create()
     {
         $select_attribs = ['class' => 'form-control'];
-        return view('add_conductor', compact('select_attribs'));
+        $title = 'Agregar conductor';
+        return view('conductor_form', compact('select_attribs', 'title'));
     }
 
     /**
@@ -89,7 +91,8 @@ class DriverController extends Controller
         $dependence = $driver->dependencies_id;
         $select_attribs = ['class' => 'form-control', 'disabled' => ''];
         $show = true;
-        return view('add_conductor', compact('driver', 'licence_type', 'dependence', 'show', 'select_attribs'));
+        $title = 'Detalles del conductor';
+        return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'show', 'select_attribs', 'title'));
     }
 
     /**
@@ -105,7 +108,8 @@ class DriverController extends Controller
         $licence_type = $driver->licence->licence_types_id;
         $dependence = $driver->dependencies_id;
         $select_attribs = ['class' => 'form-control'];
-        return view('add_conductor', compact('driver', 'licence_type', 'dependence', 'select_attribs'));
+        $title = 'Editar conductor';
+        return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'select_attribs', 'title'));
     }
 
     /**
@@ -142,7 +146,7 @@ class DriverController extends Controller
             'telefono' => $request['telefono_cont'],
             'domicilio' => $request['domicilio_cont']
         ]);
-        return redirect()->route('conductor.index')->with('alert','Información del conductor actualizada correctamente.');
+        return redirect()->route('conductor.index')->with('alert', 'Información del conductor actualizada correctamente.');
     }
 
     /**

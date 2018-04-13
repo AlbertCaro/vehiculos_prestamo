@@ -155,9 +155,6 @@
     }
 
     function generarSelect() {
-        var params = {
-            "category" : $("#categoria_evento").val()
-        };
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -165,17 +162,20 @@
         });
 
         $.ajax({
-            data:params,
+            data:{"category" : $("#categoria_evento").val()},
             type:'post',
             beforeSend:function () {
                 $("#resultados").html("<span>Enviando información</span>");
             },
             url: '{{ route('select_event') }}',
             success:function(response) {
-                console.log(response);
                 $("#resultados").html(response);
             }
         });
     }
+
+    $(document).ready(function () {
+        window.setTimeout("fadeMessage();", 1500);
+    });
 
 </script>

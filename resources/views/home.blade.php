@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+<!-- TODO: Implementar aquí directiva section para 'title', así se mostrará el nombre corrercto de la vista en el título -->
+
 @section('content')
 <div class="container">
     <div class="row">

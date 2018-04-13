@@ -1,10 +1,14 @@
 @extends('layout')
 
+@section('title', $title)
+
 @section('content')
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
     <div class="limit">
-        <h3 class="center-text">Conductores</h3>
+        <br/>
+        <h1 class="center-text">{{ $title }}</h1>
+        <br/>
         @if (session('alert'))
             <div id="message" class="alert alert-success">
                 {{ session('alert') }}
@@ -33,7 +37,7 @@
                                 <button type="button" class="btn btn-info">Detalles</button>
                             </a>
                             <a href='{{ route('conductor.edit', $driver->id) }}'>
-                                <button type="button" class="btn btn-success">Editar</button>
+                                <button id="delete_button" type="button" class="btn btn-success">Editar</button>
                             </a>
                             <input name="_method" type="hidden" value="DELETE">
                             {{ csrf_field() }}

@@ -1,5 +1,7 @@
 @extends('layout')
 
+<!-- TODO: Implementar aquí directiva section para 'title', así se mostrará el nombre corrercto de la vista en el título -->
+
 @section('content')
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

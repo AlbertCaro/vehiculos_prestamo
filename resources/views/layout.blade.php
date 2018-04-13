@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Sitio para préstamo de vehículos CUValles">
         <meta name="author" content="UMI CUValles">
-        <title>Préstamo de vehículos CUValles</title>
+        <title>@yield('title') - Préstamo de vehículos CUValles</title>
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/landing-page.css') }}" rel="stylesheet">
         <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -22,8 +22,6 @@
         <script type="text/javascript" src="{{ asset('js/datetimepicker.full.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/calendar.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/alberto_methods.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/sweetalert.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     </head>
     <body>
@@ -55,7 +53,7 @@
                             </li>
                         @else
                             <li>
-                                <a href='{{route('solicitud.create')}}'>Solicitar</a>
+                                <a href='{{ route('solicitud.create' )}}'>Solicitar</a>
 
                             </li>
                             <li>
@@ -180,4 +178,5 @@
         </footer>
         @include('sweet::alert')
     </body>
+    <script type="text/javascript" src="{{ asset('js/message_methods.js') }}"></script>
 </html>
