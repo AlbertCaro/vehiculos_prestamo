@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VehicleRequest;
 use App\Vehicle;
 use Illuminate\Http\Request;
 
 
 class VehicleController extends Controller
 {
-    public function validateForm(Request $request){
-        $this->validate($request,[
-            'placas'=>'required',
-            'modelo'=>'required',
-            'capacidad'=>'required'
-        ]);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +17,8 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles=Vehicle::all();
-        return view("manage_vehicles", compact('vehicles'));
+        $title = 'Gestionar vehiculos'; //Título de la página
+        return view("manage_vehicles", compact('vehicles', 'title'));
     }
 
     /**
@@ -33,7 +28,8 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        return view("add_vehicles");
+        $title = 'Agregar vehiculo';
+        return view("add_vehicles", compact('title'));
     }
 
     /**
@@ -42,9 +38,8 @@ class VehicleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VehicleRequest $request)
     {
-        $this->validateForm($request);
         $vehicles = Vehicle::create([
             'placas'=>$request['placas'],
             'nombre'=>$request['modelo'],
@@ -53,7 +48,7 @@ class VehicleController extends Controller
         ]);
 
 
-        return redirect()->route('vehiculo.index');
+        return redirect()->route('vehiculo.index')->with('alert', 'Vehiculo agregado correctamente');
     }
 
     /**
@@ -62,9 +57,12 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function show(Vehicle $vehicle)
+    public function show($id)
     {
-        //
+        $vehicle = Vehicle::findOrFail($id);
+        $title = 'Detalles del vehiculo';
+        $show = true;
+        return view('add_vehicles', compact('vehicle', 'placas', 'nombre', 'capacidad', 'show', 'title'));
     }
 
     /**
@@ -76,7 +74,8 @@ class VehicleController extends Controller
     public function edit($id)
     {
         $vehicle = Vehicle::findOrFail($id);
-        return view('add_vehicles', compact('vehicle'));
+        $title = 'Editar conductor';
+        return view('add_vehicles', compact('vehicle', 'title'));
     }
 
     /**
@@ -86,16 +85,15 @@ class VehicleController extends Controller
      * @param  \App\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VehicleRequest $request, $id)
     {
-        $this->validateForm($request);
         $vehiculo = Vehicle::findOrFail($id);
         $vehiculo->update([
             'placas'=>$request['placas'],
             'nombre'=>$request['modelo'],
             'capacidad'=>$request['capacidad'],
         ]);
-        return redirect()->route('vehiculo.index');
+        return redirect()->route('vehiculo.index')->with('alert', 'Información del vehiculos actualizada correctamente.');
     }
 
     /**   LL
@@ -107,6 +105,6 @@ class VehicleController extends Controller
     public function destroy($id)
     {
         Vehicle::findOrFail($id)->delete();
-        return redirect()->route('vehiculo.index');
+        return redirect()->route('vehiculo.index')->with('alert','vehiculo eliminado correctamente.');
     }
 }

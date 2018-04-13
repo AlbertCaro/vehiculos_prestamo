@@ -1,20 +1,31 @@
 @extends('layout')
 
+@section('title', $title)
+
 @section('content')
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
     <div class="limit">
-        <h3 class="center-text">Tipo de evento</h3>
+        <br/>
+        <h1 class="center-text">{{ $title }}</h1>
+        <br/>
+        @if (session('alert'))
+            <div id="message" class="alert alert-success">
+                <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
+                {{ session('alert') }}
+            </div>
+        @endif
+        @if(count($events))
         <table class="table-fill">
             <thead>
             <tr>
                 <th>Categoría</th>
                 <th>Tipo de evento</th>
-                <th>Eliminar</th>
-                <th>Modificar</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody class="table-hover">
+            @endif
             @forelse($events as $event)
 
             <tr>
@@ -22,18 +33,21 @@
                 <td>{{ucfirst($event->nombre)}}</td>
                 <td>
                     <form id="delete_form_{{ $event->id }}" action="{{ route('tipo_evento.destroy' , $event->id)}}" method="POST">
+                        <a href='{{ route('tipo_evento.show', $event->id) }}'>
+                            <button type="button" class="btn btn-info">Detalles</button>
+                        </a>
+                        <a href='{{route('tipo_evento.edit', $event->id)}}'>
+                            <button type="button" class="btn btn-success">Editar</button>
+                        </a>
                         <input name="_method" type="hidden" value="DELETE">
                         {{ csrf_field() }}
-                        <a href='' onclick="event.preventDefault();
-                                document.getElementById('delete_form_{{ $event->id }}').submit();">
-                            <img border='0' alt='Editar' src='img/delete.png' width='30' height='30'>
+                        <a href='' onclick="deleteElement(
+                                '¿Está seguro de querer eliminar al evento {{$event->nombre}}?',
+                                'delete_form_{{ $event->id }}');
+                                ">
+                            <button type="button" class="btn btn-danger">Eliminar</button>
                         </a>
                     </form>
-                </td>
-                <td>
-                    <a href='{{route('tipo_evento.edit', $event->id)}}'>
-                        <img border='0' alt='Modificar' src='img/edit.png' width='30' height='30'>
-                    </a>
                 </td>
             </tbody>
             @empty

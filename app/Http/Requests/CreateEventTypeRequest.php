@@ -24,7 +24,7 @@ class CreateEventTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required',
+            'nombre' => 'required|max:145',
             'categories_id' => 'required|integer|not_in:0'
         ];
     }

@@ -19,8 +19,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories=Category::all();
-
-        return view('manage_categories',compact('categories'));
+        $title = 'Gestionar categorías';
+        return view('manage_categories',compact('categories', 'title'));
     }
 
     /**
@@ -30,7 +30,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('add_categories');
+        $select_attribs = ['class' => 'form-control']; //Atributos base del select
+        $title = 'Agregar categoría';
+        return view('add_categories', compact('select_attribs', 'title'));
     }
 
     /**
@@ -42,7 +44,7 @@ class CategoryController extends Controller
     public function store(CreateCategory $request)
     {
         Category::create($request->all());
-        return redirect('categoria');
+        return redirect('categoria')->with('alert', 'Categoría agregada correctamente.');
     }
 
     /**
@@ -51,9 +53,12 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $show = true; //Variable que determina si se deshabilitarán los campos para sólo mostrar los datos, además de cambiar del botón
+        $title = 'Detalles de la categoría';
+        return view('add_categories', compact('category', 'show', 'select_attribs', 'title'));
     }
 
     /**
@@ -65,7 +70,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        return view('add_categories',compact('category'));
+        $title = 'Editar Categoría';
+        return view('add_categories',compact('category', 'title'));
     }
 
     /**
@@ -77,9 +83,9 @@ class CategoryController extends Controller
      */
     public function update(CreateCategory $request, $id)
     {
-        $categoria = Category::find($id);
+        $categoria = Category::findOrFail($id);
         $categoria->update($request->all());
-        return redirect('categoria');
+        return redirect('categoria')->with('alert', 'Información de la categoría actualizada correctamente.');
     }
 
     /**
@@ -88,9 +94,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($category)
+    public function destroy($id)
     {
-        Category::where('id', $category)->delete();
-        return redirect('categoria');
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect('categoria')->with('alert','Categoría eliminada correctamente.');
     }
 }
