@@ -92,7 +92,7 @@
                                     </div>
                                     <h5>Tipo de licencia</h5>
                                     <div class="form-group  col-centered">
-                                        {{ Form::select('tipo_licencia', \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id'), null, ['class' => 'form-control']) }}
+                                        {{ Form::select('tipo_licencia', \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id'), null, ['class' => 'form-control','id'=>'tipo_licencia']) }}
                                     </div><br>
 
                                     <h4>Contacto para casos de emergencia</h4>
