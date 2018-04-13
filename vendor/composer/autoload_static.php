@@ -322,7 +322,6 @@ class ComposerStaticInit54258255f32820ed04cf2385138c8fcb
     );
 
     public static $classMap = array (
-        'AlterRequestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_12_193931_alter_requests_table.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Contact' => __DIR__ . '/../..' . '/app/Contact.php',
@@ -374,7 +373,6 @@ class ComposerStaticInit54258255f32820ed04cf2385138c8fcb
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
-        'ChangeDatesRequestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_12_200404_change_dates_requests_table.php',
         'Collective\\Html\\Componentable' => __DIR__ . '/..' . '/laravelcollective/html/src/Componentable.php',
         'Collective\\Html\\Eloquent\\FormAccessible' => __DIR__ . '/..' . '/laravelcollective/html/src/Eloquent/FormAccessible.php',
         'Collective\\Html\\FormBuilder' => __DIR__ . '/..' . '/laravelcollective/html/src/FormBuilder.php',
