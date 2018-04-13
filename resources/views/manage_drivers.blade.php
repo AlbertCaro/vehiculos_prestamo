@@ -52,7 +52,8 @@
                     </td>
                 </tr>
             @empty
-                <h1>No hay conductores</h1>
+                <h3 class="center-text">No hay conductores</h3>
+                <br/>
             @endforelse
         @if(count($drivers))
             </tbody>
