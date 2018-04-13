@@ -23,9 +23,8 @@ class EventTypeController extends Controller
             ->join('categories', 'event_types.categories_id', '=', 'categories.id')
             ->select('categories.id AS id_cat','categories.nombre as categoria', 'event_types.*')
             ->get();
-        //$events = Event_Type::first();
-        //dd($events->category());
-        return view('manage_events',compact('events'));
+        $title = 'Gestionar eventos';
+        return view('manage_events',compact('events', 'title'));
     }
 
     /**
@@ -36,7 +35,8 @@ class EventTypeController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('add_events',compact('categories'));
+        $title = 'Agregar evento';
+        return view('add_events',compact('categories', 'title'));
     }
 
     /**
@@ -48,7 +48,7 @@ class EventTypeController extends Controller
     public function store(CreateEventTypeRequest $request)
     {
         Event_Type::create($request->all());
-        return redirect('tipo_evento');
+        return redirect('tipo_evento')->with('alert', 'Tipo de evento agregado correctamente.');
     }
 
     /**
@@ -57,9 +57,14 @@ class EventTypeController extends Controller
      * @param  \App\Event_Type  $event_Type
      * @return \Illuminate\Http\Response
      */
-    public function show(Event_Type $event_Type)
+    public function show($id)
     {
-        //
+        $event = Event_Type::findOrFail($id);
+        $categories = Category::all();
+        $select_attribs = ['class' => 'form-control', 'disabled' => ''];
+        $title = 'Detalles del evento';
+        $show = true;
+        return view('add_events',compact('event', 'categories', 'show', 'title', 'select_attribs'));
     }
 
     /**
@@ -72,7 +77,9 @@ class EventTypeController extends Controller
     {
         $event = Event_Type::findOrFail($id);
         $categories = Category::all();
-        return view('add_events',compact('event', 'categories'));
+        $select_attribs = ['class' => 'form-control', 'disabled' => ''];
+        $title = 'Editar evento';
+        return view('add_events',compact('event', 'categories', 'title', 'select_attribs'));
     }
 
     /**
@@ -84,9 +91,9 @@ class EventTypeController extends Controller
      */
     public function update(CreateEventTypeRequest $request, $id)
     {
-        $event = Event_Type::find($id);
+        $event = Event_Type::findOrFail($id);
         $event->update($request->all());
-        return redirect('tipo_evento');
+        return redirect('tipo_evento')->with('alert', 'Información del tipo de evento actualizada correctamente.');
     }
 
     /**
@@ -95,9 +102,10 @@ class EventTypeController extends Controller
      * @param  \App\Event_Type  $event_Type
      * @return \Illuminate\Http\Response
      */
-    public function destroy($event_Type)
+    public function destroy($id)
     {
-        Event_Type::where('id', $event_Type)->delete();
-        return redirect('tipo_evento');
+        $event = Event_Type::findOrFail($id);
+        $event->delete();
+        return redirect('tipo_evento')->with('alert','Tipo de evento eliminado correctamente.');
     }
 }
