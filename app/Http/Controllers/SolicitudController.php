@@ -34,6 +34,7 @@ class SolicitudController extends Controller
         si es jefe, las que le han pedido
         si es coordinador de servicios generales, todas
         */
+        //dd($solicitudes);
         $title = 'Gestionar solicitudes';
         return view('solicitudes', compact('solicitudes', 'title'));
 
@@ -129,9 +130,10 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show(Solicitud $solicitud)
+    public function show($id)
     {
-        //
+        $solicitud = Solicitud::findOrFail($id);
+        dd($solicitud);
     }
 
     /**
@@ -140,9 +142,11 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function edit(Solicitud $solicitud)
+    public function edit($id)
     {
         //
+        $solicitud = Solicitud::findOrFail($id);
+        dd($solicitud);
     }
 
     /**
@@ -152,7 +156,7 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Solicitud $solicitud)
+    public function update(Request $request,$id)
     {
         //
     }
