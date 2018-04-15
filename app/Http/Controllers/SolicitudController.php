@@ -130,10 +130,9 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Solicitud $solicitud)
     {
-        $solicitud = Solicitud::findOrFail($id);
-        dd($solicitud);
+
     }
 
     /**
@@ -142,11 +141,9 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Solicitud $solicitud)
     {
-        //
-        $solicitud = Solicitud::findOrFail($id);
-        dd($solicitud);
+
     }
 
     /**
@@ -156,7 +153,7 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, Solicitud $solicitud)
     {
         //
     }
