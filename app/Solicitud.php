@@ -49,4 +49,29 @@ class Solicitud extends Model
     public function setFechaRegresoAttribute($value){
         $this->attributes['fecha_regreso'] = Carbon::parse(strtotime($value.':00'));
     }
+
+    /*public function getEstatusAttribute(){
+        $this->attributes['estatus'] = Solicitud::interpretaEstatus($this->attributes['estatus']);
+    }*/
+
+    public static function interpretaEstatus($estatus){
+
+        switch ($estatus){
+            case 1:
+                return "Nuevo";
+                break;
+            case 2:
+                return "Aprobado por el jefe inmediato";
+                break;
+            case 3:
+                return "Aprobado por el secretario administrativo";
+                break;
+            case 4:
+                return "Aprobado por el coordinador de Servicios Generales";
+                break;
+            case 5:
+                return "Rechazado por alguna instancia";
+                break;
+        }
+    }
 }

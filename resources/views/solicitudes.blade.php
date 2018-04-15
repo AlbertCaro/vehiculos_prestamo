@@ -20,7 +20,10 @@
             </thead>
             <tbody class="table-hover">
             @forelse($solicitudes as $solicitud)
-            <tr><td>{{$solicitud->nombre_evento}}</td><td>{{$solicitud->jefe_id}}</td><td>{{$solicitud->driver_id}}</td><td>{{$solicitud->status}}</td><td>{{$solicitud->personas}}</td><td>{{$solicitud->escala}}</td></tr>
+
+            <tr><td>{{$solicitud->nombre_evento}}</td><td>{{$solicitud->jefe_id}}</td><td>{{$solicitud->driver_id}}</td><td>{{$solicitud->estatus}}</td><td>{{$solicitud->personas}}</td><td><a href='{{ route('solicitud.edit', $solicitud->id) }}'>
+                        <button type="button" class="btn btn-success">Editar</button>
+                    </a></td></tr>
             @empty
                 <tr>
                     <td colspan="6">No hay solicitudes</td>
