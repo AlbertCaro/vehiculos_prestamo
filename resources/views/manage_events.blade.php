@@ -43,7 +43,7 @@
                         {{ csrf_field() }}
                         <a href='' onclick="deleteElement(
                                 '¿Está seguro de querer eliminar al evento {{$event->nombre}}?',
-                                'delete_form_{{ $event->id }}');
+                                'delete_form_{{ $event->id }}', event);
                                 ">
                             <button type="button" class="btn btn-danger">Eliminar</button>
                         </a>

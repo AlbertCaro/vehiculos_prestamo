@@ -22,7 +22,8 @@ function hideError(field) {
  * @param message Texto del mensaje
  * @param id Id del form del metodo destroy del controlador, dado que se requiere dicho formulario para eliminar
  */
-function deleteElement(message, id) {
+
+function deleteElement(message, id, event) {
     event.preventDefault();
 
     swal({

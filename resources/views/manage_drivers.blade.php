@@ -50,7 +50,7 @@
                             <a href='' onclick="
                                     deleteElement( //Ir a /public/js/messages_methods.js para saber como funciona esta función
                                         '¿Está seguro de querer eliminar al conductor {{$driver->nombre}} {{$driver->apaterno}} {{$driver->amaterno}}?',
-                                        'delete_form_{{ $driver->id }}');
+                                        'delete_form_{{ $driver->id }}', event);
                                     ">
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </a>
