@@ -1,28 +1,26 @@
 @extends('layout')
 
+@section('title', $title)
+
 @section('content')
-
-    @if(Session('respuesta') !== null)
-        <div class="alert alert-success" role="alert">
-            {{Session::get('respuesta')}}
-        </div>
-
-    @endif
-
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
     <div class="limit">
-        <h3 class="center-text">Usuarios</h3>
+        <h1 class="center-text">{{$title}}</h1>
+        <br>
+        @if (session('alert'))
+            <div id="message" class="alert alert-success">
+                <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
+                {{ session('alert') }}
+            </div>
+        @endif
         <table class="table-fill">
             <thead>
             <tr>
-
                 <th>Nombre</th>
                 <th>Correo electrónico</th>
                 <th>Tipo</th>
-
                 <th>Acciones</th>
-
             </tr>
             </thead>
             <tbody class="table-hover">
@@ -64,7 +62,9 @@
             </tr>
 
             @empty
-                <h1>No hay usuarios</h1>
+                <tr>
+                    <td colspan="6">No hay usuario</td>
+                </tr>
             @endforelse
             </tbody>
         </table>

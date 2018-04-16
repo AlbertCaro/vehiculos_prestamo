@@ -28,9 +28,10 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
+        $title = "Gestionar usuario";
       // dd($users);
         //recuerden que se manda el nombre de la variable sin $, esta cosa ya sabe a qué se refieren
-        return view('manage_users',compact('users'));
+        return view('manage_users',compact('users', "title"));
 
     }
 
@@ -41,7 +42,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('add_users');
+        $title = "Agregar usuario";
+        return view('add_users', compact('title'));
     }
 
     /**
@@ -50,7 +52,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UpdateUserRequest $request)
     {
         /*
          * Sólo en este caso se hará así, ya que se debe encriptar el campo password.
@@ -71,7 +73,7 @@ class UserController extends Controller
        $user = User::create($request->all());
 
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('usuario.index')->with("alert", 'Usuario agregado correcamente');
     }
 
     /**
@@ -80,9 +82,13 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        return "Prográmame :'(";
+        $user = User::findOrFail($id);
+        $title = 'Detalles del usuario';
+        $show = true;
+        $roles = Role::all();
+        return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'password', 'show', 'title'));
     }
 
     /**
@@ -94,11 +100,12 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        $title = 'Editar usuario';
         /*$this->authorize($user);/revisará la política de acceso para ver si este usuario tiene permiso
         de editar el usuario que quiere editar, si no es él mismo, no podrá editarse.
     */
         $roles = Role::all();
-        return view('add_users',compact('user','roles'));
+        return view('add_users',compact('user','roles', 'title'));
     }
 
     /**
@@ -122,7 +129,7 @@ class UserController extends Controller
         $usuario->roles()->sync($request->role_id);
         $usuario->update($request->all());
 
-        return redirect()->route('usuario.index')->with("mensaje","Editado correctamente");
+        return redirect()->route('usuario.index')->with("alert","Editado correctamente");
 
     }
 
@@ -136,7 +143,7 @@ class UserController extends Controller
     {
         $usuario = User::findOrFail($id);
         $usuario->delete();
-        return redirect()->route('usuario.index');
+        return redirect()->route('usuario.index')->with('alert', 'Usuario eliminado correctamente');
     }
 
     public function muestra_jefes(){

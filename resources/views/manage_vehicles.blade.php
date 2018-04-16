@@ -45,7 +45,6 @@
                                     '¿Está seguro de querer eliminar el vehiculo {{$vehicle->id}} con las placas {{$vehicle->placas}}?',
                                     'delete_form_{{ $vehicle->id }}', event);
                                     ">
-
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </a>
                         </form>
