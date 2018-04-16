@@ -14,7 +14,7 @@
                                 {{method_field('POST')}}
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="form-group  col-centered">
-                                    {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(), null, Config::get('constants.css.select')) }}
+                                    {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(), null, ['class' => 'form-control']) }}
                                 </div><br>
                                 <h3>Detalles del evento:</h3>
                                 <div class="input-group">
@@ -84,7 +84,7 @@
                                     <h5>Dependencia</h5>
                                     <div class="form-group  col-centered">
                                         {{ Form::select('dependencia', ['' => '- Seleccione una opción -'] + \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id')->toArray(),
-                                        null, ['class' => 'form-control','id'=>'dependencia', 'onfocus' => 'hideError(\'dependencia\')']) }}
+                                        null, ['class' => 'form-control','id' => 'dependencia', 'onfocus' => 'hideError(\'dependencia\')']) }}
                                     </div><br>
 
                                     <h4>Detalles de la licencia</h4>
@@ -132,62 +132,56 @@
             </div>
         </div>
     </div><br>
-    <?php
-    $fechalocal=date('y/m/d');
-    function fechaInvertida($Date){
-        $DateArray = explode("/", $Date);
-        $DateArray2 = explode(" ", $DateArray[2]);
-        return $DateArray2[0]."/".$DateArray[1]."/".$DateArray[0]." ". $DateArray2[1];
-    }
-    ?>
-@stop
-<script type="text/javascript">
-    function enableContent() {
-        if (document.getElementById('rdio5').checked === true) {
-            document.getElementById('codigoC_txt').disabled = true;
-            document.getElementById('nombreC_txt').disabled = true;
-            document.getElementById('celularC_txt').disabled = true;
-            document.getElementById('licencia_txt').disabled = true;
-            document.getElementById('venc_txt').disabled = true;
-            document.getElementById('tipo_licencia').disabled = true;
-        } else {
-            document.getElementById('codigoC_txt').disabled = false;
-            document.getElementById('nombreC_txt').disabled = false;
-            document.getElementById('celularC_txt').disabled = false;
-            document.getElementById('licencia_txt').disabled = false;
-            document.getElementById('venc_txt').disabled = false;
-            document.getElementById('tipo_licencia').disabled = false;
+    <script type="text/javascript">
+        function enableContent() {
+            if (document.getElementById('rdio5').checked === true) {
+                document.getElementById('codigoC_txt').disabled = true;
+                document.getElementById('nombreC_txt').disabled = true;
+                document.getElementById('celularC_txt').disabled = true;
+                document.getElementById('licencia_txt').disabled = true;
+                document.getElementById('venc_txt').disabled = true;
+                document.getElementById('tipo_licencia').disabled = true;
+                document.getElementById('dependencia').disabled = true;
+            } else {
+                document.getElementById('codigoC_txt').disabled = false;
+                document.getElementById('nombreC_txt').disabled = false;
+                document.getElementById('celularC_txt').disabled = false;
+                document.getElementById('licencia_txt').disabled = false;
+                document.getElementById('venc_txt').disabled = false;
+                document.getElementById('tipo_licencia').disabled = false;
+                document.getElementById('dependencia').disabled = false;
+            }
         }
-    }
-    
-    function generaInput() {
-        if (document.getElementById("tipo_evento").value === 'otro') {
-            $("#otro").html('<span class="input-group-addon">Especifique el evento</span>' +
-                '<input type="text" class="form-control" id="otro_evento" name="otro_evento" placeholder="Nombre del evento" required/>');
-        } else
-            $("#otro").html('');
-    }
 
-    function generarSelect() {
-        $.ajaxSetup({
-            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        });
+        function generaInput() {
+            if (document.getElementById("tipo_evento").value === 'otro') {
+                $("#otro").html('<span class="input-group-addon">Especifique el evento</span>' +
+                    '<input type="text" class="form-control" id="otro_evento" name="otro_evento" placeholder="Nombre del evento" required/>');
+            } else
+                $("#otro").html('');
+        }
 
-        $.ajax({
-            data:{ "category" : $("#categoria_evento").val() },
-            type:'post',
-            url: '{{ route('select_event') }}',
-            success:function(response) {
-                $("#select_tipo").html(response);
-            }
-        });
-    }
+        function generarSelect() {
+            $.ajaxSetup({
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
 
-    $(document).ready(function () {
-        generarSelect();
-        if ($("#otro").val())
-            generaInput();
-    })
+            $.ajax({
+                data:{ "category" : $("#categoria_evento").val() },
+                type:'post',
+                url: '{{ route('select_event') }}',
+                success:function(response) {
+                    $("#select_tipo").html(response);
+                }
+            });
+        }
 
-</script>
+        $(document).ready(function () {
+            generarSelect();
+            if ($("#otro").val())
+                generaInput();
+        })
+
+    </script>
+@stop
