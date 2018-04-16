@@ -7,6 +7,7 @@ use App\Contact;
 use App\Driver;
 use App\Http\Requests\GuardaSolicitudRequest;
 use App\Licence;
+use App\Mail\NuevaSolicitudDeVehiculo;
 use App\Solicitud;
 use App\User;
 use Carbon\Carbon;
@@ -118,7 +119,9 @@ class SolicitudController extends Controller
 
        ]);
 
+        $jefe = $this->datosJefe($request['slc_jefe']);
 
+        Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
 
@@ -169,5 +172,10 @@ class SolicitudController extends Controller
     public function destroy(Solicitud $solicitud)
     {
         //
+    }
+
+    private function datosJefe($idJefe){
+        $user = User::findOrFail($idJefe);
+        return $user;
     }
 }

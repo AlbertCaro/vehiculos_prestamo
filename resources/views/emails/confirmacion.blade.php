@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it"><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>MOSAICO Responsive Email Designer</title><!--
+<html lang="it"><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Tiene una nueva solicitud por aprobar</title><!--
 
 
 COLORE INTENSE  #9C010F
@@ -147,13 +147,13 @@ TESTO INTENSE #ffffff
             <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table"><tbody><tr><td>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td>
                                     <!-- COPY -->
-                                    <table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td align="center" class="padding-copy" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; padding-top: 0px;">Email can be responsive!</td>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td align="center" class="padding-copy" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; padding-top: 0px;">Ver qué poner aquí</td>
                                         </tr><tr><td align="center" class="padding-copy textlightStyle" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33;"><p style="margin:0px;">{{$mensaje}}</p></td>
                                         </tr></tbody></table></td>
                             </tr><tr><td>
                                     <!-- BULLETPROOF BUTTON -->
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mobile-button-container"><tbody><tr><td align="center" style="padding: 25px 0 0 0;" class="padding-copy">
-                                                <table border="0" cellspacing="0" cellpadding="0" class="responsive-table"><tbody><tr><td align="center"><a target="_new" class="mobile-button" style="display: inline-block; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #17365d; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom: 3px solid #0b192c;" href="">Ir al sitio →</a></td>
+                                                <table border="0" cellspacing="0" cellpadding="0" class="responsive-table"><tbody><tr><td align="center"><a target="_new" class="mobile-button" style="display: inline-block; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #17365d; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom: 3px solid #0b192c;" href="{{env('APP_URL')}}">Ir al sitio →</a></td>
                                                     </tr></tbody></table></td>
                                         </tr></tbody></table></td>
                             </tr></tbody></table></td>
