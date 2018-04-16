@@ -16,25 +16,23 @@
         <table class="table-fill">
             <thead>
             <tr>
-                <th>Código</th>
+
                 <th>Nombre</th>
                 <th>Correo electrónico</th>
                 <th>Tipo</th>
-                <th>Eliminar</th>
-                <th>Modificar</th>
+
+                <th>Acciones</th>
+
             </tr>
             </thead>
             <tbody class="table-hover">
 
-            <!--
-            Aquí se ve claramente cómo acceder a una relación de 1:1
-            -->
 
 
             @forelse($users as $user)
 
             <tr>
-                <td>{{$user->id}}</td>
+
                 <td>{{$user->nombre}} {{$user->apaterno}} {{$user->amaterno}}</td>
                 <td>{{$user->email}}</td>
                 <td>
@@ -42,18 +40,27 @@
                         {{$role->nombre_mostrado}}
                         @endforeach
                 </td>
-                <td>
-                <form id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
 
-                    {{method_field('DELETE')}}
-                    {{ csrf_field() }}
-                    <a href='' onclick="event.preventDefault();
-                            document.getElementById('delete_form_{{ $user->id }}').submit();">
-                        <img border='0' alt='Editar' src='img/delete.png' width='50' height='50'>
-                    </a>
-                </form></td>
                 <td>
-                    <a href='{{route('usuario.edit',$user->id)}}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td>
+
+                    <form id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
+                        <a href='{{ route('usuario.show', $user->id) }}'>
+                            <button type="button" class="btn btn-info">Detalles</button>
+                        </a>
+                        <a href='{{route('usuario.edit', $user->id)}}'>
+                            <button type="button" class="btn btn-success">Editar</button>
+                        </a>
+                        <input name="_method" type="hidden" value="DELETE">
+                        {{ csrf_field() }}
+                        <a href='' onclick="deleteElement(
+                                '¿Está seguro de querer eliminar el usuario {{$user->nombre}}?',
+                                'delete_form_{{ $user->id }}', event);
+                                ">
+                            <button type="button" class="btn btn-danger">Eliminar</button>
+                        </a>
+                    </form>
+                </td>
+
             </tr>
 
             @empty

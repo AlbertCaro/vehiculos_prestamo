@@ -6,3 +6,4 @@
 /.vagrant
 Homestead.json
 Homestead.yaml
+.env

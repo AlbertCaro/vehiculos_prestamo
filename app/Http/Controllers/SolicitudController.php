@@ -12,6 +12,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class SolicitudController extends Controller
 {
@@ -121,6 +122,7 @@ class SolicitudController extends Controller
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
 
+        //Mail::to(auth()->user()->email)
         return redirect()->route('solicitud.index');
     }
 

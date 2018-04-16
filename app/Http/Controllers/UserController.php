@@ -82,7 +82,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //no sé si implementarlo, la neta.
+        return "Prográmame :'(";
     }
 
     /**
