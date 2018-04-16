@@ -105,7 +105,7 @@ return [
 
     'attributes' => [
         //Atributos del formulario de conductor
-        'codigo' => 'código',
+        'id' => 'código',
         'apaterno' => 'apellido paterno',
         'amaterno' => 'apellido materno',
         'vencimiento' => 'fecha de vencimiento',

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use UxWeb\SweetAlert\SweetAlert;
 
 class DriverController extends Controller
@@ -122,6 +123,9 @@ class DriverController extends Controller
      */
     public function update(DriverRequest $request, $id)
     {
+        $path = Storage::putFile('licences', $request->file('archivo'));
+        dd($path);
+
         $driver = Driver::findOrFail($id);
         $driver->update([
             'dependencies_id' => $request['dependencia'],
@@ -136,7 +140,7 @@ class DriverController extends Controller
             'numero' => $request['licencia'],
             'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
-            'archivo' => "",
+            'archivo' => $request['archivo'],
         ]);
 
         $driver->contact->update([

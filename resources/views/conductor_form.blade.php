@@ -24,8 +24,8 @@
             @endif
             <div class="input-group">
                 <span class="input-group-addon">Código</span>
-                <input type="number" class="form-control" name="codigo" placeholder="Código" maxlength="10"
-                       onfocus="hideError('codigo')"
+                <input type="number" class="form-control" name="id" placeholder="Código" maxlength="10"
+                       onfocus="hideError('id')"
                        {{-- Si se tiene un error se pone como valor lo que se había introducido en el input anteriormente --}}
                        @if(count($errors)) value="{{ old('codigo') }}"
                        {{-- Cuando se entra en show o edit se crea el objeto driver, de manera que si no hay error y se entró
@@ -36,7 +36,7 @@
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_codigo">
-                {!! $errors->first('codigo','<span class="alert-danger">:message</span></br>') !!}
+                {!! $errors->first('id','<span class="alert-danger">:message</span></br>') !!}
             </div><br/>
             <div class="input-group">
                 <span class="input-group-addon">Nombre(s)</span>
@@ -137,6 +137,13 @@
                 @elseif(!@isset($dependence)) @php $licence_type = null; @endphp @endif
                 {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(),
                 $licence_type, $select_attribs + ['onfocus' => 'hideError(\'tipo_licencia\')']) }}
+            </div>
+            <div id="error_tipo_licencia">
+                {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
+            </div><br/>
+            <h5>Adjuntar licencia</h5>
+            <div class="form-group col-centered">
+                <input type="file" name="archivo" id="archivo">
             </div>
             <div id="error_tipo_licencia">
                 {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
