@@ -14,11 +14,12 @@ $(document).ready(function(){
             $("#celularC_txt").val(ui.item.celular);
             $("#licencia_txt").val(ui.item.num_licencia);
             $("#venc_txt").val(ui.item.vencimiento);
-            $("#tipoL_txt").html("<option>"+ui.item.tipo+"</option>");
+            $("#tipo_licencia").val(ui.item.tipo);
             $("#nombreCont_txt").val(ui.item.nombre_contacto);
             $("#parentesco_txt").val(ui.item.parentesco);
             $("#domicilio_txt").val(ui.item.domicilio);
             $("#telefono_txt").val(ui.item.tel_cont);
+            $("#dependencia").val(ui.item.dependencia);
         }
 	});
 	$(function() {
