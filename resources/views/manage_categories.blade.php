@@ -38,7 +38,7 @@
                             <a href='{{route('categoria.edit', $category->id)}}'><button type="button" class="btn btn-success">Editar</button></a>
                             <a href='' onclick="deleteElement( //Ir a /public/js/messages_methods.js para saber como funciona esta función
                                     '¿Está seguro de querer eliminar a la categoría {{$category->nombre}}?',
-                                    'delete_form_{{ $category->id }}');
+                                    'delete_form_{{ $category->id }}', event);
                                     ">
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </a>
