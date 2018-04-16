@@ -23,8 +23,9 @@ class DriverRequest extends FormRequest
      */
     public function rules()
     {
+        //TODO: Solucionar asunto del unique id
         return [
-            'id' => 'required|max:75|unique:drivers',
+            'id' => 'required|max:75',
             'nombre' => 'required|max:75',
             'apaterno' => 'required|max:75',
             'amaterno' => 'required|max:75',

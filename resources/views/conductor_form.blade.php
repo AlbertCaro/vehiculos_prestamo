@@ -10,7 +10,7 @@
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda"
               @if(@empty($driver)) action="{{ route('conductor.store') }}"
               @else action="{{ route('conductor.update',$driver->id) }}" @endif
-              method="post" entype="application/x-www-form-urlencoded">
+              method="post" enctype="multipart/form-data">
             <h3>Información sobre el conductor</h3>
             @if(@empty($driver)) {{ method_field('POST') }}
             @else {{ method_field('PUT') }} @endif
@@ -143,7 +143,11 @@
             </div><br/>
             <h5>Adjuntar licencia</h5>
             <div class="form-group col-centered">
-                <input type="file" name="archivo" id="archivo">
+                @if(@isset($show))
+                    <a href="{{ ">:v ahora no puedo descargar"  }}">Zi</a>
+                @else
+                    <input type="file" name="archivo" id="archivo">
+                @endif
             </div>
             <div id="error_tipo_licencia">
                 {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}

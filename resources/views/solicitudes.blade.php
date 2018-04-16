@@ -31,8 +31,8 @@
 
             <tr>
                 <td>{{$solicitud->nombre_evento}}</td>
-                <td>{{$solicitud->Jefe->nombre.' '.$solicitud->Jefe->apaterno.' '.$solicitud->Jefe->amaterno}} ({{$solicitud->Jefe->cargo}})</td>
-                <td>{{$solicitud->Driver->nombre.' '.$solicitud->Driver->apaterno.' '.$solicitud->Driver->amaterno}} ({{$solicitud->Driver->Dependencia->nombre}})</td>
+                <td>{{$solicitud->jefe->nombre.' '.$solicitud->jefe->apaterno.' '.$solicitud->jefe->amaterno}} ({{$solicitud->jefe->cargo}})</td>
+                <td>{{$solicitud->driver->nombre.' '.$solicitud->driver->apaterno.' '.$solicitud->driver->amaterno}} ({{$solicitud->driver->dependencia->nombre}})</td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
                 <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
                 <td>

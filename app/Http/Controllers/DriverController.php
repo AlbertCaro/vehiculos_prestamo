@@ -123,9 +123,6 @@ class DriverController extends Controller
      */
     public function update(DriverRequest $request, $id)
     {
-        $path = Storage::putFile('licences', $request->file('archivo'));
-        dd($path);
-
         $driver = Driver::findOrFail($id);
         $driver->update([
             'dependencies_id' => $request['dependencia'],
@@ -140,7 +137,7 @@ class DriverController extends Controller
             'numero' => $request['licencia'],
             'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
-            'archivo' => $request['archivo'],
+            'archivo' => $request->file('archivo')->store(''),
         ]);
 
         $driver->contact->update([

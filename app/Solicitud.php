@@ -29,15 +29,15 @@ class Solicitud extends Model
         'solicita_conductor'];
 
     public $timestamps = false;
-    public function Users(){
+    public function users(){
         return $this->belongsToMany(User::class);
     }
 
-    public function Jefe(){
+    public function jefe(){
         return $this->belongsTo(User::class,'jefe_id','id');
     }
 
-    public function Driver(){
+    public function driver(){
         return $this->hasOne(Driver::class,'id','driver_id');
     }
     public function setFechaSolicitudAttribute($value){
@@ -84,6 +84,5 @@ class Solicitud extends Model
             return "Sí puede usar su vehículo";
         }
     }
-
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Contact;
 use App\Driver;
+use App\Event_Type;
 use App\Http\Requests\GuardaSolicitudRequest;
 use App\Licence;
 use App\Mail\NuevaSolicitudDeVehiculo;
@@ -101,6 +102,14 @@ class SolicitudController extends Controller
 
         //if($request->has(''))
         //dd($request['txt_fecha'].':00');
+        if ($request->has('otro_evento')) {
+            $event_type = (new \App\Event_Type)->create([
+                'nombre' => $request['otro_evento'],
+                'categories_id' => $request['categoria_evento']
+            ])->id;
+        } else
+            $event_type = $request['tipo_evento'];
+
        $sol = (new \App\Solicitud)->create([
            'nombre_evento'=>$request['txt_nombreE'],
            'domicilio'=>$request['txt_domicilioE'],
@@ -110,7 +119,7 @@ class SolicitudController extends Controller
            'fecha_solicitud'=>Carbon::now(),
            'fecha_evento'=>$request['txt_fecha'],
            'fecha_regreso'=>$request['txt_fecha1'],
-           'event_types_id'=>$request['tipo_evento'],
+           'event_types_id'=>$event_type,
            'driver_id'=>$id_conductor,
            'vehicles_id'=>1,
            'solicitante_id'=>auth()->user()->id,
