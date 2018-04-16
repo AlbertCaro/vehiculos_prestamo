@@ -24,7 +24,7 @@ class DriverRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo' => 'required|max:75',
+            'id' => 'required|max:75|unique:drivers',
             'nombre' => 'required|max:75',
             'apaterno' => 'required|max:75',
             'amaterno' => 'required|max:75',
