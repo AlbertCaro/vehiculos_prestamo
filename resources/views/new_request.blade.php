@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'Nueva solicitud')
+
 @section('content')
     <a name="sol"></a>
     <div class="intro-header">
