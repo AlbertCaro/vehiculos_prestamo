@@ -32,11 +32,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('select_event_type', ['as' => 'select_event', function () {
     if(request()->category != '') {
-        $list = DB::table('event_types')
+        $list = ['' => '- Seleccione una opción -'] + DB::table('event_types')
             ->where('categories_id','=',request()->category)
-            ->get()->pluck('nombre','id');
-    } else
+            ->get()->pluck('nombre','id')->toArray() +
+            ['otro' => 'Otro'];
+        $attribs = ['onchange' => 'generaInput();', 'id' => 'tipo_evento'];
+    } else {
         $list = null;
+        $attribs = null;
+    }
 
-    return view('select_event_types', compact('list'));
+    return view('select_event_types', compact('list', 'attribs'));
 }]);

@@ -29,9 +29,9 @@
                                 <div class="form-group  col-centered">
                                     {{ Form::select('categoria_evento', ['' => '- Seleccione una opción -'] + \App\Category::all(['id', 'nombre'])->pluck('nombre','id')->toArray(), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
                                 </div><br>
-                                <div id="select_tipo" class="form-group  col-centered">
+                                <div id="select_tipo" class="form-group col-centered">
                                 </div><br>
-                                <div id="otro" class="form-group  col-centered">
+                                <div id="otro" class="input-group">
                                 </div><br>
                                 <div class="form-group  col-centered">
                                     <label for="sel3">Escala:</label>
@@ -150,7 +150,7 @@
             document.getElementById('licencia_txt').disabled = true;
             document.getElementById('venc_txt').disabled = true;
             document.getElementById('tipo_licencia').disabled = true;
-        }else {
+        } else {
             document.getElementById('codigoC_txt').disabled = false;
             document.getElementById('nombreC_txt').disabled = false;
             document.getElementById('celularC_txt').disabled = false;
@@ -158,6 +158,14 @@
             document.getElementById('venc_txt').disabled = false;
             document.getElementById('tipo_licencia').disabled = false;
         }
+    }
+    
+    function generaInput() {
+        if (document.getElementById("tipo_evento").value === 'otro') {
+            $("#otro").html('<span class="input-group-addon">Especifique el evento</span>' +
+                '<input type="text" class="form-control" id="otro_evento" name="otro_evento" placeholder="Nombre del evento" required/>');
+        } else
+            $("#otro").html('');
     }
 
     function generarSelect() {
@@ -169,14 +177,17 @@
         $.ajax({
             data:{ "category" : $("#categoria_evento").val() },
             type:'post',
-            beforeSend:function () {
-                $("#select_tipo").html("<span>Enviando información</span>");
-            },
             url: '{{ route('select_event') }}',
             success:function(response) {
                 $("#select_tipo").html(response);
             }
         });
     }
+
+    $(document).ready(function () {
+        generarSelect();
+        if ($("#otro").val())
+            generaInput();
+    })
 
 </script>
