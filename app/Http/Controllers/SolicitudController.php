@@ -135,9 +135,13 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show(Solicitud $solicitud)
+    public function show($id)
     {
-
+        //$category = Category::findOrFail($id);
+        $show = true;
+        $select_attribs = ['class' => 'form-control', 'disabled' => ''];
+        $title = 'Detalles de la solicitud';
+        return view('new_request', compact('category', 'show', 'select_attribs', 'title'));
     }
 
     /**
@@ -146,9 +150,9 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function edit(Solicitud $solicitud)
+    public function edit($id)
     {
-
+        //
     }
 
     /**
