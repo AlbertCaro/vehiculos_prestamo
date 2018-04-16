@@ -119,7 +119,7 @@ class SolicitudController extends Controller
 
        ]);
 
-        $jefe = $this->datosJefe($request['slc_jefe']);
+        $jefe = User::datosJefe($request['slc_jefe']);
 
         Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
@@ -178,8 +178,5 @@ class SolicitudController extends Controller
         //
     }
 
-    private function datosJefe($idJefe){
-        $user = User::findOrFail($idJefe);
-        return $user;
-    }
+
 }

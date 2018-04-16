@@ -28,12 +28,13 @@
             </thead>
             <tbody class="table-hover">
             @forelse($solicitudes as $solicitud)
+
             <tr>
                 <td>{{$solicitud->nombre_evento}}</td>
-                <td>{{$solicitud->jefe_id}}</td>
-                <td>{{$solicitud->driver_id}}</td>
-                <td>{{$solicitud->estatus}}</td>
-                <td>{{$solicitud->personas}}</td>
+                <td>{{$solicitud->Jefe->nombre.' '.$solicitud->Jefe->apaterno.' '.$solicitud->Jefe->amaterno}} ({{$solicitud->Jefe->cargo}})</td>
+                <td>{{$solicitud->Driver->nombre.' '.$solicitud->Driver->apaterno.' '.$solicitud->Driver->amaterno}} ({{$solicitud->Driver->Dependencia->nombre}})</td>
+                <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
+                <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
                 <td>
                     <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
                         <a href='{{ route('solicitud.show', $solicitud->id) }}'>

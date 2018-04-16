@@ -47,4 +47,8 @@ class Driver extends Model
     public function request(){
         return $this->belongsTo(Solicitud::class);
     }
+
+    public function Dependencia(){
+        return $this->belongsTo(Dependence::class,'dependencies_id','id');
+    }
 }

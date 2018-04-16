@@ -322,6 +322,7 @@ class ComposerStaticInit54258255f32820ed04cf2385138c8fcb
     );
 
     public static $classMap = array (
+        'AddConductorNuloRequest' => __DIR__ . '/../..' . '/database/migrations/2018_04_16_210212_add_conductor_nulo_request.php',
         'AlterRequestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_12_193931_alter_requests_table.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
@@ -361,6 +362,8 @@ class ComposerStaticInit54258255f32820ed04cf2385138c8fcb
         'App\\Http\\Requests\\VehicleRequest' => __DIR__ . '/../..' . '/app/Http/Requests/VehicleRequest.php',
         'App\\Licence' => __DIR__ . '/../..' . '/app/Licence.php',
         'App\\LicenceType' => __DIR__ . '/../..' . '/app/LicenceType.php',
+        'App\\Mail\\NuevaSolicitudDeVehiculo' => __DIR__ . '/../..' . '/app/Mail/NuevaSolicitudDeVehiculo.php',
+        'App\\Notifications\\ResetPasswordNotification' => __DIR__ . '/../..' . '/app/Notifications/ResetPasswordNotification.php',
         'App\\Policies\\UserPolicy' => __DIR__ . '/../..' . '/app/Policies/UserPolicy.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

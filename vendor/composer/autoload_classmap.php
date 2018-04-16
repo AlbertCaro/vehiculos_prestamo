@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddConductorNuloRequest' => $baseDir . '/database/migrations/2018_04_16_210212_add_conductor_nulo_request.php',
     'AlterRequestsTable' => $baseDir . '/database/migrations/2018_04_12_193931_alter_requests_table.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
@@ -45,6 +46,8 @@ return array(
     'App\\Http\\Requests\\VehicleRequest' => $baseDir . '/app/Http/Requests/VehicleRequest.php',
     'App\\Licence' => $baseDir . '/app/Licence.php',
     'App\\LicenceType' => $baseDir . '/app/LicenceType.php',
+    'App\\Mail\\NuevaSolicitudDeVehiculo' => $baseDir . '/app/Mail/NuevaSolicitudDeVehiculo.php',
+    'App\\Notifications\\ResetPasswordNotification' => $baseDir . '/app/Notifications/ResetPasswordNotification.php',
     'App\\Policies\\UserPolicy' => $baseDir . '/app/Policies/UserPolicy.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

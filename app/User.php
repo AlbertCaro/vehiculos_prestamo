@@ -119,4 +119,13 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    public static function datosJefe($idJefe){
+        $user = User::findOrFail($idJefe);
+        return $user;
+    }
+
+    public function Solicitudes(){
+       return $this->hasMany(Solicitud::class,'jefe_id','id');
+    }
 }

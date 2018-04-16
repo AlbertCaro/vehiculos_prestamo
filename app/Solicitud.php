@@ -30,11 +30,15 @@ class Solicitud extends Model
 
     public $timestamps = false;
     public function Users(){
-        $this->belongsToMany(Users::class);
+        return $this->belongsToMany(User::class);
     }
 
-    public function Drivers(){
-        $this->hasMany(Driver::class);
+    public function Jefe(){
+        return $this->belongsTo(User::class,'jefe_id','id');
+    }
+
+    public function Driver(){
+        return $this->hasOne(Driver::class,'id','driver_id');
     }
     public function setFechaSolicitudAttribute($value){
        // dd($value);
@@ -49,4 +53,37 @@ class Solicitud extends Model
     public function setFechaRegresoAttribute($value){
         $this->attributes['fecha_regreso'] = Carbon::parse(strtotime($value.':00'));
     }
+
+    public static function status($status){
+        switch ($status){
+            case 1:
+                return "No se ha validado";
+                break;
+            case 2:
+                return "Aprobado por el jefe inmediato";
+                break;
+            case 3:
+                return "Aprobado por la Secretaría Administrativa";
+                break;
+            case 4:
+                return "Aprobado por el Coordinador de Servicios Generales";
+                break;
+            case 5:
+                return "Rechazada por alguna instancia";
+                break;
+            default:
+                return "Aiudaaaaaa";
+                break;
+        }
+    }
+
+    public static function vehiculoPropio($dispone){
+        if ($dispone===null){
+            return "No puede hacer uso de su vehículo";
+        }else{
+            return "Sí puede usar su vehículo";
+        }
+    }
+
+
 }
