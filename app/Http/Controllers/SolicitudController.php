@@ -53,7 +53,8 @@ class SolicitudController extends Controller
         $categories = Category::all();
         $jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         //dd($jefes);
-        return view('new_request', compact('categories'));
+        $title = "Haz una nueva solicitud";
+        return view('new_request', compact('categories', 'title'));
     }
 
     /**
@@ -146,11 +147,14 @@ class SolicitudController extends Controller
      */
     public function show($id)
     {
-        //$category = Category::findOrFail($id);
-        $show = true;
-        $select_attribs = ['class' => 'form-control', 'disabled' => ''];
-        $title = 'Detalles de la solicitud';
-        return view('new_request', compact('category', 'show', 'select_attribs', 'title'));
+        $solicitud = Solicitud::findOrFail($id);
+        $categories = Category::all();
+        $jefe = $solicitud->jefe_id;
+        //$jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
+        $select_attribs = ['class' => 'form-control'];
+        //dd($jefes);
+        $title = "Detalles de la solicitud";
+        return view('new_request', compact('solicitud','categories', 'jefe', 'title', 'select_attribs'));
     }
 
     /**

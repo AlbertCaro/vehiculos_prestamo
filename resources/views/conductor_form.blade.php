@@ -80,7 +80,7 @@
                        onfocus="hideError('celular')"
                        @if(count($errors)) value="{{ old('celular') }}"
                        @elseif(!@empty($driver)) value="{{ $driver->celular }}" @endif
-                       @if(@isset($show)) disabled @endif/>
+                @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_celular">
                 {!! $errors->first('celular','<span class="alert-danger">:message</span></br>') !!}

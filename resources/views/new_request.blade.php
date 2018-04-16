@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Nueva solicitud')
+@section('title', $title)
 
 @section('content')
     <a name="sol"></a>
@@ -9,24 +9,56 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1 id="pivoteRadios">Haz una nueva solicitud</h1>
-                        <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud" action="{{route('solicitud.store')}}" method="post" entype="application/x-www-form-urlencoded"><br>
+                        <h1 id="pivoteRadios">{{$title}}</h1>
+                        <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
+                              @if(@empty($solicitud)) action="{{route('solicitud.store')}}"
+                              @else action="{{route('solicitud.update', $solicitud->id)}}" @endif
+                              method="post" entype="application/x-www-form-urlencoded"><br>
+
                             <div class="col-lg-5 col-sm-6">
-                                {{ csrf_field() }}
-                                {{method_field('POST')}}
+                                @if(@empty($solicitud))
+                                    {{method_field('POST')}}
+                                @else
+                                    {{method_field('PATCH')}}
+                                @endif
+                                {{csrf_field()}}
+                                    @if (count($errors))
+                                        <div id="message" class="alert alert-danger">
+                                            <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
+                                            <span>Ha dejado campos vacíos o introdujo datos erróneos</span>
+                                        </div>
+                                    @endif
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="form-group  col-centered">
-                                    {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(), null, ['class' => 'form-control']) }}
+                                    @if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
+                                    @elseif(!@isset($jefe)) @php $jefe = null; @endphp @endif
+                                    {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(),
+                                    $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')']) }}
                                 </div><br>
+                                    <div id="error_slc_jefe">
+                                        {!! $errors->first('slc_jefe','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                                 <h3>Detalles del evento:</h3>
                                 <div class="input-group">
                                     <span class="input-group-addon">Evento</span>
-                                    <input type="text" class="form-control" name="txt_nombreE" id="txt_nombreE" placeholder='Nombre del Evento' required/>
+                                    <input type="text" class="form-control" name="txt_nombreE" id="txt_nombreE" placeholder='Nombre del Evento'
+                                           onfocus="hideError('txt_nombreE')"
+                                           @if(count($errors)) value="{{ old('txt_nombreE') }}"
+                                           @elseif(!@empty($solicitud)) value="{{ $solicitud->nombre_evento }}" @endif/>
                                 </div><br>
+                                    <div id="txt_nombreE">
+                                        {!! $errors->first('txt_nombreE','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Domicilio</span>
-                                    <input type="text" class="form-control" name="txt_domicilioE" id="txt_domicilioE" placeholder='Domicilio Completo' required/>
+                                    <input type="text" class="form-control" name="txt_domicilioE" id="txt_domicilioE" placeholder='Domicilio Completo'
+                                           onfocus="hideError('txt_domicilioE')"
+                                           @if(count($errors)) value="{{ old('txt_domicilioE') }}"
+                                           @elseif(!@empty($solicitud)) value="{{ $solicitud->domicilio }}" @endif/>
                                 </div><br>
+                                    <div id="error_txt_domicilioE">
+                                        {!! $errors->first('txt_domicilioE','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                                 <h5>Categoría del evento</h5>
                                 <div class="form-group  col-centered">
                                     {{ Form::select('categoria_evento', ['' => '- Seleccione una opción -'] + \App\Category::all(['id', 'nombre'])->pluck('nombre','id')->toArray(), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
