@@ -103,7 +103,7 @@
                 <input type="password" class="form-control" name='password' placeholder='Contraseña'
                        onfocus="hideError('password')"
                        @if(count($errors)) value="{{ old('password') }}"
-                       @elseif(!@empty($user)) value="{{$user->passwordl}}" @endif
+                       @elseif(!@empty($user)) value="" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_password">

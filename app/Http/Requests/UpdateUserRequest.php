@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
             'amaterno'=>'required',
             'cargo'=>'required',
             'celular'=>'required|numeric',
-            'email'=>'required|unique:users,email,'.$this->route('usuario'),
+            'email'=>'required|unique:users,email,'.$this->route('usuario')
         ];
     }
 }

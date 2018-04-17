@@ -69,8 +69,7 @@ class UserController extends Controller
         'role_id'=> 1,
         'password'=>Hash::make($request['password']),
        ]);*/
-
-       $user = User::create($request->all());
+        $user = User::create($request->all());
 
 
         return redirect()->route('usuario.index')->with("alert", 'Usuario agregado correcamente');
