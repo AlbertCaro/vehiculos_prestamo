@@ -13,7 +13,7 @@
                         <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
                               @if(@empty($solicitud)) action="{{route('solicitud.store')}}"
                               @else action="{{route('solicitud.update', $solicitud->id)}}" @endif
-                              method="post" entype="application/x-www-form-urlencoded"><br>
+                              method="post" enctype="multipart/form-data"><br>
 
                             <div class="col-lg-5 col-sm-6">
                                 @if(@empty($solicitud))
@@ -133,6 +133,10 @@
                                     <h5>Tipo de licencia</h5>
                                     <div class="form-group  col-centered">
                                         {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), null, ['class' => 'form-control','id'=>'tipo_licencia']) }}
+                                    </div><br>
+                                    <h5>Adjuntar archivo</h5>
+                                    <div class="form-group  col-centered">
+                                        <input type="file" id="archivo" name="archivo">
                                     </div><br>
 
                                     <h4>Contacto para casos de emergencia</h4>

@@ -137,7 +137,7 @@ class DriverController extends Controller
             'numero' => $request['licencia'],
             'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
-            'archivo' => $request->file('archivo')->store(''),
+            'archivo' => $request->file('archivo')->store('/public/licences'),
         ]);
 
         $driver->contact->update([
