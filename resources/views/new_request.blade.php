@@ -41,7 +41,7 @@
                                 <h3>Detalles del evento:</h3>
                                 <div class="input-group">
                                     <span class="input-group-addon">Evento</span>
-                                    <input type="text" class="form-control" name="txt_nombreE" id="txt_nombreE" placeholder='Nombre del Evento'
+                                    <input type="text" class="form-control" name="txt_nombreE" placeholder='Nombre del Evento'
                                            onfocus="hideError('txt_nombreE')"
                                            @if(count($errors)) value="{{ old('txt_nombreE') }}"
                                            @elseif(!@empty($solicitud)) value="{{ $solicitud->nombre_evento }}" @endif/>
@@ -61,6 +61,7 @@
                                     </div><br/>
                                 <h5>Categoría del evento</h5>
                                 <div class="form-group  col-centered">
+
                                     {{ Form::select('categoria_evento', ['' => '- Seleccione una opción -'] + \App\Category::all(['id', 'nombre'])->pluck('nombre','id')->toArray(), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
                                 </div><br>
                                 <div id="select_tipo" class="form-group col-centered">
@@ -70,29 +71,57 @@
                                 <div class="form-group  col-centered">
                                     <label for="sel3">Escala:</label>
                                     <select class="form-control" id="sel3" name="slc_escala">
-                                        <option>Local</option>
-                                        <option>Guadalajara</option>
-                                        <option>Estatal</option>
-                                        <option>Nacional</option>
+                                        <option @if(count($errors)) @elseif(!@empty($solicitud))
+                                                @if($solicitud->escala == 'Local') selected @endif @endif>Local</option>
+                                        <option @if(count($errors)) @elseif(!@empty($solicitud))
+                                                @if($solicitud->escala == 'Guadalajara') selected @endif @endif>Guadalajara</option>
+                                        <option @if(count($errors)) @elseif(!@empty($solicitud))
+                                                @if($solicitud->escala == 'Estatal') selected @endif @endif>Estatal</option>
+                                        <option @if(count($errors)) @elseif(!@empty($solicitud))
+                                                @if($solicitud->escala == 'Nacional') selected @endif @endif>Nacional</option>
                                     </select>
                                 </div>
                                 <h3>Itinerario</h3>
                                 <div class="input-group">
                                     <span class="input-group-addon">Personas</span>
-                                    <input type="text" class="form-control" name="txt_Personas" id="txt_Personas" placeholder='Numero de personas' required/>
+                                    <input type="text" class="form-control" name="txt_Personas" id="txt_Personas" placeholder='Numero de personas'
+                                           onfocus="hideError('txt_Personas')"
+                                           @if(count($errors)) value="{{ old('txt_Personas') }}"
+                                           @elseif(!@empty($solicitud)) value="{{ $solicitud->personas }}" @endif/>
                                 </div><br>
+                                    <div id="error_personas">
+                                        {!! $errors->first('txt_Personas','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Distancia</span>
-                                    <input type="text" class="form-control" name="txt_kilometros" id="txt_kilometros" placeholder='Distancia dada en kilometros' required/>
+                                    <input type="text" class="form-control" name="txt_kilometros" id="txt_kilometros" placeholder='Distancia dada en kilometros'
+                                           onfocus="hideError('txt_kilometros')"
+                                           @if(count($errors)) value="{{ old('txt_kilometros') }}"
+                                           @elseif(!@empty($solicitud)) value="{{ $solicitud->distancia }}" @endif/>
                                 </div><br>
+                                    <div id="error_distancia">
+                                        {!! $errors->first('txt_kilometros','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de salida</span>
-                                    <input class="form-control" type="text" id="fecha_txt" name="txt_fecha" placeholder="Fecha y hora de salida" required/>
+                                    <input class="form-control" type="text" id="fecha_txt" name="txt_fecha" placeholder="Fecha y hora de salida"
+                                           onfocus="hideError('txt_fecha')"
+                                           @if(count($errors)) value="{{ old('txt_fecha') }}"
+                                           @elseif(!@empty($solicitud)) value="{{ $solicitud->fecha_evento }}" @endif/>
                                 </div><br>
+                                    <div id="error_fecha_evento">
+                                        {!! $errors->first('txt_fecha','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de regreso</span>
-                                    <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso" required/>
+                                    <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso"
+                                           onfocus="hideError('txt_fecha1')"
+                                           @if(count($errors)) value="{{ old('txt_fecha1') }}"
+                                           @elseif(!@empty($solicitud)) value="{{ $solicitud->fecha_regreso }}" @endif/>
                                 </div><br>
+                                    <div id="error_fecha_regreso">
+                                        {!! $errors->first('txt_fecha1','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                             </div>
 
                             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
@@ -105,15 +134,15 @@
                                     </div>
                                     <div class="input-group">
                                         <span class="input-group-addon">Código</span>
-                                        <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código" required/>
+                                        <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Nombre</span>
-                                        <input type="text" class="form-control" id="nombreC_txt" name="txt_nombreC" placeholder="Nombre" required/>
+                                        <input type="text" class="form-control" id="nombreC_txt" name="txt_nombreC" placeholder="Nombre"/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Celular</span>
-                                        <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular' required/>
+                                        <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular'/>
                                     </div><br>
                                     <h5>Dependencia</h5>
                                     <div class="form-group  col-centered">
@@ -124,11 +153,11 @@
                                     <h4>Detalles de la licencia</h4>
                                     <div class="input-group">
                                         <span class="input-group-addon">Licencia</span>
-                                        <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia" required/>
+                                        <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Fecha de vencimiento</span>
-                                        <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento" required/>
+                                        <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"/>
                                     </div>
                                     <h5>Tipo de licencia</h5>
                                     <div class="form-group  col-centered">
@@ -142,19 +171,19 @@
                                     <h4>Contacto para casos de emergencia</h4>
                                     <div class="input-group">
                                         <span class="input-group-addon">Contacto</span>
-                                        <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto" required/>
+                                        <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto"/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Parentesco</span>
-                                        <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco" required/>
+                                        <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco"/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Domicilio</span>
-                                        <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo" required/>
+                                        <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo"/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Teléfono</span>
-                                        <input type=text class="form-control" id="telefono_txt" name="txt_telefono" placeholder="Telefono" required/>
+                                        <input type=text class="form-control" id="telefono_txt" name="txt_telefono" placeholder="Telefono"/>
                                     </div><br>
                                 </div>
                             </div>
@@ -163,7 +192,7 @@
                             <label class="radio-inline" for="rdio4"><input type="checkbox" id="rdio4" name="rdio_disp" value="1"/>En caso de no contar con la disponibilidad de un vehículo oficial, está dispuesto a usar un vehículo propio para hacer el viaje</label><br><br>
                             <h1>Términos y condiciones</h1>
                             <p>Al hacer clic en guardar, usted acepta los <a href="{{route('terminos')}}" target="_blank">términos y condiciones</a></p>
-                            <input type="submit" class="botones" id="btn_save" name="save_btn" value="Guardar" onclick="return validar()"/>
+                            <input type="submit" class="botones" id="btn_save" name="save_btn" value="Guardar" />
                         </form>
                     </div>
                 </div>
