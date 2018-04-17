@@ -41,6 +41,7 @@
                 </td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
                 <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
+                @if(!auth()->user()->hasRoles(['admin']))
                 <td>
                     <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
                         <a href='{{ route('solicitud.show', $solicitud->id) }}'>
@@ -58,7 +59,19 @@
                             <button type="button" class="btn btn-danger">Eliminar</button>
                         </a>
                     </form>
-                </td></tr>
+                </td>
+                @else
+                <td>
+                    <a href="">
+                        <button type="button" class="btn btn-success">Aceptar</button>
+                    </a>
+                    <a href="">
+                        <button type="button" class="btn btn-danger">Rechazar</button>
+                    </a>
+                </td>
+
+                @endif
+            </tr>
             @empty
                 <tr>
                     <td colspan="6">No hay solicitudes</td>
