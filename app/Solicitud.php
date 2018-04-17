@@ -85,4 +85,12 @@ class Solicitud extends Model
         }
     }
 
+    public static function SolicitaConductor($conductor){
+        if ($conductor!==null){
+            return "Se requiere conductor por parte de la institución";
+        }else{
+            return $conductor;
+        }
+    }
+
 }

@@ -32,7 +32,13 @@
             <tr>
                 <td>{{$solicitud->nombre_evento}}</td>
                 <td>{{$solicitud->jefe->nombre.' '.$solicitud->jefe->apaterno.' '.$solicitud->jefe->amaterno}} ({{$solicitud->jefe->cargo}})</td>
-                <td>{{$solicitud->driver->nombre.' '.$solicitud->driver->apaterno.' '.$solicitud->driver->amaterno}} ({{$solicitud->driver->dependencia->nombre}})</td>
+                <td>
+                    @if($solicitud->solicita_conductor !== null)
+                        {{\App\Solicitud::SolicitaConductor($solicitud->solicita_conductor)}}
+                    @else
+                        {{$solicitud->driver->nombre.' '.$solicitud->driver->apaterno.' '.$solicitud->driver->amaterno}} ({{$solicitud->driver->dependencia->nombre}})
+                    @endif
+                </td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
                 <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
                 <td>
