@@ -141,14 +141,18 @@
             <div id="error_tipo_licencia">
                 {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
             </div><br/>
-            <h5>Adjuntar licencia</h5>
-            <div class="form-group col-centered">
                 @if(@isset($show))
-                    <a href="{{ ">:v ahora no puedo descargar"  }}">Zi</a>
+                <h5>Archivo de licencia</h5>
+                <div class="form-group col-centered" align="center">
+                    <a href="{{ Storage::url($driver->licence->archivo)  }}">Descargar el archivo</a>
+                </div>
                 @else
+                <h5>Adjuntar licencia</h5>
+                <div class="form-group col-centered" align="center">
                     <input type="file" name="archivo" id="archivo">
+                </div>
                 @endif
-            </div>
+
             <div id="error_tipo_licencia">
                 {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
             </div><br/>

@@ -53,8 +53,9 @@ class SolicitudController extends Controller
         $categories = Category::all();
         $jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         //dd($jefes);
+        $select_attribs = ['class' => 'form-control'];
         $title = "Haz una nueva solicitud";
-        return view('new_request', compact('categories', 'title'));
+        return view('new_request', compact('categories', 'title', 'select_attribs'));
     }
 
     /**
@@ -175,9 +176,77 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Solicitud $solicitud)
+    public function update(GuardaSolicitudRequest $request, $id)
     {
-        //
+        $conductor = Driver::where('id',$request['txt_codigoC'])->get();
+        $id_conductor = null;
+        //dd($conductor);
+        if($conductor->isEmpty()){
+            $c = (new \App\Driver)->create([
+                'id'=>$request['txt_codigoC'],
+                'nombre'=>$request['txt_nombreC'],
+                'celular'=>$request['txt_celularC'],
+                'dependencies_id' => $request['dependencia']
+            ]);
+            $id_conductor = $c->id;
+        }else{
+            $id_conductor = $request['txt_codigoC'];
+        }
+
+        $licencia = Licence::where('numero',$request['txt_licencia'])->get();
+        if($licencia->isEmpty()){
+            $l = (new \App\Licence)->create([
+                'numero'=>$request['txt_licencia'],
+                'vencimiento'=>$request['txt_venc'],
+                'licence_types_id'=>$request['tipo_licencia'],
+                'driver_id'=>$id_conductor,
+            ]);
+
+        }
+        $contacto = Contact::where('driver_id',$id_conductor)->get();
+        if($contacto->isEmpty()){
+            $contact = (new \App\Contact)->create([
+                'nombre'=>$request['txt_contacto'],
+                'parentesco'=>$request['txt_parentesco'],
+                'domicilio'=>$request['txt_domicilio'],
+                'telefono'=>$request['txt_telefono'],
+                'driver_id'=>$id_conductor,
+            ]);
+        }
+
+        //if($request->has(''))
+        //dd($request['txt_fecha'].':00');
+        if ($request->has('otro_evento')) {
+            $event_type = (new \App\Event_Type)->create([
+                'nombre' => $request['otro_evento'],
+                'categories_id' => $request['categoria_evento']
+            ])->id;
+        } else
+            $event_type = $request['tipo_evento'];
+
+        $solicitud =Solicitud::findOrFail($id);
+        $solicitud = (new \App\Solicitud)->update([
+            'nombre_evento'=>$request['txt_nombreE'],
+            'domicilio'=>$request['txt_domicilioE'],
+            'escala'=>$request['slc_escala'],
+            'personas'=>$request['txt_Personas'],
+            'estatus'=>1,
+            'fecha_solicitud'=>Carbon::now(),
+            'fecha_evento'=>$request['txt_fecha'],
+            'fecha_regreso'=>$request['txt_fecha1'],
+            'event_types_id'=>$event_type,
+            'driver_id'=>$id_conductor,
+            'vehicles_id'=>1,
+            'solicitante_id'=>auth()->user()->id,
+            'jefe_id'=>$request['slc_jefe'],
+            'distancia'=>$request['txt_kilometros'],
+
+        ]);
+
+        $jefe = User::datosJefe($request['slc_jefe']);
+
+        alert()->success('Se ha modificado todo exitosamente','Solicitud guardada ok!');
+        return redirect()->route('solicitud.index');
     }
 
     /**
