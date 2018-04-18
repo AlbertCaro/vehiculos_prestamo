@@ -62,10 +62,10 @@
                 </td>
                 @else
                 <td>
-                    <a href="">
+                    <a href="{{route('aceptar',$solicitud->id)}}">
                         <button type="button" class="btn btn-success">Aceptar</button>
                     </a>
-                    <a href="">
+                    <a href="{{route('rechazar',$solicitud->id)}}">
                         <button type="button" class="btn btn-danger">Rechazar</button>
                     </a>
                 </td>

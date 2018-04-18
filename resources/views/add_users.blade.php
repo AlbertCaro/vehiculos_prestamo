@@ -134,7 +134,7 @@
 
                 </div>
                 <br>
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
                 <div class="div" style="display: none">
                     <div class="form-group  col-centered">
                         Tengo problemas con el select dinamico :(

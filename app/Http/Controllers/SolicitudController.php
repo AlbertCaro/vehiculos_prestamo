@@ -126,6 +126,8 @@ class SolicitudController extends Controller
            'solicitante_id'=>auth()->user()->id,
            'jefe_id'=>$request['slc_jefe'],
            'distancia'=>$request['txt_kilometros'],
+           'solicita_conductor'=>$request['solicito_conduc'],
+           'vehiculo_propio'=>$request['rdio_disp'],
 
        ]);
 
@@ -259,5 +261,25 @@ class SolicitudController extends Controller
         //
     }
 
+
+    public function aceptarSolicitud($id){
+
+        if(auth()->user()->hasRoles(['jefe'])){//también la asistente del jefe puede autorizar
+            return "La solicitud pasa a 2";
+        }
+        if(auth()->user()->hasRoles(['administrativo'])){
+            return "La solicitud pasa a 3";
+        }
+        if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
+            return "La solicitud pasa a 4";
+        }
+
+
+        return "Aceptamos, compa!".$id;
+    }
+
+    public function rechazarSolicitud($id){
+        return "Se rechaza y pasa a estatus 5";
+    }
 
 }

@@ -44,3 +44,25 @@ Route::post('select_event_type', ['as' => 'select_event', function () {
 
     return view('select_event_types', compact('list', 'attribs'));
 }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//rutas de Erick xD
+Route::get('aceptar/{id}',['as'=>'aceptar','uses'=>'SolicitudController@aceptarSolicitud'])->where('id',"[0-9+]");
+Route::get('rechazar/{id}',['as'=>'rechazar','uses'=>'SolicitudController@rechazarSolicitud'])->where('id',"[0-9+]");
