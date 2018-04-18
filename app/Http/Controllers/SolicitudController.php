@@ -264,15 +264,17 @@ class SolicitudController extends Controller
 
     public function aceptarSolicitud($id){
 
-        if(auth()->user()->hasRoles(['jefe'])){//también la asistente del jefe puede autorizar
-            return "La solicitud pasa a 2";
+        if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
+            return "La solicitud pasa a 4";
         }
         if(auth()->user()->hasRoles(['administrativo'])){
             return "La solicitud pasa a 3";
         }
-        if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
-            return "La solicitud pasa a 4";
+        if(auth()->user()->hasRoles(['jefe'])){//también la asistente del jefe puede autorizar
+            return "La solicitud pasa a 2";
         }
+
+
 
 
         return "Aceptamos, compa!".$id;

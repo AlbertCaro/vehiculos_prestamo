@@ -41,7 +41,7 @@
                 </td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
                 <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
-                @if(!auth()->user()->hasRoles(['admin']))
+                @if(!auth()->user()->hasRoles(['admin','jefe']))
                 <td>
                     <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
                         <a href='{{ route('solicitud.show', $solicitud->id) }}'>
