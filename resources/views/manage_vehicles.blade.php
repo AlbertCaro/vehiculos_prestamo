@@ -31,7 +31,6 @@
                     <td>{{$vehicle->capacidad}} personas</td>
                     <td>
                         <form  class="form-inline" id="delete_form_{{$vehicle->id}}" action="{{route('vehiculo.destroy', $vehicle->id)}}" method="post">
-
                             <a href='{{ route('vehiculo.show', $vehicle->id) }}'>
                                 <button type="button" class="btn btn-info">Detalles</button>
                             </a>

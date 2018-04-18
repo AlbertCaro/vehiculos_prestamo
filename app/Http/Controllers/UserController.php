@@ -32,7 +32,10 @@ class UserController extends Controller
         $title = "Gestionar usuario";
       // dd($users);
         //recuerden que se manda el nombre de la variable sin $, esta cosa ya sabe a qué se refieren
-        return view('manage_users',compact('users', "title"));
+        //$solicitudes = Solicitud::all()->where('jefe_id', auth()->user()->id);
+
+
+        return view('manage_users',compact('users', "title", "solicitudes"));
 
     }
 
@@ -44,7 +47,8 @@ class UserController extends Controller
     public function create()
     {
         $title = "Agregar usuario";
-        return view('add_users', compact('title'));
+        $select_attribs = ['class' => 'form-control'];
+        return view('add_users', compact('title', 'select_attribs'));
     }
 
     /**
@@ -87,8 +91,10 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $title = 'Detalles del usuario';
         $show = true;
+        $jefe = $user->jefe_id;
+        $select_attribs = ['class' => 'form-control'];
         $roles = Role::all();
-        return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'show', 'title'));
+        return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'show', 'title', 'jefe', 'select_attribs'));
     }
 
     /**
@@ -102,8 +108,8 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $title = 'Editar usuario';
         /*$this->authorize($user);/revisará la política de acceso para ver si este usuario tiene permiso
-        de editar el usuario que quiere editar, si no es él mismo, no podrá editarse.
-    */
+        de editar el usuario que quiere editar, si no es él mismo, no podrá editarse.*/
+        //$jefe = User::datosJefe('slc_jefe');
         $roles = Role::all();
         return view('add_users',compact('user','roles', 'title'));
     }
@@ -126,6 +132,9 @@ class UserController extends Controller
         }else{//si no, la dejamos como estaba, aunque no escriban nada en el campo.
             $request['password'] = $usuario->password;
         }
+
+        $jefe = User::datosJefe($request['slc_jefe']);
+
         $usuario->roles()->sync($request->role_id);
         $usuario->update($request->all());
 

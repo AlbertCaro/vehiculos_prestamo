@@ -51,7 +51,6 @@ class SolicitudController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         //dd($jefes);
         $select_attribs = ['class' => 'form-control'];
         $title = "Haz una nueva solicitud";

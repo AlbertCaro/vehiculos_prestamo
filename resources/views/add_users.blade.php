@@ -108,28 +108,46 @@
                 {!! $errors->first('password','<span i class="alert-danger">:message</span></br>') !!}
             </div><br>
             @if(!@empty($user)) <label>
-                <input type="checkbox" name="cambiar_pw" > Cambiar contraseña
+                <input type="checkbox" name="cambiar_pw" @if(@isset($show)) disabled @endif> Cambiar contraseña
             </label>@endif<br>
             @isset($user->roles)
                 <div class="modal-title "><h2>Roles para el usuario: </h2></div>
                 <div class="form-check form-check-inline">
-
-
+                    <script type="text/javascript" >
+                            $(document).ready(function(){
+                                $('.fantasma').click(function(){
+                                    if($(this).is(':checked')){
+                                        if ($(this).val()==2)
+                                            $('.div').css('display', 'block');
+                                    }else{
+                                        $('.div').css('display', 'none');
+                                    }
+                                });
+                            });
+                    </script>
                         @foreach($roles as $rol)
-
-                            <input type="checkbox"
-                                   name="role_id[]"
-                                   id="{{$rol->id}}"
-                                   value="{{$rol->id}}"
+                            <input type="checkbox" name="role_id[]" class="squaredThreex fantasma hh" id="{{$rol->id}}" value="{{$rol->id}}"
                                     {{$user->roles->pluck('id')->contains($rol->id) ? 'checked' : '' }}
-                            />
-
+                                   @if(@isset($show)) disabled @endif/>
                              <label for="{{$rol->id}}">{{$rol->nombre_mostrado}}</label><br>
-
                     @endforeach
 
                 </div>
                 <br>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                <div class="div" style="display: none">
+                    <div class="form-group  col-centered">
+                        Tengo problemas con el select dinamico :(
+                        {{--@if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
+                        @elseif(!@isset($jefe)) @php $jefe = null; @endphp @endif
+                        {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(),
+                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')']) --}}
+                    </div><br>
+                </div>
+                <br>
+                <div id="error_slc_jefe">
+                    {!! $errors->first('slc_jefe','<span class="alert-danger">:message</span></br>') !!}
+                </div><br/>
                 @endisset
 
             @if(@isset($show))
@@ -144,3 +162,4 @@
         </form>
     </div>
 @stop
+

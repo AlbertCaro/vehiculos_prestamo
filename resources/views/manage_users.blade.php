@@ -39,7 +39,7 @@
 
                 <td>
 
-                    <form id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
+                    <form class="form-inline" id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
                         <a href='{{ route('usuario.show', $user->id) }}'>
                             <button type="button" class="btn btn-info">Detalles</button>
                         </a>
