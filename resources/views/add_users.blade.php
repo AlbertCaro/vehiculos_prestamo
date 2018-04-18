@@ -6,9 +6,7 @@
  * Time: 15:43
  */ ?>
 @extends('layout')
-
 @section('title', $title)
-
 @section('content')
     <br><br>
     <div class="form_wh formCenter">

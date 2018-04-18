@@ -31,7 +31,6 @@ class StoreUserRequest extends FormRequest
             'celular'=>'required|numeric',
             'email'=>'required|unique:users,email,'.$this->route('usuario'),
             'password'=>'required'
-
         ];
     }
 }

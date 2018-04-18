@@ -88,7 +88,6 @@ class UserController extends Controller
         $title = 'Detalles del usuario';
         $show = true;
         $roles = Role::all();
-
         return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'show', 'title'));
     }
 

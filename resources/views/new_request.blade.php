@@ -214,6 +214,7 @@
                 document.getElementById('parentesco_txt').disabled = true;
                 document.getElementById('domicilio_txt').disabled = true;
                 document.getElementById('telefono_txt').disabled = true;
+
             } else {
                 document.getElementById('codigoC_txt').disabled = false;
                 document.getElementById('nombreC_txt').disabled = false;
