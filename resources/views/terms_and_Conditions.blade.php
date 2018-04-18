@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Préstamo de vehículos CUValles</title>
+    <title>Terminos y condiciones</title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/landing-page.css') }}" rel="stylesheet">
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
 </head>
 <body>
-
 <a name="sol"></a>
 <div class="intro-header">
     <div class="container">
@@ -51,10 +50,9 @@
                             <h3>6.	En el caso de que entrega del vehículo al día siguiente, este deberá permanecer resguardado en algún lugar seguro.</h3>
                             <h3>7.	Cualquier eventualidad deberá ser reportada con el Mtro. Francisco Guerrero Contreras y/o Joel Flores De los Santos</h3>
                             <br><br><br>
-                            <h3>Nota: El presente es un complemento a los lineamientos del uso de vehículos de la Universidad de Guadalajara (inciso I, II, III, IV de administración central).</h3>
+                            <h5>Nota: El presente es un complemento a los lineamientos del uso de vehículos de la Universidad de Guadalajara (inciso I, II, III, IV de administración central).</h5>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

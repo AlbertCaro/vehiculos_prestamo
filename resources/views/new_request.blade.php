@@ -209,6 +209,11 @@
                 document.getElementById('venc_txt').disabled = true;
                 document.getElementById('tipo_licencia').disabled = true;
                 document.getElementById('dependencia').disabled = true;
+                document.getElementById('archivo').disabled = true;
+                document.getElementById('nombreCont_txt').disabled = true;
+                document.getElementById('parentesco_txt').disabled = true;
+                document.getElementById('domicilio_txt').disabled = true;
+                document.getElementById('telefono_txt').disabled = true;
             } else {
                 document.getElementById('codigoC_txt').disabled = false;
                 document.getElementById('nombreC_txt').disabled = false;
@@ -217,6 +222,11 @@
                 document.getElementById('venc_txt').disabled = false;
                 document.getElementById('tipo_licencia').disabled = false;
                 document.getElementById('dependencia').disabled = false;
+                document.getElementById('archivo').disabled = false;
+                document.getElementById('nombreCont_txt').disabled = false;
+                document.getElementById('parentesco_txt').disabled = false;
+                document.getElementById('domicilio_txt').disabled = false;
+                document.getElementById('telefono_txt').disabled = false;
             }
         }
 

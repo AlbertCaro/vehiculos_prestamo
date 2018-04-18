@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Role;
 use App\User;
@@ -52,7 +53,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UpdateUserRequest $request)
+    public function store(StoreUserRequest $request)
     {
         /*
          * Sólo en este caso se hará así, ya que se debe encriptar el campo password.
@@ -87,7 +88,7 @@ class UserController extends Controller
         $title = 'Detalles del usuario';
         $show = true;
         $roles = Role::all();
-        return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'password', 'show', 'title'));
+        return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'show', 'title'));
     }
 
     /**
