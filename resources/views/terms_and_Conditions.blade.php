@@ -39,6 +39,7 @@
                             <h3>2.	Antes de abordar, es recomendable revisar los indicadores del vehículo y contenedores de aceite, agua y líquido de frenos. En caso de encontrar alguna irregularidad reportarla inmediatamente a la Coordinación de Servicios Generales.</h3>
                             <h3>3.	Antes de salir del Centro Universitario es necesario revisar que la unidad cuente con la siguiente:</h3>
                             <br>
+
                             <div style="padding-left: 60px">
                                 <ul>
                                     <h4><li style="list-style-type: disc">Herramientas: Extintor, llanta de emergencia, gato hidráulico, cruceta, cables pasa corriente y señalización de emergencia.</li></h4>
