@@ -164,7 +164,7 @@
                                         {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), null, ['class' => 'form-control','id'=>'tipo_licencia']) }}
                                     </div><br>
                                     <h5>Adjuntar archivo</h5>
-                                    <div class="form-group  col-centered">
+                                    <div class="form-group  col-centered" align="center">
                                         <input type="file" id="archivo" name="archivo">
                                     </div><br>
 

@@ -62,7 +62,8 @@ class DriverController extends Controller
             'numero' => $request['licencia'],
             'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
-            'archivo' => "",
+            'archivo' => $request->file('archivo')->
+            storeAs('/public/licences', $request['codigo'].".".$request['archivo']->getClientOriginalExtension()),
             'driver_id' => $request['codigo']
         ]);
 
@@ -133,12 +134,23 @@ class DriverController extends Controller
             'domicilio' => $request['domicilio']
         ]);
 
-        $driver->licence->update([
+        $licenceData = [
             'numero' => $request['licencia'],
             'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
-            'archivo' => $request->file('archivo')->store('/public/licences'),
-        ]);
+        ];
+
+        if ($request->hasFile('archivo')) {
+            $files = \File::glob("storage/licences/{$id}.*");
+            foreach ($files as $file) {
+                unlink($file);
+            }
+            $licenceData = $licenceData + [
+                'archivo' => $request->file('archivo')->
+                storeAs('/public/licences', $id.".".$request['archivo']->getClientOriginalExtension())];
+        }
+
+        $driver->licence->update($licenceData);
 
         $driver->contact->update([
             'nombre' => $request['nombre_cont'],

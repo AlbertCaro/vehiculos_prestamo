@@ -14,6 +14,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class SolicitudController extends Controller
@@ -86,6 +87,7 @@ class SolicitudController extends Controller
                 'numero'=>$request['txt_licencia'],
                 'vencimiento'=>$request['txt_venc'],
                 'licence_types_id'=>$request['tipo_licencia'],
+                'archivo' => $request->file('archivo')->store('/public/licences'),
                 'driver_id'=>$id_conductor,
             ]);
 
@@ -182,7 +184,7 @@ class SolicitudController extends Controller
         $conductor = Driver::where('id',$request['txt_codigoC'])->get();
         $id_conductor = null;
         //dd($conductor);
-        if($conductor->isEmpty()){
+        if($conductor->isEmpty()) {
             $c = (new \App\Driver)->create([
                 'id'=>$request['txt_codigoC'],
                 'nombre'=>$request['txt_nombreC'],
@@ -190,7 +192,7 @@ class SolicitudController extends Controller
                 'dependencies_id' => $request['dependencia']
             ]);
             $id_conductor = $c->id;
-        }else{
+        } else {
             $id_conductor = $request['txt_codigoC'];
         }
 
@@ -200,6 +202,7 @@ class SolicitudController extends Controller
                 'numero'=>$request['txt_licencia'],
                 'vencimiento'=>$request['txt_venc'],
                 'licence_types_id'=>$request['tipo_licencia'],
+                'archivo' => $request->file('archivo')->store('/public/licences'),
                 'driver_id'=>$id_conductor,
             ]);
 
@@ -261,6 +264,59 @@ class SolicitudController extends Controller
         //
     }
 
+    public function assignRequest($id)
+    {
+        $solicitud = \App\Solicitud::findOrFail($id);
+        $empty_option = ['' => '- Selecciona una opción -'];
+
+        if ($solicitud->vehicles_id == null) {
+            $vehiculos = $empty_option + DB::table('vehicles')->
+            leftJoin('requests','vehicles.id','=','requests.vehicles_id')->
+            select('vehicles.id', 'vehicles.nombre')->
+            whereNotBetween(DB::raw("'{$solicitud->fecha_evento}'"), ['requests.fecha_evento','requests.fecha_regreso'])->
+            get()->pluck('nombre','id')->toArray();
+        }
+
+        if ($solicitud->drivers_id == null) {
+            $conductores = $empty_option + DB::table('drivers')->
+            leftJoin('requests','drivers.id','=','requests.driver_id')->
+            select('drivers.id', 'drivers.nombre', 'requests.fecha_evento', 'requests.fecha_regreso')->
+            whereNotBetween(DB::raw("'{$solicitud->fecha_evento}'"), ['requests.fecha_evento','requests.fecha_regreso'])->
+            get()->pluck('nombre','id')->toArray();
+        }
+
+        $vehiculo = null;
+        $conductor = null;
+        $select_attribs = ['class' => 'form-control'];
+
+        return view('assign_request',
+            compact('vehiculos', 'conductores', 'conductor', 'vehiculo', 'select_attribs', 'id'));
+    }
+
+    public function saveDriverVehicleRequest(Request $request)
+    {
+        $solicitud = \App\Solicitud::findOrFail($request['solicitud']);
+        $data = [];
+        $conductor = false;
+        $message = "Se ha asignado ";
+
+        if ($request->has('conductor')) {
+            $data = $data + ['driver_id' => $request['conductor']];
+            $message = $message."conductor";
+            $conductor = true;
+        }
+        if ($request->has('vehiculo')) {
+            $data = $data + ['vehicles_id' => $request['vehiculo']];
+            if ($conductor)
+                $message = $message." y ";
+            $message = $message."vehículo";
+        }
+
+        $message = $message." correctamente";
+        $solicitud->update($data);
+
+        return redirect()->route('solicitud.index')->with('alert', $message);
+    }
 
     public function aceptarSolicitud($id){
 
@@ -283,5 +339,4 @@ class SolicitudController extends Controller
     public function rechazarSolicitud($id){
         return "Se rechaza y pasa a estatus 5";
     }
-
 }
