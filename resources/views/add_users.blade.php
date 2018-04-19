@@ -118,7 +118,7 @@
                         @if($rol->nombre_mostrado == 'Asistente'|| $rol->nombre_monstrado == 'asistente')
                             <script type="text/javascript" >
                                     $(document).ready(function(){
-                                        $('.fantasma').click(function(){
+                                        $('.check').click(function(){
                                             if($(this).is(':checked')){
                                                 if ($(this).val()== '{{$rol->id}}') {
                                                     $('.div').css('display', 'block');
@@ -133,7 +133,7 @@
                     @endforeach
 
                         @foreach($roles as $rol)
-                            <input type="checkbox" name="role_id[]" class="squaredThreex fantasma hh" id="{{$rol->id}}"
+                            <input type="checkbox" name="role_id[]" class="squaredThreex check hh" id="{{$rol->id}}"
                                    value="{{$rol->id}}"
                                    {{$user->roles->pluck('id')->contains($rol->id) ? 'checked' : '' }}
                                    @if(@isset($show)) disabled @endif/>
