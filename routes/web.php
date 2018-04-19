@@ -45,8 +45,8 @@ Route::post('select_event_type', ['as' => 'select_event', function () {
     return view('select_event_types', compact('list', 'attribs'));
 }]);
 
-
-
+Route::post('solicitud/{id}/asignar_peticiones', ['as' => 'assign_request', 'uses' => 'SolicitudController@assignRequest']);
+Route::post('guardar_peticion', ['as' => 'save_request', 'uses' => 'SolicitudController@saveDriverVehicleRequest']);
 
 
 

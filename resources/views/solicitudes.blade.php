@@ -57,7 +57,7 @@
                                 'delete_form_{{ $solicitud->id }}', event);
                                 ">
                             <button type="button" class="btn btn-danger">Eliminar</button>
-                            <a href="{{route('save_request', compact($solicitud)) }}" class="btn btn-default">Asignar peticiones  </a>
+                            <a href="{{route('assign_request', compact($solicitud)) }}" class="btn btn-default">Asignar peticiones  </a>
                         </a>
                     </form>
                 </td>
