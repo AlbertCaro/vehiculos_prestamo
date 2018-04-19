@@ -113,28 +113,35 @@
             @isset($user->roles)
                 <div class="modal-title "><h2>Roles para el usuario: </h2></div>
                 <div class="form-check form-check-inline">
-                    <script type="text/javascript" >
-                            $(document).ready(function(){
-                                $('.fantasma').click(function(){
-                                    if($(this).is(':checked')){
-                                        if ($(this).val()==2)
-                                            $('.div').css('display', 'block');
-                                    }else{
-                                        $('.div').css('display', 'none');
-                                    }
-                                });
-                            });
-                    </script>
+                    {{--No se si aqui lo estoy haciendo bien creo que sí--}}
+                    @foreach($roles as $rol)
+                        @if($rol->nombre_mostrado == 'Asistente'|| $rol->nombre_monstrado == 'asistente')
+                            <script type="text/javascript" >
+                                    $(document).ready(function(){
+                                        $('.fantasma').click(function(){
+                                            if($(this).is(':checked')){
+                                                if ($(this).val()== '{{$rol->id}}') {
+                                                    $('.div').css('display', 'block');
+                                                }
+                                            }else{
+                                                $('.div').css('display', 'none');
+                                            }
+                                        });
+                                    });
+                            </script>
+                        @endif
+                    @endforeach
+
                         @foreach($roles as $rol)
-                            <input type="checkbox" name="role_id[]" class="squaredThreex fantasma hh" id="{{$rol->id}}" value="{{$rol->id}}"
-                                    {{$user->roles->pluck('id')->contains($rol->id) ? 'checked' : '' }}
+                            <input type="checkbox" name="role_id[]" class="squaredThreex fantasma hh" id="{{$rol->id}}"
+                                   value="{{$rol->id}}"
+                                   {{$user->roles->pluck('id')->contains($rol->id) ? 'checked' : '' }}
                                    @if(@isset($show)) disabled @endif/>
                              <label for="{{$rol->id}}">{{$rol->nombre_mostrado}}</label><br>
                     @endforeach
-
                 </div>
                 <br>
-
+                {{--Aquí es dondé aparecerá el select--}}
                 <div class="div" style="display: none">
                     <div class="form-group  col-centered">
                         Tengo problemas con el select dinamico :(

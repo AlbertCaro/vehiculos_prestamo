@@ -124,7 +124,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $usuario = User::findOrFail($id);
-        //dd($usuario);
+
 
 
         if($request->has('cambiar_pw')){//si se solicita cambiar contraseña, la cambiamos
@@ -133,7 +133,7 @@ class UserController extends Controller
             $request['password'] = $usuario->password;
         }
 
-        //$jefe = User::datosJefe($request['slc_jefe']);
+        $jefe = User::datosJefe($request['slc_jefe']);
 
         $usuario->roles()->sync($request->role_id);
         $usuario->update($request->all());
