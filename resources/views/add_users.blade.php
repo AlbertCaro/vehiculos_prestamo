@@ -1,10 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: ignac
- * Date: 28/02/2018
- * Time: 15:43
- */ ?>
 @extends('layout')
 @section('title', $title)
 @section('content')
@@ -140,16 +133,15 @@
                              <label for="{{$rol->id}}">{{$rol->nombre_mostrado}}</label><br>
                     @endforeach
                 </div>
-                <br>
                 {{--Aquí es dondé aparecerá el select--}}
                 <div class="div" style="display: none">
+                    <h3>Jefe Asignado:</h3>
                     <div class="form-group  col-centered">
-                        Tengo problemas con el select dinamico :(
-                        {{--@if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
+                        @if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
                         @elseif(!@isset($jefe)) @php $jefe = null; @endphp @endif
                         {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(),
-                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')']) --}}
-                    </div><br>
+                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')']) }}
+                    </div>
                 </div>
                 <br>
                 <div id="error_slc_jefe">

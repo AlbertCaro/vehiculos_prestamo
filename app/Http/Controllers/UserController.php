@@ -110,8 +110,9 @@ class UserController extends Controller
         /*$this->authorize($user);/revisará la política de acceso para ver si este usuario tiene permiso
         de editar el usuario que quiere editar, si no es él mismo, no podrá editarse.*/
         //$jefe = User::datosJefe('slc_jefe');
+        $select_attribs = ['class' => 'form-control'];
         $roles = Role::all();
-        return view('add_users',compact('user','roles', 'title'));
+        return view('add_users',compact('user','roles', 'title', 'select_attribs'));
     }
 
     /**
