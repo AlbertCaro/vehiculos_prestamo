@@ -28,17 +28,17 @@ class SolicitudController extends Controller
     {
         if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales'])){
             $solicitudes = Solicitud::all();
-        } elseif (auth()->user()->hasRoles(['solicitante'])) {
-            $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
         } elseif (auth()->user()->hasRoles(['jefe'])) {
             $solicitudes = Solicitud::all()->where('jefe_id', auth()->user()->id);
+        } elseif (auth()->user()->hasRoles(['solicitante'])) {
+            $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
         }
         /*
         Si es solicitante solo las del solicitante
         si es jefe, las que le han pedido
         si es coordinador de servicios generales, todas
         */
-        //dd($solicitudes);
+       // dd($solicitudes);
         $title = 'Gestionar solicitudes';
         return view('solicitudes', compact('solicitudes', 'title'));
 
@@ -135,7 +135,7 @@ class SolicitudController extends Controller
 
         $jefe = User::datosJefe($request['slc_jefe']);
 
-        Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+      //  Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
 
@@ -253,39 +253,58 @@ class SolicitudController extends Controller
     public function aceptarSolicitud($id){
 
         $solicitud = Solicitud::findOrFail($id);
+        $estado = 0;
+        $mensaje = "Mensaje por defecto";
+        $titulo = "Título por defecto";
 
         switch ($solicitud->estatus){
             case 1:
+                if(auth()->user()->hasRoles(['administrativo'])){
+                    $estado = 3;
+                    $mensaje = "Se ha aprobado correctamente como secretario administrativo, correo a coordinador srvgrales";
+                    $titulo = "Ha aprobado la solicitud flujo anormal";
 
+                }else{
+                    if(auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])){//también la asistente del jefe puede autorizar
+                        $mensaje = "Se ha aprobado correctamente como jefe o asistente, correo a secretario administrativo";
+                        $titulo = "Ha aprobado la solicitud";
+                        $estado=2;
+                    }
+                }
                 break;
             case 2:
+                if(auth()->user()->hasRoles(['administrativo'])){
+                    $estado = 3;
+                    $mensaje = "Se ha aprobado correctamente como secretario administrativo, correo a coordinador srvgrales";
+                    $titulo = "Ha aprobado la solicitud flujo normal";
 
+                }
                 break;
             case 3:
-
+                if(auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles['asist_srv_grales']){//también la asistente del coordinador puede actualizar
+                    $estado=4;
+                    $mensaje = "Se ha aprobado correctamente como coordinador de servicios generales";
+                    $titulo = "Ha aprobado la solicitud";
+                }
                 break;
             case 4:
-
+                //está aprobada ya, ver qué hacer en estos casos
                 break;
             case 5:
+                //está rechazada por alguna instancia
+                if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
+                    return "La solicitud pasa a 4";
+                }
                 break;
+            default:
+                $estado = $solicitud->estatus;
         }
 
-
-        if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
-            return "La solicitud pasa a 4";
-        }
-        if(auth()->user()->hasRoles(['administrativo'])){
-            return "La solicitud pasa a 3";
-        }
-        if(auth()->user()->hasRoles(['jefe'])){//también la asistente del jefe puede autorizar
-            return "La solicitud pasa a 2";
-        }
-
-
-
-
-        return "Aceptamos, compa!".$id;
+        $solicitud->estatus = $estado;
+        $solicitud->save();
+        //alert("")
+        alert($mensaje,$titulo);
+        return "Aceptamos, compa!".$id.$mensaje.$titulo;
     }
 
     public function rechazarSolicitud($id){

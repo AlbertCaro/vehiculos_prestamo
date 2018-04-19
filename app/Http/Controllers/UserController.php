@@ -134,7 +134,9 @@ class UserController extends Controller
             $request['password'] = $usuario->password;
         }
 
-        $jefe = User::datosJefe($request['slc_jefe']);
+        //    $jefe = User::datosJefe($request['slc_jefe']);
+
+
 
         $usuario->roles()->sync($request->role_id);
         $usuario->update($request->all());

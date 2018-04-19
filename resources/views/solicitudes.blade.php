@@ -41,7 +41,7 @@
                 </td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
                 <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
-                @if(!auth()->user()->hasRoles(['admin','jefe']))
+                @if(!auth()->user()->hasRoles(['admin']))
                 <td>
                     <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
                         <a href='{{ route('solicitud.show', $solicitud->id) }}'>
@@ -57,11 +57,11 @@
                                 'delete_form_{{ $solicitud->id }}', event);
                                 ">
                             <button type="button" class="btn btn-danger">Eliminar</button>
-                            <a href="{{ route('assign_request', compact($solicitud)) }}" class="btn btn-default">Asignar peticiones</a>
+                            <a href="{{route('save_request', compact($solicitud)) }}" class="btn btn-default">Asignar peticiones  </a>
                         </a>
                     </form>
                 </td>
-                @else
+                @elseif(auth()->user()->hasRoles(['jefe']))
                 <td>
                     <a href="{{route('aceptar',$solicitud->id)}}">
                         <button type="button" class="btn btn-success">Aceptar</button>
@@ -71,6 +71,13 @@
                     </a>
                     <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
                 </td>
+                @elseif(auth()->user()->hasRoles(['solicitante']))
+                    <td>
+                        <a href="">
+                            <button type="button" class="btn btn-warning">Editar</button>
+                        </a>
+
+                    </td>
                 @endif
             </tr>
             @empty
