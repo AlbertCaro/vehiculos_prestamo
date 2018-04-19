@@ -18,7 +18,7 @@
                 <th>Nombre</th>
                 <th>Correo electrónico</th>
                 <th>Tipo</th>
-                <th>Acciones</th>
+                <th >Acciones</th>
             </tr>
             </thead>
             <tbody class="table-hover">
@@ -37,8 +37,7 @@
                         @endforeach
                 </td>
 
-                <td>
-
+                <td style="width: 280px">
                     <form class="form-inline" id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
                         <a href='{{ route('usuario.show', $user->id) }}'>
                             <button type="button" class="btn btn-info">Detalles</button>
