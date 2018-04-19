@@ -252,6 +252,26 @@ class SolicitudController extends Controller
 
     public function aceptarSolicitud($id){
 
+        $solicitud = Solicitud::findOrFail($id);
+
+        switch ($solicitud->estatus){
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+                break;
+        }
+
+
         if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
             return "La solicitud pasa a 4";
         }
