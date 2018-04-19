@@ -72,8 +72,16 @@ class User extends Authenticatable
      * Estas son las relaciones*/
 
 
+
     public function roles() {
         return $this->belongsToMany(Role::class,'users_has_roles');
+    }
+
+    public function jefe() {
+        return $this->belongsTo('users')->where('id_jefe','=','id');
+    }
+    public function asistente() {
+        return $this->hasOne(User::class,'id_jefe','id');
     }
 
     public function hasRoles(array $rolesVerificar){

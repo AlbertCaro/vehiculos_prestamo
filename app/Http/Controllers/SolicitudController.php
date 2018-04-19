@@ -28,9 +28,29 @@ class SolicitudController extends Controller
     {
         if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales'])){
             $solicitudes = Solicitud::all();
-        } elseif (auth()->user()->hasRoles(['jefe'])) {
-            $solicitudes = Solicitud::all()->where('jefe_id', auth()->user()->id);
-        } elseif (auth()->user()->hasRoles(['solicitante'])) {
+        }elseif(auth()->user()->hasRoles(['administrativo']) && auth()->user()->hasRoles(['jefe'])){
+            $solicitudes = Solicitud::where('estatus',2)
+            ->orWhere('jefe_id',auth()->user()->id)
+                ->whereIn('estatus',[1,2])
+            ->get();
+        }
+        elseif (auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])) {
+            if(auth()->user()->hasRoles(['jefe'])){
+                $solicitudes = Solicitud::all()
+                    ->where('jefe_id', auth()->user()->id)
+                    ->where('estatus',1);
+            }elseif(auth()->user()->hasRoles(['asistente_jefe'])){
+                dd(auth()->user());
+                $solicitudes = Solicitud::all()
+                    ->where('jefe_id', auth()->user()->jefe->id)
+                    ->where('estatus',1);
+            }
+
+        }
+        elseif(auth()->user()->hasRoles['']){
+            $solicitudes = Solicitud::all()
+                ->where('estatus',2);
+        }elseif (auth()->user()->hasRoles(['solicitante'])) {
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
         }
         /*
@@ -303,11 +323,15 @@ class SolicitudController extends Controller
         $solicitud->estatus = $estado;
         $solicitud->save();
         //alert("")
-        alert($mensaje,$titulo);
-        return "Aceptamos, compa!".$id.$mensaje.$titulo;
+        alert()->success($mensaje,$titulo);
+        return redirect()->route('solicitud.index');
     }
 
     public function rechazarSolicitud($id){
-        return "Se rechaza y pasa a estatus 5";
+        $solicitud = Solicitud::findOrFail($id);
+
+        $solicitud->estatus=5;
+        $solicitud->save();
+        return "enviar un correo al solicitante de que no procedió su solicitud";
     }
 }

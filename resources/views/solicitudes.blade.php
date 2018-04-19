@@ -41,7 +41,7 @@
                 </td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
                 <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
-                @if(!auth()->user()->hasRoles(['admin']))
+                @if(auth()->user()->hasRoles(['admin']) ||auth()->user()->hasRoles(['coord_servicios_generales']) )
                 <td>
                     <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
                         <a href='{{ route('solicitud.show', $solicitud->id) }}'>
@@ -57,7 +57,9 @@
                                 'delete_form_{{ $solicitud->id }}', event);
                                 ">
                             <button type="button" class="btn btn-danger">Eliminar</button>
-                            <a href="{{route('assign_request', compact($solicitud)) }}" class="btn btn-default">Asignar peticiones  </a>
+                            @if(auth()->user()->hasRoles(['coord_servicios_generales']))
+                            <a href="{{route('assign_request',$solicitud->id) }}" class="btn btn-default">Asignar peticiones  </a>
+                                @endif
                         </a>
                     </form>
                 </td>
@@ -69,7 +71,6 @@
                     <a href="{{route('rechazar',$solicitud->id)}}">
                         <button type="button" class="btn btn-danger">Rechazar</button>
                     </a>
-                    <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
                 </td>
                 @elseif(auth()->user()->hasRoles(['solicitante']))
                     <td>
