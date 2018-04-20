@@ -15,27 +15,21 @@
                         @if($solicitud->solicita_conductor != null)
                             <div class="form_wh formCenter">
                                 <div class="alert alert-warning">
-                                    <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="#" class="alert-link">Asignar conductor</a>.
+                                    <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar conductor</a>.
                                 </div>
                             </div>
                         @endif
-                        @if($solicitud->vehiculo_propio == null)
+                        @if($solicitud->vehicles_id == null)
                             <div class="form_wh formCenter">
                                 <div class="alert alert-warning">
-                                    <strong>¡Atención!</strong> El solicitante no cuenta con vehículo asignado <a href="#" class="alert-link">Asignar vehículo</a>.
+                                    <strong>¡Atención!</strong> El solicitante no cuenta con vehículo asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar vehículo</a>.
                                 </div>
                             </div>
                         @endif
                         <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
-                              @if(@empty($solicitud)) action="{{route('solicitud.store')}}"
-                              @else action="{{route('solicitud.update', $solicitud->id)}}" @endif
-                              method="post" enctype="multipart/form-data"><br>
+                              action="{{route('solicitud.index')}}"
+                              method="get" enctype="multipart/form-data"><br>
                             <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
-                                @if(@empty($solicitud))
-                                    {{method_field('POST')}}
-                                @else
-                                    {{method_field('PATCH')}}
-                                @endif
                                 {{csrf_field()}}
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="input-group">
@@ -90,12 +84,12 @@
                                     <span class="input-group-addon">Fecha y hora de salida</span>
                                     <input class="form-control" type="text" id="fecha_txt" name="txt_fecha" placeholder="Fecha y hora de salida"
                                            onfocus="hideError('txt_fecha')" disabled=""
-                                           @if(!@empty($solicitud)) value="{{ $solicitud->fecha_evento }}" @endif/>
+                                           @if(!@empty($solicitud)) value="{{\Carbon\Carbon::parse($solicitud->fecha_evento )->format('d-m-Y H:i:s')}}" @endif/>
                                 </div><br>
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de regreso</span>
                                     <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso"
-                                           disabled @if(!@empty($solicitud)) value="{{ $solicitud->fecha_regreso }}" @endif/>
+                                           disabled @if(!@empty($solicitud)) value="{{ \Carbon\Carbon::parse($solicitud->fecha_regreso )->format('d-m-Y H:i:s')}}" @endif/>
                                 </div><br>
                             @if($solicitud->solicita_conductor == null)
                             </div> <!-- aqui se hace la division en dos del formulario en caso de que haya datos del conductor -->
@@ -105,7 +99,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Código</span>
                                         <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"
-                                               disabled @if(!@empty($solicitud)) value="{{ $conductor->id}}" @endif/>
+                                               disabled @if(!@empty($solicitud)) value="{{ $solicitud->driver_id}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Nombre</span>
@@ -122,7 +116,6 @@
                                         <input type="text" class="form-control" name="txt_dependenciaC" placeholder='Numero de celular'
                                                disabled @if(!@empty($conductor)) value="{{ $conductor->depen_nombre}}" @endif/>
                                     </div><br>
-                                    <!--</div><br>-->
 
                                     <h4>Detalles de la licencia</h4>
                                     <div class="input-group">
@@ -133,17 +126,25 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Fecha de vencimiento</span>
                                         <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->vencimiento}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{  \Carbon\Carbon::parse($conductor->vencimiento)->format('d-m-Y')}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Tipo de licencia</span>
                                         <input type="text" class="form-control" id="tipol_txt" name="txt_tipol" placeholder="Tipo de licencia"
                                            disabled @if(!@empty($conductor)) value="{{ $conductor->tipo}}" @endif/>
                                     </div><br>
-                                    <h5>Adjuntar archivo</h5>
-                                    <div class="form-group  col-centered">
-                                        <input type="file" id="archivo" name="archivo">
-                                    </div><br>
+                                    <h5>Archivo de licencia</h5>
+                                    @if($conductor->archivo != null)
+                                        <div class="form-group  col-centered">
+                                            <a href="{{ Storage::url($conductor->archivo)  }}">Descargar el archivo</a>
+                                        </div><br>
+                                    @else
+                                        <div class="form_wh formCenter">
+                                            <div class="alert alert-info">
+                                                <strong>¡Sin archivo de licencia!</strong>
+                                            </div>
+                                        </div>
+                                    @endif
 
                                     <h4>Contacto para casos de emergencia</h4>
                                     <div class="input-group">
@@ -172,7 +173,7 @@
                             @endif
 
                         @if($solicitud->solicita_conductor != null) </div> @endif
-                    <input type="submit" class="botones" id="btn_save" name="save_btn" value="Editar" /><br><br>
+                    <input type="submit" class="botones" id="btn_save" name="save_btn" value="Regresar" /><br><br>
 
 
                         </form>

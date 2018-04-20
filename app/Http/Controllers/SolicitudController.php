@@ -7,6 +7,7 @@ use App\Contact;
 use App\Driver;
 use App\Event_Type;
 use App\Http\Requests\GuardaSolicitudRequest;
+use App\Http\Requests\SolicitudRequest;
 use App\Licence;
 use App\Mail\NuevaSolicitudDeVehiculo;
 use App\Solicitud;
@@ -84,7 +85,7 @@ class SolicitudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SolicitudRequest $request)
     {
 
         $id_conductor = null;
@@ -157,7 +158,7 @@ class SolicitudController extends Controller
            'event_types_id'=>$event_type,
            'driver_id'=>$id_conductor,
            'solicitante_id'=>auth()->user()->id,
-           'jefe_id'=>$request['slc_jefe'],
+           'jefe_id'=>$request['jefe_id'],
            'distancia'=>$request['txt_kilometros'],
            'solicita_conductor'=>$request['solicito_conduc'],
            'vehiculo_propio'=>$request['rdio_disp'],
@@ -190,7 +191,7 @@ class SolicitudController extends Controller
             ->join ('licences','drivers.id','=','licences.driver_id')
             ->join ('licence_types','licences.id','=','licence_types.id')
             ->join ('contacts','contacts.driver_id','=','drivers.id')
-            ->select('dependences.nombre AS depen_nombre','dependences.id AS depen_id', 'drivers.*', 'licences.*', 'licence_types.tipo',
+            ->select('dependences.nombre AS depen_nombre', 'drivers.*', 'licences.*', 'licence_types.tipo',
                 'contacts.nombre AS cont_nombre', 'contacts.apaterno AS cont_paterno', 'contacts.amaterno AS cont_materno', 'contacts.parentesco', 'contacts.telefono', 'contacts.domicilio')
             ->where('drivers.id', '=',$solicitud->driver_id)
             ->first();
@@ -211,7 +212,7 @@ class SolicitudController extends Controller
      */
     public function edit($id)
     {
-        //
+        return "programame :'c";
     }
 
     /**
