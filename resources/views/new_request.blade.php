@@ -61,11 +61,13 @@
                                     </div><br/>
                                 <h5>Categoría del evento</h5>
                                 <div class="form-group  col-centered">
-
                                     {{ Form::select('categoria_evento', ['' => '- Seleccione una opción -'] + \App\Category::all(['id', 'nombre'])->pluck('nombre','id')->toArray(), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
                                 </div><br>
                                 <div id="select_tipo" class="form-group col-centered">
                                 </div><br>
+                                    <div id="error_tipo_evento">
+                                        {!! $errors->first('event_types_id','<span class="alert-danger">los campos categoría y tipo de eventos son obligatorios</span></br>') !!}
+                                    </div><br/>
                                 <div id="otro" class="input-group">
                                 </div><br>
                                 <div class="form-group  col-centered">

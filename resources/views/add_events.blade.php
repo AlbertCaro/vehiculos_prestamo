@@ -34,18 +34,18 @@
                        @if(@isset($show)) disabled @endif/>
             </div><br>
                 <div id="error_nombre">
-                    {!! $errors->first('nombre','<span class="alert-danger">:message</span></br>') !!}
+                    {!! $errors->first('nombre','<span class="alert-danger">El campo tipo de evento es obligatorio</span></br>') !!}
                 </div><br/>
             <h6>Categoría a la que pertenece</h6>
             <div class="form-group  col-centered">
-                <select class="form-control" id="categories_id" name="categories_id" @if(@isset($show)) disabled @endif>
+                <select class="form-control" id="categories_id" name="categories_id" onfocus="hideError('categories_id')" @if(@isset($show)) disabled @endif>
                     <option value="0">Seleccione una categoría...</option>
                     @foreach($categories as $category)
                     <option value='{{$category->id}}' @if(!@empty($event)) @if($event->categories_id == $category->id) selected @endif @endif>{{$category->nombre}}</option>
                     @endforeach
                 </select>
-                <div id="error_categories">
-                    {!! $errors->first('categories_id','<span class="alert-danger">:message</span></br>') !!}
+                <div id="error_categories_id">
+                    {!! $errors->first('categories_id','<span class="alert-danger">El campo categoría es obligatorio</span></br>') !!}
                 </div><br/>
             </div><br>
                 @if(@isset($show))
