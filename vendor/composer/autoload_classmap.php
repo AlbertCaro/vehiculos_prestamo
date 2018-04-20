@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddConductorNuloRequest' => $baseDir . '/database/migrations/2018_04_16_210212_add_conductor_nulo_request.php',
     'AddMotivoRechazoRequests' => $baseDir . '/database/migrations/2018_04_20_043644_add_motivo_rechazo_requests.php',
+    'AddVehiculoNuloToRequests' => $baseDir . '/database/migrations/2018_04_20_163148_add_vehiculo_nulo_to_requests.php',
     'AlterRequestsTable' => $baseDir . '/database/migrations/2018_04_12_193931_alter_requests_table.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',

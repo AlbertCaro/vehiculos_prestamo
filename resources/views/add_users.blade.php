@@ -126,6 +126,7 @@
                     @endforeach
 
                         @foreach($roles as $rol)
+                        {{--solucionar para que se quede selecionado en caso de error--}}
                             <input type="checkbox" name="role_id[]" class="squaredThreex check hh" id="{{$rol->id}}"
                                    value="{{$rol->id}}"
                                    {{$user->roles->pluck('id')->contains($rol->id) ? 'checked' : '' }}
@@ -134,13 +135,14 @@
                     @endforeach
                 </div>
                 {{--Aquí es dondé aparecerá el select--}}
-                <div class="div" style="display: none">
-                    <h3>Jefe Asignado:</h3>
+                <div class="div" @if(@isset($show)) style="display: block" @endif @if(@isset($edit)) style="display: block" @endif
+                style ="display: none">
+                    <h3>Jefe asignado:</h3>
                     <div class="form-group  col-centered">
                         @if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
                         @elseif(!@isset($jefe)) @php $jefe = null; @endphp @endif
                         {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(),
-                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')']) }}
+                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')','id'=>'id_jefe']) }}
                     </div>
                 </div>
                 <br>

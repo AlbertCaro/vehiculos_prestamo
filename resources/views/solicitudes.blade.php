@@ -18,8 +18,9 @@
         <table class="table-fill">
             <thead>
             <tr>
-                <th>Solicitante</th>
-                <th>Funcionario</th>
+                <th>Nombre del solicitante</th>
+                <th>Nombre del evento</th>
+                <th>Fechas de solicitud</th>
                 <th>Conductor</th>
                 <th>Estado</th>
                 <th>Disponibilidad de Vehículo</th>
@@ -27,16 +28,25 @@
             </tr>
             </thead>
             <tbody class="table-hover">
-            @forelse($solicitudes as $solicitud)
 
+            @forelse($solicitudes as $solicitud)
+                {{--dd($solicitud->user)--}}
+            @php
+                $solicitante = \App\User::findOrFail($solicitud->solicitante_id)
+            @endphp
             <tr>
+                <td>{{$solicitante->nombre}} {{$solicitante->apaterno}} {{$solicitante->amaterno}}</td>
                 <td>{{$solicitud->nombre_evento}}</td>
-                <td>{{$solicitud->jefe->nombre.' '.$solicitud->jefe->apaterno.' '.$solicitud->jefe->amaterno}} ({{$solicitud->jefe->cargo}})</td>
+                <td><strong>Salida:</strong> {{$solicitud->fecha_evento}} <br><strong>Regreso:</strong> {{$solicitud->fecha_regreso}}</td>
                 <td>
                     @if($solicitud->solicita_conductor !== null)
                         {{\App\Solicitud::SolicitaConductor($solicitud->solicita_conductor)}}
                     @else
-                        {{$solicitud->driver->nombre.' '.$solicitud->driver->apaterno.' '.$solicitud->driver->amaterno}} ({{$solicitud->driver->dependencia->nombre}})
+                        @if(@isset($solicitud->driver))
+                            {{$solicitud->driver->nombre.' '.$solicitud->driver->apaterno.' '.$solicitud->driver->amaterno}} ({{$solicitud->driver->dependencia->nombre}})
+                        @else
+                            {{ "No asignado" }}
+                        @endif
                     @endif
                 </td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
