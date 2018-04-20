@@ -11,7 +11,7 @@
                     <div class="intro-message">
                         <h1>{{$title}}</h1>
                         <h3>Folio: {{$solicitud->id}}</h3>
-                        <h3>Fecha de la solicitud: {{$solicitud->fecha_solicitud}}</h3>
+                        <h3>Fecha de la solicitud: {{\Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y H:i:s')}}</h3>
                         @if($solicitud->solicita_conductor != null)
                             <div class="form_wh formCenter">
                                 <div class="alert alert-warning">

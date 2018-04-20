@@ -37,7 +37,7 @@
             <tr>
                 <td>{{$solicitante->nombre}} {{$solicitante->apaterno}} {{$solicitante->amaterno}}</td>
                 <td>{{$solicitud->nombre_evento}}</td>
-                <td><strong>Salida:</strong> {{$solicitud->fecha_evento}} <br><strong>Regreso:</strong> {{$solicitud->fecha_regreso}}</td>
+                <td><strong>Salida:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')}} <br><strong>Regreso:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_regreso)->format('d-m-Y H:i:s')}}</td>
                 <td>
                     @if($solicitud->solicita_conductor !== null)
                         {{\App\Solicitud::SolicitaConductor($solicitud->solicita_conductor)}}

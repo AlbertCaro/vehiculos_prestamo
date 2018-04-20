@@ -1,8 +1,8 @@
 $(document).ready(function(){
-    $('#venc_txt').datepicker({dateFormat: "yy-mm-dd"});
-    $('#fecha_txt').datetimepicker();
-    $('#fecha1_txt').datetimepicker();
-    $('#vencimiento').datepicker({dateFormat: "yy-mm-dd"});
+    $('#venc_txt').datepicker({dateFormat: "dd-mm-yy"});
+    $('#fecha_txt').datetimepicker({dateFormat:"dd-mm-yy H:i:s"});
+    $('#fecha1_txt').datetimepicker({dateFormat:"dd-mm-yy H:i:s"});
+    $('#vencimiento').datepicker({dateFormat: "dd-mm-yy"});
     
 	$('#codigoC_txt').autocomplete({
 		source: "/completa_solicitud",
