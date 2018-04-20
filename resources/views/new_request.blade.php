@@ -61,7 +61,6 @@
                                     </div><br/>
                                 <h5>Categoría del evento</h5>
                                 <div class="form-group  col-centered">
-
                                     {{ Form::select('categoria_evento', ['' => '- Seleccione una opción -'] + \App\Category::all(['id', 'nombre'])->pluck('nombre','id')->toArray(), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
                                 </div><br>
                                 <div id="select_tipo" class="form-group col-centered">
@@ -273,8 +272,7 @@
 
         function generarSelect() {
             $.ajaxSetup({
-                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
             });
 
             $.ajax({

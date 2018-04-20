@@ -41,16 +41,24 @@ class Solicitud extends Model
     public function driver(){
         return $this->hasOne(Driver::class,'id','driver_id');
     }
+
+    public function vehicle(){
+        return $this->hasOne(Vehicle::class, 'id', 'vehicles_id');
+    }
+
     public function setFechaSolicitudAttribute($value){
        // dd($value);
         $this->attributes['fecha_solicitud'] = Carbon::parse(strtotime($value.':00'));
     }
+
     public function setFechaEventoAttribute($value){
         $this->attributes['fecha_evento'] = Carbon::parse(strtotime($value.':00'));
     }
+
     public function setFechaRespuestaAttribute($value){
         $this->attributes['fecha_respuesta'] = Carbon::parse(strtotime($value.':00'));
     }
+
     public function setFechaRegresoAttribute($value){
         $this->attributes['fecha_regreso'] = Carbon::parse(strtotime($value.':00'));
     }
@@ -73,15 +81,15 @@ class Solicitud extends Model
                 return "Rechazada por alguna instancia";
                 break;
             default:
-                return "Aiudaaaaaa";
+                return "No se ha aprobado";
                 break;
         }
     }
 
     public static function vehiculoPropio($dispone){
-        if ($dispone===null){
-            return "No puede hacer uso de su vehículo";
-        }else{
+        if ($dispone === null){
+            return "No puede hacer uso de su vehículo y no se ha asignado un vehículo.";
+        } else {
             return "Sí puede usar su vehículo";
         }
     }
