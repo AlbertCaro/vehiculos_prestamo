@@ -41,7 +41,7 @@
                 </td>
                 <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
                 <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
-                @if(auth()->user()->hasRoles(['admin']) ||auth()->user()->hasRoles(['coord_servicios_generales']) )
+                @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales']) )
                 <td>
                     <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
                         <a href='{{ route('solicitud.show', $solicitud->id) }}'>
@@ -52,24 +52,27 @@
                         </a>
                         <input name="_method" type="hidden" value="DELETE">
                         {{ csrf_field() }}
-                        <a href='' onclick="deleteElement(
-                                '¿Está seguro de querer eliminar a la solicitud {{$solicitud->nombre_evento}}?',
-                                'delete_form_{{ $solicitud->id }}', event);
+                        <a href='' onclick="cancelElement(
+                                '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
+                                '{{route('cancelar',$solicitud->id) }}', event);
                                 ">
-                            <button type="button" class="btn btn-danger">Eliminar</button>
+                            <button type="button" class="btn btn-danger">Cancelar</button>
                             @if(auth()->user()->hasRoles(['coord_servicios_generales']))
                             <a href="{{route('assign_request',$solicitud->id) }}" class="btn btn-default">Asignar peticiones  </a>
                                 @endif
                         </a>
                     </form>
                 </td>
-                @elseif(auth()->user()->hasRoles(['jefe']))
+                @elseif(auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe']))
                 <td>
                     <a href="{{route('aceptar',$solicitud->id)}}">
                         <button type="button" class="btn btn-success">Aceptar</button>
                     </a>
-                    <a href="{{route('rechazar',$solicitud->id)}}">
-                        <button type="button" class="btn btn-danger">Rechazar</button>
+                    <a href="" onclick="cancelElement(
+                            '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
+                            '{{route('cancelar',$solicitud->id) }}', event);
+                            ">
+                        <button type="button" class="btn btn-danger">Cancelar</button>
                     </a>
                 </td>
                 @elseif(auth()->user()->hasRoles(['solicitante']))

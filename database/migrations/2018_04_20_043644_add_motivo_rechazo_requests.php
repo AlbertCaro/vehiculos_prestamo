@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddConductorNuloRequest extends Migration
+class AddMotivoRechazoRequests extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddConductorNuloRequest extends Migration
     public function up()
     {
         Schema::table('requests', function (Blueprint $table) {
-            $table->integer('driver_id')->nullable()->change();
+            $table->string('motivo_rechazo')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddConductorNuloRequest extends Migration
     public function down()
     {
         Schema::table('requests', function (Blueprint $table) {
-            //
+            $table->dropColumn('motivo_rechazo');
         });
     }
 }

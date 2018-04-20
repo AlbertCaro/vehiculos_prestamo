@@ -39,3 +39,20 @@ function deleteElement(message, id, event) {
         document.getElementById(id).submit();
     });
 }
+
+function cancelElement(message, url, event) {
+    event.preventDefault();
+
+    swal({
+        title: 'Atención',
+        text: message,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33333',
+        confirmButtonText: 'Sí, cancelarla',
+        cancelButtonText: 'Regresar'
+    }, function() {
+        window.location.href=url;
+    });
+}

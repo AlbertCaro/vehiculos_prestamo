@@ -26,28 +26,27 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales'])){
+        if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales'])){
             $solicitudes = Solicitud::all();
         }elseif(auth()->user()->hasRoles(['administrativo']) && auth()->user()->hasRoles(['jefe'])){
             $solicitudes = Solicitud::where('estatus',2)
             ->orWhere('jefe_id',auth()->user()->id)
                 ->whereIn('estatus',[1,2])
             ->get();
-        }
-        elseif (auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])) {
+        }elseif (auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])) {
             if(auth()->user()->hasRoles(['jefe'])){
                 $solicitudes = Solicitud::all()
                     ->where('jefe_id', auth()->user()->id)
                     ->where('estatus',1);
             }elseif(auth()->user()->hasRoles(['asistente_jefe'])){
-                dd(auth()->user());
+                $asistente = auth()->user();
+               // dd($asistente::jefe($asistente->id)[0]->id_jefe);
                 $solicitudes = Solicitud::all()
-                    ->where('jefe_id', auth()->user()->jefe->id)
+                    ->where('jefe_id', $asistente::jefe($asistente->id)[0]->id_jefe)
                     ->where('estatus',1);
             }
 
-        }
-        elseif(auth()->user()->hasRoles['']){
+        } elseif(auth()->user()->hasRoles['solicitante']){
             $solicitudes = Solicitud::all()
                 ->where('estatus',2);
         }elseif (auth()->user()->hasRoles(['solicitante'])) {
@@ -84,44 +83,56 @@ class SolicitudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GuardaSolicitudRequest $request)
+    public function store(Request $request)
     {
-        $conductor = Driver::where('id',$request['txt_codigoC'])->get();
+
         $id_conductor = null;
-        //dd($conductor);
-        if($conductor->isEmpty()){
-            $c = (new \App\Driver)->create([
-                'id'=>$request['txt_codigoC'],
-                'nombre'=>$request['txt_nombreC'],
-                'celular'=>$request['txt_celularC'],
-                'dependencies_id' => $request['dependencia']
-            ]);
-            $id_conductor = $c->id;
-        }else{
-            $id_conductor = $request['txt_codigoC'];
+        if(!$request->has('solicito_conduc')){
+            $conductor = Driver::where('id',$request['txt_codigoC'])->get();
+
+            //dd($conductor);
+            if($conductor->isEmpty()){
+                $c = (new \App\Driver)->create([
+                    'id'=>$request['txt_codigoC'],
+                    'nombre'=>$request['txt_nombreC'],
+                    'celular'=>$request['txt_celularC'],
+                    'dependencies_id' => $request['dependencia']
+                ]);
+                $id_conductor = $c->id;
+            }else{
+                $id_conductor = $request['txt_codigoC'];
+            }
+
+
+
+            $licencia = Licence::where('numero',$request['txt_licencia'])->get();
+            if($licencia->isEmpty()){
+                $l = (new \App\Licence)->create([
+                    'numero'=>$request['txt_licencia'],
+                    'vencimiento'=>$request['txt_venc'],
+                    'licence_types_id'=>$request['tipo_licencia'],
+                    'driver_id'=>$id_conductor,
+                ]);
+
+                if($request->hasFile('archivo')){
+                    $licencia->archivo = $request->file('archivo')->store('/public/licences');
+                    $licencia->save();
+                }
+            }
+            $contacto = Contact::where('driver_id',$id_conductor)->get();
+            if($contacto->isEmpty()){
+                $contact = (new \App\Contact)->create([
+                    'nombre'=>$request['txt_contacto'],
+                    'parentesco'=>$request['txt_parentesco'],
+                    'domicilio'=>$request['txt_domicilio'],
+                    'telefono'=>$request['txt_telefono'],
+                    'driver_id'=>$id_conductor,
+                ]);
+            }
         }
 
-        $licencia = Licence::where('numero',$request['txt_licencia'])->get();
-        if($licencia->isEmpty()){
-            $l = (new \App\Licence)->create([
-                'numero'=>$request['txt_licencia'],
-                'vencimiento'=>$request['txt_venc'],
-                'licence_types_id'=>$request['tipo_licencia'],
-                'archivo' => $request->file('archivo')->store('/public/licences'),
-                'driver_id'=>$id_conductor,
-            ]);
 
-        }
-        $contacto = Contact::where('driver_id',$id_conductor)->get();
-        if($contacto->isEmpty()){
-            $contact = (new \App\Contact)->create([
-                'nombre'=>$request['txt_contacto'],
-                'parentesco'=>$request['txt_parentesco'],
-                'domicilio'=>$request['txt_domicilio'],
-                'telefono'=>$request['txt_telefono'],
-                'driver_id'=>$id_conductor,
-            ]);
-        }
+
 
         //if($request->has(''))
         //dd($request['txt_fecha'].':00');
@@ -155,7 +166,7 @@ class SolicitudController extends Controller
 
         $jefe = User::datosJefe($request['slc_jefe']);
 
-      //  Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+        //TODO:Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
 
@@ -284,11 +295,15 @@ class SolicitudController extends Controller
                     $mensaje = "Se ha aprobado correctamente como secretario administrativo, correo a coordinador srvgrales";
                     $titulo = "Ha aprobado la solicitud flujo anormal";
 
+                    //TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+
                 }else{
                     if(auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])){//también la asistente del jefe puede autorizar
                         $mensaje = "Se ha aprobado correctamente como jefe o asistente, correo a secretario administrativo";
                         $titulo = "Ha aprobado la solicitud";
                         $estado=2;
+                        //TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+
                     }
                 }
                 break;
@@ -297,7 +312,7 @@ class SolicitudController extends Controller
                     $estado = 3;
                     $mensaje = "Se ha aprobado correctamente como secretario administrativo, correo a coordinador srvgrales";
                     $titulo = "Ha aprobado la solicitud flujo normal";
-
+                    //TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
                 }
                 break;
             case 3:
@@ -305,6 +320,7 @@ class SolicitudController extends Controller
                     $estado=4;
                     $mensaje = "Se ha aprobado correctamente como coordinador de servicios generales";
                     $titulo = "Ha aprobado la solicitud";
+                    //TODO:Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
                 }
                 break;
             case 4:
@@ -314,6 +330,8 @@ class SolicitudController extends Controller
                 //está rechazada por alguna instancia
                 if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
                     return "La solicitud pasa a 4";
+                    //TODO:Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+
                 }
                 break;
             default:
@@ -324,14 +342,17 @@ class SolicitudController extends Controller
         $solicitud->save();
         //alert("")
         alert()->success($mensaje,$titulo);
+
         return redirect()->route('solicitud.index');
     }
 
-    public function rechazarSolicitud($id){
-        $solicitud = Solicitud::findOrFail($id);
-
+    public function rechazarSolicitud(Request $request){
+        $solicitud = Solicitud::findOrFail($request['id_solicitud']);
         $solicitud->estatus=5;
+        $solicitud->motivo_rechazo=$request['motivo_rechazo'];
         $solicitud->save();
-        return "enviar un correo al solicitante de que no procedió su solicitud";
+        alert()->success("La solicitud se ha rechazado correctamente");
+        /*TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));*/
+        return redirect()->route('solicitud.index');
     }
 }

@@ -76,6 +76,8 @@ class UserController extends Controller
        ]);*/
         $user = User::create($request->all());
 
+        $user->roles()->sync($this->rolSolicitante());
+        $user->save();
 
         return redirect()->route('usuario.index')->with("alert", 'Usuario agregado correcamente');
     }
@@ -134,7 +136,10 @@ class UserController extends Controller
             $request['password'] = $usuario->password;
         }
 
-        //    $jefe = User::datosJefe($request['slc_jefe']);
+        if($request->has('slc_jefe')){
+            $usuario->id_jefe = $request['slc_jefe'];
+        }
+
 
 
 
@@ -166,6 +171,12 @@ class UserController extends Controller
     public function muestraSolicitantes(){
         $users = User::listaByRol('solicitante');
         return view('manage_jefes',compact('users'));
+    }
+
+    public function rolSolicitante(){
+        $rolSolicitante = Role::where('nombre','=','solicitante')
+            ->get();
+        return $rolSolicitante;
     }
 
 

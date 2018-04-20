@@ -77,11 +77,18 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class,'users_has_roles');
     }
 
-    public function jefe() {
-        return $this->belongsTo('users')->where('id_jefe','=','id');
-    }
-    public function asistente() {
-        return $this->hasOne(User::class,'id_jefe','id');
+
+    public static function jefe($id) {
+        /*recibir el id del usuario (asistente)*/
+
+        $asistente = User::findOrFail($id);
+
+        $jefe = DB::table('users as jefes')->join('users as asistentes','jefes.id','=','asistentes.id_jefe')
+            ->select('jefes.id as id_jefe','asistentes.id as id_asistente')
+            ->where('asistentes.id','=',$asistente->id)
+            ->get();
+
+        return $jefe;
     }
 
     public function hasRoles(array $rolesVerificar){

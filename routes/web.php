@@ -47,7 +47,10 @@ Route::post('select_event_type', ['as' => 'select_event', function () {
 
 //rutas de Erick xD
 Route::get('aceptar/{id}',['as'=>'aceptar','uses'=>'SolicitudController@aceptarSolicitud']);
-Route::get('rechazar/{id}',['as'=>'rechazar','uses'=>'SolicitudController@rechazarSolicitud']);
+Route::post('rechazar',['as'=>'rechazar','uses'=>'SolicitudController@rechazarSolicitud']);
+Route::get('cancelar/{id}',['as'=>'cancelar',function($id){
+    return view('motivo_rechazo',compact('id'));
+}]);
 
 Route::get('solicitud/{id}/asignar_peticion', ['as' => 'assign_request', 'uses' => 'SolicitudController@assignRequest']);
 Route::post('asignar_peticion', ['as' => 'save_request', 'uses' => 'SolicitudController@saveDriverVehicleRequest']);
