@@ -9,13 +9,28 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1 id="pivoteRadios">{{$title}}</h1>
+                        <h1>{{$title}}</h1>
                         <h3>Folio: {{$solicitud->id}}</h3>
+                        <h3>Fecha de la solicitud: {{$solicitud->fecha_solicitud}}</h3>
+                        @if($solicitud->solicita_conductor != null)
+                            <div class="form_wh formCenter">
+                                <div class="alert alert-warning">
+                                    <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="#" class="alert-link">Asignar conductor</a>.
+                                </div>
+                            </div>
+                        @endif
+                        @if($solicitud->vehiculo_propio == null)
+                            <div class="form_wh formCenter">
+                                <div class="alert alert-warning">
+                                    <strong>¡Atención!</strong> El solicitante no cuenta con vehículo asignado <a href="#" class="alert-link">Asignar vehículo</a>.
+                                </div>
+                            </div>
+                        @endif
                         <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
                               @if(@empty($solicitud)) action="{{route('solicitud.store')}}"
                               @else action="{{route('solicitud.update', $solicitud->id)}}" @endif
                               method="post" enctype="multipart/form-data"><br>
-                            <div class="col-lg-5 col-sm-6">
+                            <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
                                 @if(@empty($solicitud))
                                     {{method_field('POST')}}
                                 @else
@@ -80,49 +95,50 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de regreso</span>
                                     <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso"
-                                           onfocus="hideError('txt_fecha1')" disabled
-                                           @if(!@empty($solicitud)) value="{{ $solicitud->fecha_regreso }}" @endif/>
+                                           disabled @if(!@empty($solicitud)) value="{{ $solicitud->fecha_regreso }}" @endif/>
                                 </div><br>
-                            </div>
                             @if($solicitud->solicita_conductor == null)
+                            </div> <!-- aqui se hace la division en dos del formulario en caso de que haya datos del conductor -->
                             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                                 <div class="form-group  col-centered">
                                     <h3>Información sobre el conductor</h3>
                                     <div class="input-group">
-                                        <label class="radio-inline" for="rdio5">
-                                            <input type="checkbox" id="rdio5" name="solicito_conduc" value="1"
-                                                   onclick="enableContent();"/>Solicito conductor</label><br><br>
-                                    </div>
-                                    <div class="input-group">
                                         <span class="input-group-addon">Código</span>
-                                        <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"/>
+                                        <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"
+                                               disabled @if(!@empty($solicitud)) value="{{ $conductor->id}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Nombre</span>
-                                        <input type="text" class="form-control" id="nombreC_txt" name="txt_nombreC" placeholder="Nombre"/>
+                                        <input type="text" class="form-control" id="nombreC_txt" name="txt_nombreC" placeholder="Nombre"
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->nombre." ". $conductor->apaterno." ".$conductor->amaterno}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Celular</span>
-                                        <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular'/>
+                                        <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular'
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->celular}}" @endif/>
                                     </div><br>
-                                    <h5>Dependencia</h5>
-                                    <div class="form-group  col-centered">
-                                        {{ Form::select('dependencia', ['' => '- Seleccione una opción -'] + \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id')->toArray(),
-                                        null, ['class' => 'form-control','id' => 'dependencia', 'onfocus' => 'hideError(\'dependencia\')']) }}
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Dependencia</span>
+                                        <input type="text" class="form-control" name="txt_dependenciaC" placeholder='Numero de celular'
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->depen_nombre}}" @endif/>
                                     </div><br>
+                                    <!--</div><br>-->
 
                                     <h4>Detalles de la licencia</h4>
                                     <div class="input-group">
                                         <span class="input-group-addon">Licencia</span>
-                                        <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"/>
+                                        <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->numero}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Fecha de vencimiento</span>
-                                        <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"/>
-                                    </div>
-                                    <h5>Tipo de licencia</h5>
-                                    <div class="form-group  col-centered">
-                                        {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), null, ['class' => 'form-control','id'=>'tipo_licencia']) }}
+                                        <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->vencimiento}}" @endif/>
+                                    </div><br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Tipo de licencia</span>
+                                        <input type="text" class="form-control" id="tipol_txt" name="txt_tipol" placeholder="Tipo de licencia"
+                                           disabled @if(!@empty($conductor)) value="{{ $conductor->tipo}}" @endif/>
                                     </div><br>
                                     <h5>Adjuntar archivo</h5>
                                     <div class="form-group  col-centered">
@@ -132,29 +148,33 @@
                                     <h4>Contacto para casos de emergencia</h4>
                                     <div class="input-group">
                                         <span class="input-group-addon">Contacto</span>
-                                        <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto"/>
+                                        <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto"
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->cont_nombre." ".$conductor->cont_paterno." ".$conductor->cont_materno}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Parentesco</span>
-                                        <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco"/>
+                                        <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco"
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->parentesco}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Domicilio</span>
-                                        <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo"/>
+                                        <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo"
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->domicilio}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Teléfono</span>
-                                        <input type=text class="form-control" id="telefono_txt" name="txt_telefono" placeholder="Telefono"/>
+                                        <input type=text class="form-control" id="telefono_txt" name="txt_telefono" placeholder="Telefono"
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->telefono}}" @endif/>
                                     </div><br>
+                                </div><br>
                                 </div>
                             </div>
                             @endif
-                            <br/>
-                            <h3 class="center-text">Vehículo propio</h3>
-                            <label class="radio-inline" for="rdio4"><input type="checkbox" id="rdio4" name="rdio_disp" value="1"/>En caso de no contar con la disponibilidad de un vehículo oficial, está dispuesto a usar un vehículo propio para hacer el viaje</label><br><br>
-                            <h1>Términos y condiciones</h1>
-                            <p>Al hacer clic en guardar, usted acepta los <a href="{{route('terminos')}}" target="_blank">términos y condiciones</a></p>
-                            <input type="submit" class="botones" id="btn_save" name="save_btn" value="Guardar" />
+
+                        @if($solicitud->solicita_conductor != null) </div> @endif
+                    <input type="submit" class="botones" id="btn_save" name="save_btn" value="Editar" /><br><br>
+
+
                         </form>
                     </div>
                 </div>
