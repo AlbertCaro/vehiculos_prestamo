@@ -13,6 +13,7 @@ use App\Mail\NuevaSolicitudDeVehiculo;
 use App\Solicitud;
 use App\User;
 use Carbon\Carbon;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -247,8 +248,7 @@ class SolicitudController extends Controller
             Carbon::parse($solicitud->fecha_regreso)->toDateString()
         ];
 
-        //dd($solicitud);
-        if ($solicitud->vehicles_id == null) {
+        if ($solicitud->vehicles_id === null) {
             $vehiculos = $empty_option + DB::table('vehicles')
                     ->leftJoin('requests','vehicles.id','=','requests.vehicles_id')
                     ->select('vehicles.id', 'vehicles.nombre')
@@ -268,8 +268,7 @@ class SolicitudController extends Controller
                     })->get()->pluck('nombre','id')->toArray();
         }
 
-
-        if ($solicitud->drivers_id == null) {
+        if ($solicitud->driver_id === null) {
             $conductores = $empty_option + DB::table('drivers')
                     ->leftJoin('requests','drivers.id','=','requests.driver_id')
                     ->select('drivers.id', 'drivers.nombre', 'requests.fecha_evento', 'requests.fecha_regreso')
@@ -395,5 +394,38 @@ class SolicitudController extends Controller
         alert()->success("La solicitud se ha rechazado correctamente");
         /*TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));*/
         return redirect()->route('solicitud.index');
+    }
+
+    public function busquedaSolicitud(Request $request) {
+        $GLOBALS['date_interval'] = [
+            $request->fecha,
+            $request->fecha2
+        ];
+
+
+        $solicitudes = DB::table('requests')
+            ->where(function ($query) {
+                $query
+                    ->whereBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
+                    ->whereBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval']);
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][0]));
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][1]))
+                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+            })
+            ->where('requests.estatus','==', $request->estatus)
+            ->get();
+        return view('request_search_table', compact('solicitudes'));
     }
 }

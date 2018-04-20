@@ -275,8 +275,7 @@
 
         function generarSelect() {
             $.ajaxSetup({
-                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
             });
 
             $.ajax({

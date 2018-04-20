@@ -32,12 +32,14 @@
             @forelse($solicitudes as $solicitud)
                 {{--dd($solicitud->user)--}}
             @php
-                $solicitante = \App\User::findOrFail($solicitud->solicitante_id)
+                $solicitante = \App\User::findOrFail($solicitud->solicitante_id);
             @endphp
             <tr>
                 <td>{{$solicitante->nombre}} {{$solicitante->apaterno}} {{$solicitante->amaterno}}</td>
                 <td>{{$solicitud->nombre_evento}}</td>
-                <td><strong>Salida:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')}} <br><strong>Regreso:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_regreso)->format('d-m-Y H:i:s')}}</td>
+                <td>
+                    <strong>Salida:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')}} <br>
+                    <strong>Regreso:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_regreso)->format('d-m-Y H:i:s')}}</td>
                 <td>
                     @if($solicitud->solicita_conductor !== null)
                         {{\App\Solicitud::SolicitaConductor($solicitud->solicita_conductor)}}
@@ -49,8 +51,14 @@
                         @endif
                     @endif
                 </td>
-                <td>{{\App\Solicitud::status($solicitud->estatus)}}</td>
-                <td>{{\App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio)}}</td>
+                <td>{{ \App\Solicitud::status($solicitud->estatus )}}</td>
+                <td>
+                    @if($solicitud->vehicles_id !== null)
+                        {{ $solicitud->vehicle->nombre." ".$solicitud->vehicle->placas }}
+                    @else
+                        {{ \App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio) }}
+                    @endif
+                </td>
                 @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales']) )
                 <td>
                     <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
@@ -67,9 +75,11 @@
                                 '{{route('cancelar',$solicitud->id) }}', event);
                                 ">
                             <button type="button" class="btn btn-danger">Cancelar</button>
-                            @if(auth()->user()->hasRoles(['coord_servicios_generales']))
-                            <a href="{{route('assign_request',$solicitud->id) }}" class="btn btn-default">Asignar peticiones  </a>
-                                @endif
+                            @if(auth()->user()->hasRoles(['coord_servicios_generales']) &&
+                            ($solicitud->driver_id === null || $solicitud->vehicles_id === null) &&
+                             is_null($solicitud->vehiculo_propio))
+                                <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
+                            @endif
                         </a>
                     </form>
                 </td>
