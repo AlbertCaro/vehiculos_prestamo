@@ -74,10 +74,9 @@ class UserController extends Controller
         'role_id'=> 1,
         'password'=>Hash::make($request['password']),
        ]);*/
+
         $user = User::create($request->all());
 
-        $user->roles()->sync($this->rolSolicitante());
-        $user->save();
 
         return redirect()->route('usuario.index')->with("alert", 'Usuario agregado correcamente');
     }
@@ -93,10 +92,11 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $title = 'Detalles del usuario';
         $show = true;
-        $jefe = $user->jefe_id;
-        $select_attribs = ['class' => 'form-control'];
+        $jefe = $user->id_jefe;
+        //$datosjefe = User;
+        $select_attribs = ['class' => 'form-control', 'disabled' => ''];
         $roles = Role::all();
-        return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'show', 'title', 'jefe', 'select_attribs'));
+        return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'show', 'title', 'jefe', 'select_attribs', 'datosjefe'));
     }
 
     /**
@@ -112,9 +112,11 @@ class UserController extends Controller
         /*$this->authorize($user);/revisará la política de acceso para ver si este usuario tiene permiso
         de editar el usuario que quiere editar, si no es él mismo, no podrá editarse.*/
         //$jefe = User::datosJefe('slc_jefe');
+        $edit = true;
+        $jefe = $user->id_jefe;
         $select_attribs = ['class' => 'form-control'];
         $roles = Role::all();
-        return view('add_users',compact('user','roles', 'title', 'select_attribs'));
+        return view('add_users',compact('user','roles', 'title', 'select_attribs', 'edit', 'jefe'));
     }
 
     /**
@@ -136,15 +138,13 @@ class UserController extends Controller
             $request['password'] = $usuario->password;
         }
 
-        if($request->has('slc_jefe')){
-            $usuario->id_jefe = $request['slc_jefe'];
-        }
-
-
-
+        $jefe = User::datosJefe($request['slc_jefe']);
 
         $usuario->roles()->sync($request->role_id);
         $usuario->update($request->all());
+        $usuario->update(['id_jefe'=>$request['slc_jefe']]);
+        //dd($usuario);
+
 
         return redirect()->route('usuario.index')->with("alert","Editado correctamente");
 
@@ -171,12 +171,6 @@ class UserController extends Controller
     public function muestraSolicitantes(){
         $users = User::listaByRol('solicitante');
         return view('manage_jefes',compact('users'));
-    }
-
-    public function rolSolicitante(){
-        $rolSolicitante = Role::where('nombre','=','solicitante')
-            ->get();
-        return $rolSolicitante;
     }
 
 
