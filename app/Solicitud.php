@@ -29,8 +29,9 @@ class Solicitud extends Model
         'solicita_conductor'];
 
     public $timestamps = false;
-    public function users(){
-        return $this->belongsToMany(User::class);
+
+    public function user(){
+        return $this->belongsTo(Solicitud::class,'requests','id_solicitante','id');
     }
 
     public function jefe(){

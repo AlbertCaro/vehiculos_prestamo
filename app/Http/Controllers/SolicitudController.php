@@ -156,7 +156,6 @@ class SolicitudController extends Controller
            'fecha_regreso'=>$request['txt_fecha1'],
            'event_types_id'=>$event_type,
            'driver_id'=>$id_conductor,
-           'vehicles_id'=>1,
            'solicitante_id'=>auth()->user()->id,
            'jefe_id'=>$request['slc_jefe'],
            'distancia'=>$request['txt_kilometros'],
@@ -237,6 +236,7 @@ class SolicitudController extends Controller
             Carbon::parse($solicitud->fecha_regreso)->toDateString()
         ];
 
+        //dd($solicitud);
         if ($solicitud->vehicles_id == null) {
             $vehiculos = $empty_option + DB::table('vehicles')
                     ->leftJoin('requests','vehicles.id','=','requests.vehicles_id')

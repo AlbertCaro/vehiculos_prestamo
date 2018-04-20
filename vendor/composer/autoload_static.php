@@ -324,6 +324,7 @@ class ComposerStaticInit54258255f32820ed04cf2385138c8fcb
     public static $classMap = array (
         'AddConductorNuloRequest' => __DIR__ . '/../..' . '/database/migrations/2018_04_16_210212_add_conductor_nulo_request.php',
         'AddMotivoRechazoRequests' => __DIR__ . '/../..' . '/database/migrations/2018_04_20_043644_add_motivo_rechazo_requests.php',
+        'AddVehiculoNuloToRequests' => __DIR__ . '/../..' . '/database/migrations/2018_04_20_163148_add_vehiculo_nulo_to_requests.php',
         'AlterRequestsTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_12_193931_alter_requests_table.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',

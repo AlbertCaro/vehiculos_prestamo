@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\ResetPasswordNotification;
+use App\Solicitud;
 
 class User extends Authenticatable
 {
@@ -76,6 +77,9 @@ class User extends Authenticatable
     public function roles() {
         return $this->belongsToMany(Role::class,'users_has_roles');
     }
+    public function solicitudesPorUsuario(){
+        return $this->hasMany(Solicitud::class,'solicitante_id','id');
+    }
 
 
     public static function jefe($id) {
@@ -140,7 +144,7 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function Solicitudes(){
+    public function solicitudes(){
        return $this->hasMany(Solicitud::class,'jefe_id','id');
     }
 }
