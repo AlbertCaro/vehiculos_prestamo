@@ -133,9 +133,7 @@
                         @endforeach
                 </div>
                 {{--Aquí es dondé aparecerá el select--}}
-                <div class="div"
-                     @if(@isset($jefe)) style="display: block" @endif
-                     style ="display: none">
+                <div class="div" @if(@isset($jefe)) style="display: block" @else style ="display: none"> @endif
                 <h3>Jefe asignado:</h3>
                     <div class="form-group  col-centered">
                         @if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
