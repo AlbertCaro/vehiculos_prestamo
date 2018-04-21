@@ -122,7 +122,7 @@ class SolicitudController extends Controller
                     $licencia->save();
                 }
             }
-            $contacto = Contact::where('driver_id',$id_conductor)->get();
+            $contacto = Contact::where('driver_id','=',$id_conductor)->get();
             if($contacto->isEmpty()){
                 $contact = (new \App\Contact)->create([
                     'nombre'=>$request['txt_contacto'],

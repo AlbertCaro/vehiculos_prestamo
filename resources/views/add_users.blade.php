@@ -106,18 +106,17 @@
             @isset($user->roles)
                 <div class="modal-title "><h2>Roles para el usuario: </h2></div>
                 <div class="form-check form-check-inline">
-                    {{--No se si aqui lo estoy haciendo bien creo que sí--}}
                     @foreach($roles as $rol)
                         @if($rol->nombre_mostrado == 'Asistente'|| $rol->nombre_monstrado == 'asistente')
                             <script type="text/javascript" >
-                                    $(document).ready(function(){
+                                $(document).ready(function(){
                                         $('.check').click(function(){
                                             if($(this).is(':checked')){
-                                                if ($(this).val()== '{{$rol->id}}') {
+                                                if ($(this).val() == '{{$rol->id}}') {
                                                     $('.div').css('display', 'block');
                                                 }
-                                            }else{
-                                                $('.div').css('display', 'none');
+                                            }else if(!$(this).is(':checked')){
+                                                    $('.div').css('display', 'none');
                                             }
                                         });
                                     });
@@ -126,18 +125,18 @@
                     @endforeach
 
                         @foreach($roles as $rol)
-                        {{--solucionar para que se quede selecionado en caso de error--}}
                             <input type="checkbox" name="role_id[]" class="squaredThreex check hh" id="{{$rol->id}}"
                                    value="{{$rol->id}}"
                                    {{$user->roles->pluck('id')->contains($rol->id) ? 'checked' : '' }}
-                                   @if(@isset($show)) disabled @endif/>
+                                   @if(@isset($show))  disabled @endif/>
                              <label for="{{$rol->id}}">{{$rol->nombre_mostrado}}</label><br>
-                    @endforeach
+                        @endforeach
                 </div>
                 {{--Aquí es dondé aparecerá el select--}}
-                <div class="div" @if(@isset($show)) style="display: block" @endif @if(@isset($edit)) style="display: block" @endif
-                style ="display: none">
-                    <h3>Jefe asignado:</h3>
+                <div class="div"
+                     @if(@isset($jefe)) style="display: block" @endif
+                     style ="display: none">
+                <h3>Jefe asignado:</h3>
                     <div class="form-group  col-centered">
                         @if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
                         @elseif(!@isset($jefe)) @php $jefe = null; @endphp @endif
@@ -146,6 +145,7 @@
                     </div>
                 </div>
                 <br>
+
                 <div id="error_slc_jefe">
                     {!! $errors->first('slc_jefe','<span class="alert-danger">:message</span></br>') !!}
                 </div><br/>

@@ -90,11 +90,16 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
+
         $title = 'Detalles del usuario';
         $show = true;
         $jefe = $user->id_jefe;
-        //$datosjefe = User;
+
+        //dd($jefe);
         $select_attribs = ['class' => 'form-control', 'disabled' => ''];
+
+
+
         $roles = Role::all();
         return view('add_users', compact('user','roles','nombre', 'apaterno', 'amaterno', 'cargo', 'celular', 'email', 'show', 'title', 'jefe', 'select_attribs', 'datosjefe'));
     }
@@ -107,6 +112,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+
         $user = User::findOrFail($id);
         $title = 'Editar usuario';
         /*$this->authorize($user);/revisará la política de acceso para ver si este usuario tiene permiso
@@ -114,6 +120,7 @@ class UserController extends Controller
         //$jefe = User::datosJefe('slc_jefe');
         $edit = true;
         $jefe = $user->id_jefe;
+        //dd($jefe);
         $select_attribs = ['class' => 'form-control'];
         $roles = Role::all();
         return view('add_users',compact('user','roles', 'title', 'select_attribs', 'edit', 'jefe'));
@@ -138,11 +145,22 @@ class UserController extends Controller
             $request['password'] = $usuario->password;
         }
 
-        $jefe = User::datosJefe($request['slc_jefe']);
 
+        $jefe = User::datosJefe($request['slc_jefe']);
         $usuario->roles()->sync($request->role_id);
+        //$usuario->update(['id_jefe' => $request['slc_jefe']]);
+
+
+        if ($request->has('slc_jefe')) {
+            $request['id_jefe'] = $request['slc_jefe'];
+        }else{
+            $request['id_jefe'] = null;
+        }
+
+        //$jefe = User::datosJefe($request['slc_jefe']);
+        //$usuario->roles()->sync($request->role_id);
+
         $usuario->update($request->all());
-        $usuario->update(['id_jefe'=>$request['slc_jefe']]);
         //dd($usuario);
 
 
