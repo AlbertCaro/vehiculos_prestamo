@@ -21,7 +21,7 @@ class Vehicle extends Model
     //relación
 
     public function request(){
-        return $this->belongsTo(Solicitud::class);
+        return $this->belongsTo(Solicitud::class,'vehicles_id');
     }
 }
 

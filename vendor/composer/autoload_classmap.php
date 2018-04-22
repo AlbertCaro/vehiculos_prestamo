@@ -44,6 +44,7 @@ return array(
     'App\\Http\\Requests\\CreateEventTypeRequest' => $baseDir . '/app/Http/Requests/CreateEventTypeRequest.php',
     'App\\Http\\Requests\\DriverRequest' => $baseDir . '/app/Http/Requests/DriverRequest.php',
     'App\\Http\\Requests\\GuardaSolicitudRequest' => $baseDir . '/app/Http/Requests/GuardaSolicitudRequest.php',
+    'App\\Http\\Requests\\SolicitudRequest' => $baseDir . '/app/Http/Requests/SolicitudRequest.php',
     'App\\Http\\Requests\\StoreUserRequest' => $baseDir . '/app/Http/Requests/StoreUserRequest.php',
     'App\\Http\\Requests\\UpdateUserRequest' => $baseDir . '/app/Http/Requests/UpdateUserRequest.php',
     'App\\Http\\Requests\\VehicleRequest' => $baseDir . '/app/Http/Requests/VehicleRequest.php',

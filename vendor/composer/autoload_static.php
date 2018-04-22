@@ -360,6 +360,7 @@ class ComposerStaticInit54258255f32820ed04cf2385138c8fcb
         'App\\Http\\Requests\\CreateEventTypeRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreateEventTypeRequest.php',
         'App\\Http\\Requests\\DriverRequest' => __DIR__ . '/../..' . '/app/Http/Requests/DriverRequest.php',
         'App\\Http\\Requests\\GuardaSolicitudRequest' => __DIR__ . '/../..' . '/app/Http/Requests/GuardaSolicitudRequest.php',
+        'App\\Http\\Requests\\SolicitudRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SolicitudRequest.php',
         'App\\Http\\Requests\\StoreUserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StoreUserRequest.php',
         'App\\Http\\Requests\\UpdateUserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateUserRequest.php',
         'App\\Http\\Requests\\VehicleRequest' => __DIR__ . '/../..' . '/app/Http/Requests/VehicleRequest.php',

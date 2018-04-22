@@ -31,9 +31,13 @@
 
             @forelse($solicitudes as $solicitud)
                 {{--dd($solicitud->user)--}}
+
             @php
                 $solicitante = \App\User::findOrFail($solicitud->solicitante_id);
+           // dd($solicitud);
+
             @endphp
+
             <tr>
                 <td>{{$solicitante->nombre}} {{$solicitante->apaterno}} {{$solicitante->amaterno}}</td>
                 <td>{{$solicitud->nombre_evento}}</td>
@@ -41,6 +45,7 @@
                     <strong>Salida:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')}} <br>
                     <strong>Regreso:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_regreso)->format('d-m-Y H:i:s')}}</td>
                 <td>
+
                     @if($solicitud->solicita_conductor !== null)
                         {{\App\Solicitud::SolicitaConductor($solicitud->solicita_conductor)}}
                     @else
@@ -53,6 +58,7 @@
                 </td>
                 <td>{{ \App\Solicitud::status($solicitud->estatus )}}</td>
                 <td>
+
                     @if($solicitud->vehicles_id !== null)
                         {{ $solicitud->vehicle->nombre." ".$solicitud->vehicle->placas }}
                     @else

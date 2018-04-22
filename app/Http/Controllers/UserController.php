@@ -135,6 +135,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
+        dd($request->all());
         $usuario = User::findOrFail($id);
 
 
@@ -149,6 +150,7 @@ class UserController extends Controller
         $jefe = User::datosJefe($request['slc_jefe']);
         $usuario->roles()->sync($request->role_id);
         //$usuario->update(['id_jefe' => $request['slc_jefe']]);
+
 
 
         if ($request->has('slc_jefe')) {

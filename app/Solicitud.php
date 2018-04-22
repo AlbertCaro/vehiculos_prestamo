@@ -43,7 +43,7 @@ class Solicitud extends Model
     }
 
     public function vehicle(){
-        return $this->hasOne(Vehicle::class, 'id', 'vehicles_id');
+        return $this->hasOne('App\Vehicle', 'id','vehicles_id');
     }
 
     public function setFechaSolicitudAttribute($value){
