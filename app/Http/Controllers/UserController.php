@@ -185,12 +185,14 @@ class UserController extends Controller
 
     public function muestra_jefes(){
         $users = User::listaByRol('jefe');
-        return view('manage_jefes',compact('users'));
+        $titulo = 'Funcionarios que pueden autorizar peticiones';
+        return view('manage_jefes',compact('users','titulo'));
     }
 
     public function muestraSolicitantes(){
         $users = User::listaByRol('solicitante');
-        return view('manage_jefes',compact('users'));
+        $titulo = 'Usuarios que pueden solicitar';
+        return view('manage_jefes',compact('users','titulo'));
     }
 
 

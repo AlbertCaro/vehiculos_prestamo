@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
     <div class="limit">
-        <h3 class="center-text">Funcionarios que pueden autorizar peticiones</h3>
+        <h3 class="center-text">{{$titulo}}</h3>
         <table class="table-fill">
             <thead>
             <tr>
@@ -20,8 +20,8 @@
                 <th>Nombre</th>
                 <th>Correo electrónico</th>
                 <th>Tipo</th>
-                <th>Eliminar</th>
-                <th>Modificar</th>
+                <th>Acciones</th>
+
             </tr>
             </thead>
             <tbody class="table-hover">
@@ -40,18 +40,24 @@
                     <td>
                         {{ucwords($user->cargo)}}
                     </td>
-                    <td>
-                        <form id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
-
-                            {{method_field('DELETE')}}
-                            {{ csrf_field() }}
-                            <a href='' onclick="event.preventDefault();
-                                    document.getElementById('delete_form_{{ $user->id }}').submit();">
-                                <img border='0' alt='Editar' src='img/delete.png' width='50' height='50'>
+                    <td style="width: 280px">
+                        <form class="form-inline" id="delete_form_{{ $user->id }}" action="{{ route('usuario.destroy' , $user->id)}}" method="POST">
+                            <a href='{{ route('usuario.show', $user->id) }}'>
+                                <button type="button" class="btn btn-info">Detalles</button>
                             </a>
-                        </form></td>
-                    <td>
-                        <a href='{{route('usuario.edit',$user->id)}}'><img border='0' alt='Modificar' src='img/edit.png' width='50' height='50'></a></td>
+                            <a href='{{route('usuario.edit', $user->id)}}'>
+                                <button type="button" class="btn btn-success">Editar</button>
+                            </a>
+                            <input name="_method" type="hidden" value="DELETE">
+                            {{ csrf_field() }}
+                            <a href='' onclick="deleteElement(
+                                    '¿Está seguro de querer eliminar el usuario {{$user->nombre}}?',
+                                    'delete_form_{{ $user->id }}', event);
+                                    ">
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </a>
+                        </form>
+                    </td>
                 </tr>
 
             @empty
