@@ -21,7 +21,8 @@
                 <span class="input-group-addon">Estatus</span>
                 <select class="form-control" id="estatus">
                     <option value="">- Seleccione una opción -</option>
-                    <option value="0">En espera</option>
+                    <option value="todos">Todos</option>
+                    <option value="0">No aprobado</option>
                     <option value="1">No validado</option>
                     <option value="2">Aprobado por el jefe inmediato</option>
                     <option value="3">Aprobado por la Secretaría Administrativa</option>
@@ -55,6 +56,9 @@
         <br/>
     </div>
     <script type="text/javascript">
+        $("#fecha").datepicker({dateFormat: "dd-mm-yy"});
+        $("#fecha2").datepicker({dateFormat: "dd-mm-yy"});
+
         $(document).ready(generaTabla());
         $("#submit").click(function (event) {
             event.preventDefault();

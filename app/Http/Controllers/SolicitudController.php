@@ -418,34 +418,66 @@ class SolicitudController extends Controller
 
     public function busquedaSolicitud(Request $request) {
         $GLOBALS['date_interval'] = [
-            $request->fecha,
-            $request->fecha2
+            Carbon::parse($request->fecha)->format('Y-m-d'),
+            Carbon::parse($request->fecha2)->format('Y-m-d')
         ];
 
-
-        $solicitudes = DB::table('requests')
-            ->where(function ($query) {
-                $query
-                    ->whereBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
-                    ->whereBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval']);
-            })
-            ->orWhere(function ($query) {
-                $query
-                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
-                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][0]));
-            })
-            ->orWhere(function ($query) {
-                $query
-                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
-                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
-            })
-            ->orWhere(function ($query) {
-                $query
-                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][1]))
-                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
-            })
-            ->where('requests.estatus','==', $request->estatus)
-            ->get();
+        if (!is_null($request->fecha) && !is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 'todos') {
+            $solicitudes = DB::table('requests')
+                ->where(function ($query) {
+                    $query
+                        ->whereBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
+                        ->whereBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval']);
+                })
+                ->orWhere(function ($query) {
+                    $query
+                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][0]));
+                })
+                ->orWhere(function ($query) {
+                    $query
+                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+                })
+                ->orWhere(function ($query) {
+                    $query
+                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][1]))
+                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+                })
+                ->where('requests.estatus','==', $request->estatus)
+                ->get();
+        } elseif (!is_null($request->fecha) && !is_null($request->fecha2) && is_null($request->estatus) && $request['estatus'] === 'todos') {
+            $solicitudes = DB::table('requests')
+                ->where(function ($query) {
+                    $query
+                        ->whereBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
+                        ->whereBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval']);
+                })
+                ->orWhere(function ($query) {
+                    $query
+                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][0]));
+                })
+                ->orWhere(function ($query) {
+                    $query
+                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+                })
+                ->orWhere(function ($query) {
+                    $query
+                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][1]))
+                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+                })
+                ->get();
+        } elseif (is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 'todos') {
+            $solicitudes = DB::table('requests')
+                ->where('requests.estatus', '=', $request->estatus)
+                ->get();
+        } elseif ((is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] === 'todos') or
+            (is_null($request->fecha) && is_null($request->fecha2) && is_null($request->estatus))) {
+            $solicitudes = DB::table('requests')
+                ->get();
+        }
         return view('request_search_table', compact('solicitudes'));
     }
 }
