@@ -76,6 +76,6 @@
         </tr>
     @empty
         <tr>
-            <td colspan="7">No hay solicitudes</td>
+            <td colspan="7">No hay solicitudes que coincidan con el patrón de la búsqueda.</td>
         </tr>
     @endforelse

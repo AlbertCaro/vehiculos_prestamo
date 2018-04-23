@@ -58,13 +58,21 @@
     <br/>
     <br/>
     <script type="text/javascript">
-        $("#fecha").datepicker({dateFormat: "dd-mm-yy"});
-        $("#fecha2").datepicker({dateFormat: "dd-mm-yy"});
+        function valida_select() {
+            var estatus = document.getElementById('estatus');
+            if (estatus.value !== "" && estatus.value.length !== 0)
+                generaTabla();
+            else
+                swal("Oops!", "Debe seleccionar el estatus.", "error");
+        }
+
+        $("#fecha").datepicker({ dateFormat: "dd-mm-yy" });
+        $("#fecha2").datepicker({ dateFormat: "dd-mm-yy" });
 
         $(document).ready(generaTabla());
         $("#submit").click(function (event) {
             event.preventDefault();
-            generaTabla();
+            valida_select();
         });
 
         function generaTabla() {
