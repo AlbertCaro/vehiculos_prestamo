@@ -143,11 +143,11 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Código</span>
                                         <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"
-                                               onfocus="hideError('driver_id')"
-                                               @if(count($errors)) value="{{ old('driver_id') }}"@endif/>
+                                               onfocus="hideError('txt_codigoC')"
+                                               @if(count($errors)) value="{{ old('txt_codigoC') }}"@endif/>
                                     </div><br>
-                                    <div id="error_codigoC">
-                                        {!! $errors->first('driver_id','<span class="alert-danger">El campo codigo es obligatorio</span></br>') !!}
+                                    <div id="error_txt_codigoC">
+                                        {!! $errors->first('txt_codigoC','<span class="alert-danger">El campo codigo es obligatorio</span></br>') !!}
                                     </div><br/>
                                     <div class="input-group">
                                         <span class="input-group-addon">Nombre</span>

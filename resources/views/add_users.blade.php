@@ -114,9 +114,12 @@
                                             if($(this).is(':checked')){
                                                 if ($(this).val() == '{{$rol->id}}') {
                                                     $('.div').css('display', 'block');
+                                                    $('#id_jefe').removeAttr('disabled');
+
                                                 }
                                             }else if(!$(this).is(':checked')){
                                                     $('.div').css('display', 'none');
+                                                    $('#id_jefe').attr('disabled', 'disabled');
                                             }
                                         });
                                     });
@@ -140,7 +143,7 @@
                         @if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
                         @elseif(!@isset($jefe)) @php $jefe = null; @endphp @endif
                         {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(),
-                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')']) }}
+                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')', 'id'=>'id_jefe']) }}
                     </div>
                 </div>
                 <div id="error_slc_jefe">
