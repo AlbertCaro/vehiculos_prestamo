@@ -10,7 +10,8 @@ class Solicitud extends Model
     //
     protected $table = 'requests';
 
-    protected $fillable= ['nombre_evento',
+    protected $fillable= [
+        'nombre_evento',
         'estatus',
         'fecha_solicitud',
         'fecha_respuesta',
@@ -26,44 +27,45 @@ class Solicitud extends Model
         'distancia',
         'fecha_regreso',
         'vehiculo_propio',
-        'solicita_conductor'];
+        'solicita_conductor'
+    ];
 
     public $timestamps = false;
 
-    public function user(){
+    public function user() {
         return $this->belongsTo(Solicitud::class,'requests','id_solicitante','id');
     }
 
-    public function jefe(){
+    public function jefe() {
         return $this->belongsTo(User::class,'jefe_id','id');
     }
 
-    public function driver(){
+    public function driver() {
         return $this->hasOne(Driver::class,'id','driver_id');
     }
 
-    public function vehicle(){
-        return $this->hasOne('App\Vehicle', 'id','vehicles_id');
+    public function vehicle() {
+        return $this->hasOne(Vehicle::class, 'id','vehicles_id');
     }
 
-    public function setFechaSolicitudAttribute($value){
+    public function setFechaSolicitudAttribute($value) {
        // dd($value);
         $this->attributes['fecha_solicitud'] = Carbon::parse(strtotime($value.':00'));
     }
 
-    public function setFechaEventoAttribute($value){
+    public function setFechaEventoAttribute($value) {
         $this->attributes['fecha_evento'] = Carbon::parse(strtotime($value.':00'));
     }
 
-    public function setFechaRespuestaAttribute($value){
+    public function setFechaRespuestaAttribute($value) {
         $this->attributes['fecha_respuesta'] = Carbon::parse(strtotime($value.':00'));
     }
 
-    public function setFechaRegresoAttribute($value){
+    public function setFechaRegresoAttribute($value) {
         $this->attributes['fecha_regreso'] = Carbon::parse(strtotime($value.':00'));
     }
 
-    public static function status($status){
+    public static function status($status) {
         switch ($status){
             case 1:
                 return "No se ha validado";
@@ -86,18 +88,18 @@ class Solicitud extends Model
         }
     }
 
-    public static function vehiculoPropio($dispone){
-        if ($dispone === null){
+    public static function vehiculoPropio($dispone) {
+        if ($dispone === null) {
             return "No puede hacer uso de su vehículo y no se ha asignado un vehículo.";
         } else {
             return "Sí puede usar su vehículo";
         }
     }
 
-    public static function SolicitaConductor($conductor){
-        if ($conductor!==null){
+    public static function SolicitaConductor($conductor) {
+        if ($conductor!==null) {
             return "Se requiere conductor por parte de la institución";
-        }else{
+        } else {
             return $conductor;
         }
     }

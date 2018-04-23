@@ -21,6 +21,12 @@
             </td>
             <td>{{ \App\Solicitud::status($solicitud->estatus )}}</td>
             <td>
+                @if($solicitud->vehicles_id !== null)
+                    @php $vehicle = \App\Vehicle::findOrFail($solicitud->vehicles_id) @endphp
+                    {{ $vehicle->nombre." ".$vehicle->placas }}
+                @else
+                    {{ \App\Solicitud::vehiculoPropio($solicitud->vehiculo_propio) }}
+                @endif
 
             </td>
             @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales']) )
@@ -29,7 +35,7 @@
                         <a href='{{ route('solicitud.show', $solicitud->id) }}'>
                             <button type="button" class="btn btn-info">Detalles</button>
                         </a>
-                        <a href='{{route('solicitud.edit', $solicitud->id)}}'>
+                        <a href='{{ route('solicitud.edit', $solicitud->id) }}'>
                             <button type="button" class="btn btn-success">Editar</button>
                         </a>
                         <input name="_method" type="hidden" value="DELETE">
