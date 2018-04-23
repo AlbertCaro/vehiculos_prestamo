@@ -128,7 +128,7 @@ class SolicitudController extends Controller
         $id_conductor = null;
         if ($request->has('solicito_conduc')) {
             $this->validateWithDriver($request);
-        }else{
+        }else {
             $this->validateWithoutDriver($request);
         }
             if (!$request->has('solicito_conduc')) {

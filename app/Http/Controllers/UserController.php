@@ -145,15 +145,11 @@ class UserController extends Controller
             $request['password'] = $usuario->password;
         }
 
-
         if($request->has('slc_jefe')){
             $jefe = User::datosJefe($request['slc_jefe']);
-            $usuario->roles()->sync($request->role_id);
         }
 
-        //$usuario->update(['id_jefe' => $request['slc_jefe']]);
-        //$this->validate($request,['slc_jefe'=>'required']);
-
+        $usuario->roles()->sync($request->role_id);
 
         if ($request->has('slc_jefe')) {
             $request['id_jefe'] = $request['slc_jefe'];
@@ -161,12 +157,7 @@ class UserController extends Controller
             $request['id_jefe'] = null;
         }
 
-
-        //dd($usuario);
-
         $usuario->update($request->all());
-
-
         return redirect()->route('usuario.index')->with("alert","Editado correctamente");
 
     }
