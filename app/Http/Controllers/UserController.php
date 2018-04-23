@@ -148,15 +148,17 @@ class UserController extends Controller
         $jefe = User::datosJefe($request['slc_jefe']);
         $usuario->roles()->sync($request->role_id);
         //$usuario->update(['id_jefe' => $request['slc_jefe']]);
+        //$this->validate($request,['slc_jefe'=>'required']);
 
-        if ($request->has('role_id[]')) {
-            if ($request->has('slc_jefe')) {
-                $request['id_jefe'] = $request['slc_jefe'];
-            }
-        }else {
+
+        if ($request->has('slc_jefe')) {
+            $request['id_jefe'] = $request['slc_jefe'];
+        }else{
             $request['id_jefe'] = null;
         }
-        dd($usuario);
+
+
+        //dd($usuario);
 
         $usuario->update($request->all());
 
