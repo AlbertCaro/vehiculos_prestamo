@@ -5,17 +5,18 @@
 @section('content')
     <br/><br/>
     <link rel="stylesheet" href="css/tabla.css">
-    <div class="form_wh formCenter">
+    <div class="limit" align="center">
         <br/>
         <h1 class="center-text">Buscar solicitud</h1>
+        <br/>
         <form id="busqueda_form" class="form-inline">
             <div class="input-group">
                 <span class="input-group-addon">Entre</span>
-                <input type="text" class="form-control" id="fecha" placeholder="Nombre(s)" onkeyup=""/>
+                <input type="text" class="form-control" id="fecha" placeholder="Primera fecha..." onkeyup=""/>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Y</span>
-                <input type="text" class="form-control" id="fecha2" placeholder="Nombre(s)" onkeyup=""/>
+                <input type="text" class="form-control" id="fecha2" placeholder="Segunda fecha..." onkeyup=""/>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Estatus</span>
@@ -34,27 +35,28 @@
                 <a class="btn btn-default" href="#" id="submit">Buscar</a>
             </div>
         </form>
-        <br/>
-        <div>
-            <table class="table-fill" id="tabla">
-                <thead>
-                <tr>
-                    <th>Nombre del solicitante</th>
-                    <th>Nombre del evento</th>
-                    <th>Fechas de solicitud</th>
-                    <th>Conductor</th>
-                    <th>Estado</th>
-                    <th>Disponibilidad de Vehículo</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody id="table" class="table-hover">
-
-                </tbody>
-            </table>
-        </div>
-        <br/>
     </div>
+    <br/>
+    <div class="limit">
+        <table class="table-fill" id="tabla">
+            <thead>
+            <tr>
+                <th>Nombre del solicitante</th>
+                <th>Nombre del evento</th>
+                <th>Fechas de solicitud</th>
+                <th>Conductor</th>
+                <th>Estado</th>
+                <th>Disponibilidad de Vehículo</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="table" class="table-hover">
+
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
     <script type="text/javascript">
         $("#fecha").datepicker({dateFormat: "dd-mm-yy"});
         $("#fecha2").datepicker({dateFormat: "dd-mm-yy"});
