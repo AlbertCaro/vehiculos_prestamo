@@ -45,7 +45,6 @@
                     <strong>Salida:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')}} <br>
                     <strong>Regreso:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_regreso)->format('d-m-Y H:i:s')}}</td>
                 <td>
-
                     @if($solicitud->solicita_conductor !== null)
                         {{\App\Solicitud::SolicitaConductor($solicitud->solicita_conductor)}}
                     @else
@@ -56,9 +55,14 @@
                         @endif
                     @endif
                 </td>
-                <td>{{ \App\Solicitud::status($solicitud->estatus )}}</td>
                 <td>
-
+                    @if($solicitud->estatus === 5)
+                        {{ \App\Solicitud::status($solicitud->estatus).": ".$solicitud->motivo_rechazo }}
+                    @else
+                        {{ \App\Solicitud::status($solicitud->estatus) }}
+                    @endif
+                </td>
+                <td>
                     @if($solicitud->vehicles_id !== null)
                         {{ $solicitud->vehicle->nombre." ".$solicitud->vehicle->placas }}
                     @else
@@ -76,11 +80,13 @@
                         </a>
                         <input name="_method" type="hidden" value="DELETE">
                         {{ csrf_field() }}
+                        @if($solicitud->estatus === 1)
                         <a href='' onclick="cancelElement(
                                 '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
                                 '{{route('cancelar',$solicitud->id) }}', event);
                                 ">
                             <button type="button" class="btn btn-danger">Cancelar</button>
+                        @endif
                             @if(auth()->user()->hasRoles(['coord_servicios_generales']) &&
                             ($solicitud->driver_id === null || $solicitud->vehicles_id === null) &&
                              is_null($solicitud->vehiculo_propio))
@@ -94,19 +100,23 @@
                     <a href="{{route('aceptar',$solicitud->id)}}">
                         <button type="button" class="btn btn-success">Aceptar</button>
                     </a>
-                    <a href="" onclick="cancelElement(
-                            '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
-                            '{{route('cancelar',$solicitud->id) }}', event);
-                            ">
-                        <button type="button" class="btn btn-danger">Cancelar</button>
-                    </a>
+                    @if($solicitud->estatus === 1)
+                        <a href="" onclick="cancelElement(
+                                '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
+                                '{{route('cancelar',$solicitud->id) }}', event);
+                                ">
+                            <button type="button" class="btn btn-danger">Cancelar</button>
+                        </a>
+                    @endif
                 </td>
                 @elseif(auth()->user()->hasRoles(['solicitante']))
                     <td>
-                        <a href="">
-                            <button type="button" class="btn btn-warning">Editar</button>
+                        <a href='{{ route('solicitud.edit', $solicitud->id) }}'>
+                            <button type="button" class="btn btn-success">Editar</button>
                         </a>
-
+                        <a href='{{ route('cancelar', $solicitud->id) }}'>
+                            <button type="button" class="btn btn-danger">Cancelar</button>
+                        </a>
                     </td>
                 @endif
             </tr>
