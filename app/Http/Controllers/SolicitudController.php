@@ -27,6 +27,26 @@ class SolicitudController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * @param Request $request
+     **->Valida solo la parte del formulario que queda habilitada si se solicita conductor.
+     */
+    public function validateWithDriver(Request $request){
+        $this->validate($request,[
+            'jefe_id'=>'required|numeric',
+            'nombre_evento'=>'required|max:245',
+            'domicilio'=>'required|max:191',
+            'fecha_evento'=>'required',
+            'event_types_id'=>'required|numeric',
+            'driver_id'=>'required1numeric',
+            'escala'=>'required|max:191',
+            'personas'=>'required|max:191',
+            'distancia'=>'required|max:191',
+            'fecha_regreso'=>'required'
+        ]);
+    }
+
     public function index()
     {
         if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales'])){
@@ -88,53 +108,53 @@ class SolicitudController extends Controller
      */
     public function store(SolicitudRequest $request)
     {
-
         $id_conductor = null;
-        if(!$request->has('solicito_conduc')){
-            $conductor = Driver::where('id',$request['txt_codigoC'])->get();
+        if ($request->has('solicito_conduc')) {
+            $this->validateWithDriver($request);
 
-            //dd($conductor);
-            if($conductor->isEmpty()){
-                $c = (new \App\Driver)->create([
-                    'id'=>$request['txt_codigoC'],
-                    'nombre'=>$request['txt_nombreC'],
-                    'celular'=>$request['txt_celularC'],
-                    'dependencies_id' => $request['dependencia']
-                ]);
-                $id_conductor = $c->id;
-            }else{
-                $id_conductor = $request['txt_codigoC'];
-            }
+            if (!$request->has('solicito_conduc')) {
+                $conductor = Driver::where('id', $request['txt_codigoC'])->get();
+
+                //dd($conductor);
+                if ($conductor->isEmpty()) {
+                    $c = (new \App\Driver)->create([
+                        'id' => $request['txt_codigoC'],
+                        'nombre' => $request['txt_nombreC'],
+                        'celular' => $request['txt_celularC'],
+                        'dependencies_id' => $request['dependencia']
+                    ]);
+                    $id_conductor = $c->id;
+                } else {
+                    $id_conductor = $request['txt_codigoC'];
+                }
 
 
+                $licencia = Licence::where('numero', $request['txt_licencia'])->get();
+                if ($licencia->isEmpty()) {
+                    $l = (new \App\Licence)->create([
+                        'numero' => $request['txt_licencia'],
+                        'vencimiento' => $request['txt_venc'],
+                        'licence_types_id' => $request['tipo_licencia'],
+                        'driver_id' => $id_conductor,
+                    ]);
 
-            $licencia = Licence::where('numero',$request['txt_licencia'])->get();
-            if($licencia->isEmpty()){
-                $l = (new \App\Licence)->create([
-                    'numero'=>$request['txt_licencia'],
-                    'vencimiento'=>$request['txt_venc'],
-                    'licence_types_id'=>$request['tipo_licencia'],
-                    'driver_id'=>$id_conductor,
-                ]);
-
-                if($request->hasFile('archivo')){
-                    $licencia->archivo = $request->file('archivo')->store('/public/licences');
-                    $licencia->save();
+                    if ($request->hasFile('archivo')) {
+                        $licencia->archivo = $request->file('archivo')->store('/public/licences');
+                        $licencia->save();
+                    }
+                }
+                $contacto = Contact::where('driver_id', '=', $id_conductor)->get();
+                if ($contacto->isEmpty()) {
+                    $contact = (new \App\Contact)->create([
+                        'nombre' => $request['txt_contacto'],
+                        'parentesco' => $request['txt_parentesco'],
+                        'domicilio' => $request['txt_domicilio'],
+                        'telefono' => $request['txt_telefono'],
+                        'driver_id' => $id_conductor,
+                    ]);
                 }
             }
-            $contacto = Contact::where('driver_id','=',$id_conductor)->get();
-            if($contacto->isEmpty()){
-                $contact = (new \App\Contact)->create([
-                    'nombre'=>$request['txt_contacto'],
-                    'parentesco'=>$request['txt_parentesco'],
-                    'domicilio'=>$request['txt_domicilio'],
-                    'telefono'=>$request['txt_telefono'],
-                    'driver_id'=>$id_conductor,
-                ]);
-            }
         }
-
-
 
 
         //if($request->has(''))

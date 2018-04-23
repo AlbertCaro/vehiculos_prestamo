@@ -33,7 +33,8 @@ class SolicitudRequest extends FormRequest
             'escala'=>'required|max:191',
             'personas'=>'required|max:191',
             'distancia'=>'required|max:191',
-            'fecha_regreso'=>'required'
+            'fecha_regreso'=>'required',
+            //'tipo_evento'=>'required'
         ];
     }
 }

@@ -138,14 +138,12 @@
                     <div class="form-group  col-centered">
                         @if(count($errors))  @php $jefe = old('slc_jefe'); @endphp
                         @elseif(!@isset($jefe)) @php $jefe = null; @endphp @endif
-                        {{ Form::select('slc_jefe', ['' => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(),
-                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')','id'=>'id_jefe']) }}
+                        {{ Form::select('slc_jefe', [0 => '- Seleccione una opción -'] + \App\User::listaByRol('jefe')->pluck('full_name', 'id')->toArray(),
+                        $jefe, $select_attribs + ['onfocus' => 'hideError(\'slc_jefe\')']) }}
                     </div>
                 </div>
-                <br>
-
                 <div id="error_slc_jefe">
-                    {!! $errors->first('slc_jefe','<span class="alert-danger">:message</span></br>') !!}
+                    {!! $errors->first('slc_jefe','<span class="alert-danger">Debe seleccionar un funcionario</span></br>') !!}
                 </div><br/>
                 @endisset
 
