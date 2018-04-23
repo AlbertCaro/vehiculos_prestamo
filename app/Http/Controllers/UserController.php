@@ -135,14 +135,12 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-       // dd($request->all());
         $usuario = User::findOrFail($id);
 
 
-
-        if($request->has('cambiar_pw')){//si se solicita cambiar contraseña, la cambiamos
+        if ($request->has('cambiar_pw')) {//si se solicita cambiar contraseña, la cambiamos
             $request['password'] = Hash::make($request['password']);
-        }else{//si no, la dejamos como estaba, aunque no escriban nada en el campo.
+        } else {//si no, la dejamos como estaba, aunque no escriban nada en el campo.
             $request['password'] = $usuario->password;
         }
 
@@ -151,19 +149,16 @@ class UserController extends Controller
         $usuario->roles()->sync($request->role_id);
         //$usuario->update(['id_jefe' => $request['slc_jefe']]);
 
-
-
-        if ($request->has('slc_jefe')) {
-            $request['id_jefe'] = $request['slc_jefe'];
-        }else{
+        if ($request->has('role_id[]')) {
+            if ($request->has('slc_jefe')) {
+                $request['id_jefe'] = $request['slc_jefe'];
+            }
+        }else {
             $request['id_jefe'] = null;
         }
-
-        //$jefe = User::datosJefe($request['slc_jefe']);
-        //$usuario->roles()->sync($request->role_id);
+        dd($usuario);
 
         $usuario->update($request->all());
-        //dd($usuario);
 
 
         return redirect()->route('usuario.index')->with("alert","Editado correctamente");
@@ -194,6 +189,4 @@ class UserController extends Controller
         $titulo = 'Usuarios que pueden solicitar';
         return view('manage_jefes',compact('users','titulo'));
     }
-
-
 }

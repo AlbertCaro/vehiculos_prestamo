@@ -30,7 +30,7 @@ class UpdateUserRequest extends FormRequest
             'cargo'=>'required',
             'celular'=>'required|numeric',
             'email'=>'required|unique:users,email,'.$this->route('usuario'),
-            'slc_jefe'=>'required|not_in:0'
+            //'slc_jefe'=>'required'
         ];
     }
 }
