@@ -123,7 +123,7 @@ class SolicitudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SolicitudRequest $request)
     {
         $id_conductor = null;
         if ($request->has('solicito_conduc')) {
@@ -229,6 +229,7 @@ class SolicitudController extends Controller
         $solicitud = Solicitud::findOrFail($id);
         $jefe = User::all()->where('id','=', $solicitud->jefe_id)->first();
         $tipo = Event_Type::all()->where('id','=',$solicitud->event_types_id)->first();
+        /*
         $conductor = DB::table('drivers')
             ->join ('dependences','drivers.dependencies_id','=','dependences.id')
             ->join ('licences','drivers.id','=','licences.driver_id')
@@ -237,7 +238,8 @@ class SolicitudController extends Controller
             ->select('dependences.nombre AS depen_nombre', 'drivers.*', 'licences.*', 'licence_types.tipo',
                 'contacts.nombre AS cont_nombre', 'contacts.apaterno AS cont_paterno', 'contacts.amaterno AS cont_materno', 'contacts.parentesco', 'contacts.telefono', 'contacts.domicilio')
             ->where('drivers.id', '=',$solicitud->driver_id)
-            ->first();
+            ->first();*/
+        $conductor = Driver::findOrFail($solicitud->driver_id);
         //$conductor = Driver::all()->where('id', '=',$solicitud->driver_id)->first();
         //$jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         $categories = Category::all();
@@ -255,7 +257,9 @@ class SolicitudController extends Controller
      */
     public function edit($id)
     {
-        return "programame :'c";
+        $solicitud = Solicitud::findOrFail($id);
+        $title = "Editar solicitud";
+        return view('edit_request',compact('title','solicitud'));
     }
 
     /**
@@ -265,9 +269,17 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update(GuardaSolicitudRequest $request, $id)
+    public function update(Request $request, $id)
     {
-
+        $this->validate($request, [
+           'txt_fecha' => 'required',
+           'txt_fecha1' => 'required'
+        ]);
+        $solicitud = Solicitud::findOrFail($id);
+        $solicitud->fecha_evento = $request['txt_fecha'];
+        $solicitud->fecha_regreso = $request['txt_fecha1'];
+        $solicitud->save();
+        return redirect('solicitud')->with('alert', 'Información de la solicitud actualizada correctamente.');
     }
 
     /**

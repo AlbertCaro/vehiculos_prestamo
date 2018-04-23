@@ -48,6 +48,10 @@ class Solicitud extends Model
         return $this->hasOne(Vehicle::class, 'id','vehicles_id');
     }
 
+    public function eventType() {
+        return $this->hasOne(Event_Type::class, 'id','event_types_id');
+    }
+
     public function setFechaSolicitudAttribute($value) {
        // dd($value);
         $this->attributes['fecha_solicitud'] = Carbon::parse(strtotime($value.':00'));

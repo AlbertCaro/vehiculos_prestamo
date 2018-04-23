@@ -30,7 +30,7 @@
                               action="{{route('solicitud.index')}}"
                               method="get" enctype="multipart/form-data"><br>
                             <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
-                                {{csrf_field()}}
+                                
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
@@ -53,7 +53,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">Categoría</span>
                                     <input type="text" class="form-control" name="txt_categoria" id="txt_categoria" placeholder='Categoría' disabled
-                                           @if(!@empty($solicitud)) value="{{ $solicitud->domicilio }}" @endif/>
+                                           @if(!@empty($solicitud)) value="{{ $solicitud->eventType->category->nombre }}" @endif/>
                                 </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Tipo</span>
@@ -134,9 +134,9 @@
                                            disabled @if(!@empty($conductor)) value="{{ $conductor->tipo}}" @endif/>
                                     </div><br>
                                     <h5>Archivo de licencia</h5>
-                                    @if($conductor->archivo != null)
+                                    @if($solicitud->driver->licence->archivo != null)
                                         <div class="form-group  col-centered">
-                                            <a href="{{ Storage::url($conductor->archivo)  }}">Descargar el archivo</a>
+                                            <a href="{{ Storage::url($solicitud->driver->licence->archivo)  }}">Descargar el archivo</a>
                                         </div><br>
                                     @else
                                         <div class="form_wh formCenter">
@@ -150,17 +150,17 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Contacto</span>
                                         <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->cont_nombre." ".$conductor->cont_paterno." ".$conductor->cont_materno}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->nombre." ".$conductor->cont_paterno." ".$conductor->cont_materno}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Parentesco</span>
                                         <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->parentesco}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->parentesco}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Domicilio</span>
                                         <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->domicilio}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->domicilio}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Teléfono</span>
