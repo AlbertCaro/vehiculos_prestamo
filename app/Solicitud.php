@@ -68,7 +68,7 @@ class Solicitud extends Model
     public static function status($status) {
         switch ($status){
             case 1:
-                return "No se ha validado";
+                return "No se ha aprobado";
                 break;
             case 2:
                 return "Aprobado por el jefe inmediato";

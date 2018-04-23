@@ -22,9 +22,8 @@
                 <span class="input-group-addon">Estatus</span>
                 <select class="form-control" id="estatus">
                     <option value="">- Seleccione una opción -</option>
-                    <option value="todos">Todos</option>
-                    <option value="0">No aprobado</option>
-                    <option value="1">No validado</option>
+                    <option value="0">Todos</option>
+                    <option value="1">No aprobado</option>
                     <option value="2">Aprobado por el jefe inmediato</option>
                     <option value="3">Aprobado por la Secretaría Administrativa</option>
                     <option value="4">Aprobado por el Coordinador de Servicios Generales</option>

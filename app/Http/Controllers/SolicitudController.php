@@ -444,7 +444,7 @@ class SolicitudController extends Controller
             Carbon::parse($request->fecha2)->format('Y-m-d')
         ];
 
-        if (!is_null($request->fecha) && !is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 'todos') {
+        if (!is_null($request->fecha) && !is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 0) {
             $solicitudes = DB::table('requests')
                 ->where(function ($query) {
                     $query
@@ -468,7 +468,7 @@ class SolicitudController extends Controller
                 })
                 ->where('requests.estatus','==', $request->estatus)
                 ->get();
-        } elseif (!is_null($request->fecha) && !is_null($request->fecha2) && is_null($request->estatus) && $request['estatus'] === 'todos') {
+        } elseif (!is_null($request->fecha) && !is_null($request->fecha2) && is_null($request->estatus) && $request['estatus'] === 0) {
             $solicitudes = DB::table('requests')
                 ->where(function ($query) {
                     $query
@@ -491,11 +491,11 @@ class SolicitudController extends Controller
                         ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
                 })
                 ->get();
-        } elseif (is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 'todos') {
+        } elseif (is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 0) {
             $solicitudes = DB::table('requests')
                 ->where('requests.estatus', '=', $request->estatus)
                 ->get();
-        } elseif ((is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] === 'todos') or
+        } elseif ((is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] === 0) or
             (is_null($request->fecha) && is_null($request->fecha2) && is_null($request->estatus))) {
             $solicitudes = DB::table('requests')
                 ->get();
