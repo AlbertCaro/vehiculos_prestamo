@@ -86,10 +86,9 @@ class SolicitudController extends Controller
                     ->where('estatus',1);
             }
 
-        } elseif(auth()->user()->hasRoles['solicitante']){
-            $solicitudes = Solicitud::all()
-                ->where('estatus',2);
-        }elseif (auth()->user()->hasRoles(['solicitante'])) {
+        } elseif(auth()->user()->hasRoles(['solicitante'])){
+            $solicitudes = Solicitud::all()->where('estatus',2);
+        } elseif (auth()->user()->hasRoles(['solicitante'])) {
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
         }
         /*
@@ -229,7 +228,6 @@ class SolicitudController extends Controller
         $solicitud = Solicitud::findOrFail($id);
         $jefe = User::all()->where('id','=', $solicitud->jefe_id)->first();
         $tipo = Event_Type::all()->where('id','=',$solicitud->event_types_id)->first();
-        /*
         $conductor = DB::table('drivers')
             ->join ('dependences','drivers.dependencies_id','=','dependences.id')
             ->join ('licences','drivers.id','=','licences.driver_id')
@@ -238,8 +236,8 @@ class SolicitudController extends Controller
             ->select('dependences.nombre AS depen_nombre', 'drivers.*', 'licences.*', 'licence_types.tipo',
                 'contacts.nombre AS cont_nombre', 'contacts.apaterno AS cont_paterno', 'contacts.amaterno AS cont_materno', 'contacts.parentesco', 'contacts.telefono', 'contacts.domicilio')
             ->where('drivers.id', '=',$solicitud->driver_id)
-            ->first();*/
-        $conductor = Driver::findOrFail($solicitud->driver_id);
+            ->first();
+        //$conductor = Driver::findOrFail($solicitud->driver_id);
         //$conductor = Driver::all()->where('id', '=',$solicitud->driver_id)->first();
         //$jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         $categories = Category::all();

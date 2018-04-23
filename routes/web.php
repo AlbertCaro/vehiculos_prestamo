@@ -49,7 +49,9 @@ Route::post('select_event_type', ['as' => 'select_event', function () {
 Route::get('aceptar/{id}',['as'=>'aceptar','uses'=>'SolicitudController@aceptarSolicitud']);
 Route::post('rechazar',['as'=>'rechazar','uses'=>'SolicitudController@rechazarSolicitud']);
 Route::get('cancelar/{id}',['as'=>'cancelar',function($id){
-    return view('motivo_rechazo',compact('id'));
+    $solicitud = \App\Solicitud::findOrFail($id);
+    $id_solicitante = $solicitud->solicitante_id;
+    return view('motivo_rechazo',compact('id', 'id_solicitante'));
 }]);
 
 Route::get('solicitud/{id}/asignar_peticion', ['as' => 'assign_request', 'uses' => 'SolicitudController@assignRequest']);

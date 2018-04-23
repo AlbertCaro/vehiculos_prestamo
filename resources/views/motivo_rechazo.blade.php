@@ -6,7 +6,12 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Por favor, describa el motivo del rechazo</div>
+                    <div class="panel-heading">
+                        @if(auth()->user()->id == $id_solicitante)
+                            {{ "Por favor, describa el motivo del cancelación" }}
+                        @else
+                            {{ "Por favor, describa el motivo de la rechazo" }}
+                        @endif</div>
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{ route('rechazar') }}">
@@ -30,7 +35,11 @@
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-10">
                                     <button type="submit" class="btn btn-primary">
-                                        Rechazar
+                                        @if(auth()->user()->id == $id_solicitante)
+                                            {{ "Cancelar solicitud" }}
+                                        @else
+                                            {{ "Rechazar" }}
+                                        @endif
                                     </button>
 
                                 </div>

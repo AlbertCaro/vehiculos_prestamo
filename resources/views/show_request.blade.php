@@ -27,9 +27,8 @@
                             </div>
                         @endif
                         <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
-                              action="{{route('solicitud.index')}}"
                               method="get" enctype="multipart/form-data"><br>
-                            <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
+                            <div @if($solicitud->driver_id !== null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
                                 
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="input-group">
@@ -91,7 +90,7 @@
                                     <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso"
                                            disabled @if(!@empty($solicitud)) value="{{ \Carbon\Carbon::parse($solicitud->fecha_regreso )->format('d-m-Y H:i:s')}}" @endif/>
                                 </div><br>
-                            @if($solicitud->solicita_conductor == null)
+                            @if($solicitud->driver_id !== null)
                             </div> <!-- aqui se hace la division en dos del formulario en caso de que haya datos del conductor -->
                             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                                 <div class="form-group  col-centered">
@@ -134,7 +133,7 @@
                                            disabled @if(!@empty($conductor)) value="{{ $conductor->tipo}}" @endif/>
                                     </div><br>
                                     <h5>Archivo de licencia</h5>
-                                    @if($solicitud->driver->licence->archivo != null)
+                                    @if($solicitud->driver->licence->archivo !== null)
                                         <div class="form-group  col-centered">
                                             <a href="{{ Storage::url($solicitud->driver->licence->archivo)  }}">Descargar el archivo</a>
                                         </div><br>
@@ -150,17 +149,17 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Contacto</span>
                                         <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->nombre." ".$conductor->cont_paterno." ".$conductor->cont_materno}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->cont_nombre." ".$conductor->cont_paterno." ".$conductor->cont_materno}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Parentesco</span>
                                         <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->parentesco}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->parentesco}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Domicilio</span>
                                         <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->domicilio}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->domicilio}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Teléfono</span>
@@ -173,9 +172,14 @@
                             @endif
 
                         @if($solicitud->solicita_conductor != null) </div> @endif
-                    <input type="submit" class="botones" id="btn_save" name="save_btn" value="Regresar" /><br><br>
-
-
+                @if(auth()->user()->hasRoles(['admin', 'jefe', 'coord_servicios_generales', 'asistente_serv_generales']))
+                    <a class="btn btn-success" href="{{ route('aceptar', $solicitud->id) }}">Aceptar</a>
+                @endif
+                <a class="btn btn-danger" href="{{ route('cancelar', $solicitud->id) }}">Rechazar</a>
+                <a class="btn btn-info" href="{{ route('solicitud.index') }}">Regresar</a>
+                @if(auth()->user()->hasRoles(['coord_servicios_generales']) && ($solicitud->driver_id === null or $solicitud === null))
+                    <a class="btn btn-primary" href="{{ route('assign_request', $solicitud->id) }}">Asignar peticiones</a>
+                @endif
                         </form>
                     </div>
                 </div>
