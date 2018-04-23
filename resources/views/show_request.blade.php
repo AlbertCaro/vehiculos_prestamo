@@ -30,7 +30,7 @@
                               action="{{route('solicitud.index')}}"
                               method="get" enctype="multipart/form-data"><br>
                             <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
-                                {{csrf_field()}}
+                                
                                 <h3>Funcionario que autoriza</h3>
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
