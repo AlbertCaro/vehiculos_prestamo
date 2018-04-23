@@ -34,16 +34,33 @@ class SolicitudController extends Controller
      */
     public function validateWithDriver(Request $request){
         $this->validate($request,[
+            'txt_nombreE'=>'required|max:245',
+            'txt_fecha1'=>'required',
+            'event_types_id'=>'required',
             'jefe_id'=>'required|numeric',
-            'nombre_evento'=>'required|max:245',
-            'domicilio'=>'required|max:191',
-            'fecha_evento'=>'required',
-            'event_types_id'=>'required|numeric',
-            'driver_id'=>'required1numeric',
-            'escala'=>'required|max:191',
-            'personas'=>'required|max:191',
-            'distancia'=>'required|max:191',
-            'fecha_regreso'=>'required'
+            'txt_domicilioE'=>'required|max:191',
+            'slc_escala'=>'required|max:191',
+            'txt_Personas'=>'required|max:191',
+            'txt_kilometros'=>'required|max:191',
+            'txt_fecha'=>'required',
+        ]);
+    }
+
+    function validateWithoutDriver(Request $request){
+        $this->validateWithDriver($request);
+        $this->validate($request,[
+            'txt_codigoC'=>'required',
+            'txt_nombreC'=>'required',
+            'txt_celularC'=>'required',
+            'dependencia'=>'required',
+            'txt_licencia'=>'required',
+            'txt_venc'=>'required',
+            'tipo_licencia'=>'required',
+            'archivo'=>'required',
+            'txt_contacto'=>'required',
+            'txt_parentesco'=>'required',
+            'txt_domicilio'=>'required',
+            'txt_telefono'=>'required',
         ]);
     }
 
@@ -110,10 +127,10 @@ class SolicitudController extends Controller
     {
         $id_conductor = null;
         if ($request->has('solicito_conduc')) {
-            //$this->validateWithDriver($request);
+            $this->validateWithDriver($request);
 
             if (!$request->has('solicito_conduc')) {
-
+                $this->validateWithoutDriver($request);
                 $conductor = Driver::where('id', $request['txt_codigoC'])->get();
 
                 //dd($conductor);
@@ -132,10 +149,6 @@ class SolicitudController extends Controller
 
                 $licencia = Licence::where('numero', $request['txt_licencia'])->get();
                 if ($licencia->isEmpty()) {
-                    $this->validate($request, [
-                        'txt_licencia'=>'required|numeric',
-                        'otro_evento'=>'required'
-                    ]);
                     $l = (new \App\Licence)->create([
                         'numero' => $request['txt_licencia'],
                         'vencimiento' => $request['txt_venc'],
@@ -165,10 +178,6 @@ class SolicitudController extends Controller
         //if($request->has(''))
         //dd($request['txt_fecha'].':00');
         if ($request->has('otro_evento')) {
-            $this->validate($request,[//validacion en caso de que se agregue otro evento
-                'categoria_evento'=>'required|numeric',
-                'otro_evento'=>'required'
-            ]);
             $event_type = (new \App\Event_Type)->create([
                 'nombre' => $request['otro_evento'],
                 'categories_id' => $request['categoria_evento']
@@ -225,8 +234,11 @@ class SolicitudController extends Controller
                 'contacts.nombre AS cont_nombre', 'contacts.apaterno AS cont_paterno', 'contacts.amaterno AS cont_materno', 'contacts.parentesco', 'contacts.telefono', 'contacts.domicilio')
             ->where('drivers.id', '=',$solicitud->driver_id)
             ->first();
+        //$conductor = Driver::all()->where('id', '=',$solicitud->driver_id)->first();
+        //$jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         $categories = Category::all();
         $select_attribs = ['class' => 'form-control'];
+        //dd($jefes);
         $title = "Detalles de la solicitud";
         return view('show_request', compact('solicitud','categories','tipo','conductor', 'jefe', 'title', 'select_attribs'));
     }
@@ -424,66 +436,34 @@ class SolicitudController extends Controller
 
     public function busquedaSolicitud(Request $request) {
         $GLOBALS['date_interval'] = [
-            Carbon::parse($request->fecha)->format('Y-m-d'),
-            Carbon::parse($request->fecha2)->format('Y-m-d')
+            $request->fecha,
+            $request->fecha2
         ];
 
-        if (!is_null($request->fecha) && !is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 'todos') {
-            $solicitudes = DB::table('requests')
-                ->where(function ($query) {
-                    $query
-                        ->whereBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
-                        ->whereBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval']);
-                })
-                ->orWhere(function ($query) {
-                    $query
-                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
-                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][0]));
-                })
-                ->orWhere(function ($query) {
-                    $query
-                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
-                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
-                })
-                ->orWhere(function ($query) {
-                    $query
-                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][1]))
-                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
-                })
-                ->where('requests.estatus','==', $request->estatus)
-                ->get();
-        } elseif (!is_null($request->fecha) && !is_null($request->fecha2) && is_null($request->estatus) && $request['estatus'] === 'todos') {
-            $solicitudes = DB::table('requests')
-                ->where(function ($query) {
-                    $query
-                        ->whereBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
-                        ->whereBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval']);
-                })
-                ->orWhere(function ($query) {
-                    $query
-                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
-                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][0]));
-                })
-                ->orWhere(function ($query) {
-                    $query
-                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
-                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
-                })
-                ->orWhere(function ($query) {
-                    $query
-                        ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][1]))
-                        ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
-                })
-                ->get();
-        } elseif (is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] !== 'todos') {
-            $solicitudes = DB::table('requests')
-                ->where('requests.estatus', '=', $request->estatus)
-                ->get();
-        } elseif ((is_null($request->fecha) && is_null($request->fecha2) && !is_null($request->estatus) && $request['estatus'] === 'todos') or
-            (is_null($request->fecha) && is_null($request->fecha2) && is_null($request->estatus))) {
-            $solicitudes = DB::table('requests')
-                ->get();
-        }
+
+        $solicitudes = DB::table('requests')
+            ->where(function ($query) {
+                $query
+                    ->whereBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
+                    ->whereBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval']);
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][0]));
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][0]))
+                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->where(DB::raw('DATE(requests.fecha_evento)', '==', $GLOBALS['date_interval'][1]))
+                    ->where(DB::raw('DATE(requests.fecha_regreso)', '==', $GLOBALS['date_interval'][1]));
+            })
+            ->where('requests.estatus','==', $request->estatus)
+            ->get();
         return view('request_search_table', compact('solicitudes'));
     }
 }
