@@ -36,7 +36,7 @@ class SolicitudController extends Controller
         $this->validate($request,[
             'txt_nombreE'=>'required|max:245',
             'txt_fecha1'=>'required',
-            'event_types_id'=>'required',
+            'tipo_evento'=>'required',
             'jefe_id'=>'required|numeric',
             'txt_domicilioE'=>'required|max:191',
             'slc_escala'=>'required|max:191',
@@ -178,6 +178,10 @@ class SolicitudController extends Controller
         //if($request->has(''))
         //dd($request['txt_fecha'].':00');
         if ($request->has('otro_evento')) {
+            $this->validate($request,[
+               'categoria_evento' => 'required|numeric',
+                'otro_evento' => 'required'
+            ]);
             $event_type = (new \App\Event_Type)->create([
                 'nombre' => $request['otro_evento'],
                 'categories_id' => $request['categoria_evento']

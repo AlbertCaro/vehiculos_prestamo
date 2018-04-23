@@ -26,8 +26,7 @@ class SolicitudRequest extends FormRequest
         return[
             'txt_nombreE'=>'required|max:245',
             'txt_fecha1'=>'required',
-            'event_types_id'=>'required',
-            //'driver_id'=>'required1numeric',
+            'tipo_evento'=>'required',
             'jefe_id'=>'required|numeric',
             'txt_domicilioE'=>'required|max:191',
             'slc_escala'=>'required|max:191',

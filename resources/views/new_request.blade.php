@@ -66,10 +66,13 @@
                                 <div id="select_tipo" class="form-group col-centered">
                                 </div><br>
                                     <div id="error_tipo_evento">
-                                        {!! $errors->first('event_types_id','<span class="alert-danger">los campos categoría y tipo de eventos son obligatorios</span></br>') !!}
+                                        {!! $errors->first('tipo_evento','<span class="alert-danger">los campos categoría y tipo de eventos son obligatorios</span></br>') !!}
                                     </div><br/>
                                 <div id="otro" class="input-group">
                                 </div><br>
+                                    <div id="error_otro_evento">
+                                        {!! $errors->first('otro_evento','<span class="alert-danger">El campo nombre del evento es obligatorio</span></br>') !!}
+                                    </div><br/>
                                 <div class="form-group  col-centered">
                                     <label for="sel3">Escala:</label>
                                     <select class="form-control" id="sel3" name="slc_escala" onfocus="hideError('slc_escala')">
@@ -268,7 +271,7 @@
         function generaInput() {
             if (document.getElementById("tipo_evento").value === 'otro') {
                 $("#otro").html('<span class="input-group-addon">Especifique el evento</span>' +
-                    '<input type="text" class="form-control" id="otro_evento" name="otro_evento" placeholder="Nombre del evento" required/>');
+                    '<input type="text" class="form-control" id="otro_evento" name="otro_evento" onfocus="hideError(\'otro_evento\')" placeholder="Nombre del evento"/>');
             } else
                 $("#otro").html('');
         }
