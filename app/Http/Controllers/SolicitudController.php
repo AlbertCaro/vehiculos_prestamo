@@ -209,7 +209,7 @@ class SolicitudController extends Controller
 
         $jefe = User::datosJefe($request['slc_jefe']);
 
-        //TODO:Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+        Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
 
@@ -384,17 +384,30 @@ class SolicitudController extends Controller
             case 1:
                 if(auth()->user()->hasRoles(['administrativo'])){
                     $estado = 3;
-                    $mensaje = "Se ha aprobado correctamente como secretario administrativo, correo a coordinador srvgrales";
-                    $titulo = "Ha aprobado la solicitud flujo anormal";
+                    $mensaje = "Se ha aprobado correctamente la solicitud como secretario administrativo, se ha enviado un correo al coordinador de servicios generales";
+                    $titulo = "Ha aprobado la solicitud";
+                    $coordGrales = User::listaByRol('coord_servicios_generales');
+                    $asistenteGrales = User::listaByRol('asist_srv_grales');
+                    //dd($coordGrales);
 
-                    //TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                    foreach ($coordGrales as $coord){
+                        Mail::to($coord->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Tiene una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                    }
+                    foreach ($asistenteGrales as $asistenteGral){
+                        Mail::to($asistenteGral->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Tiene una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                    }
+
 
                 }else{
                     if(auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])){//también la asistente del jefe puede autorizar
-                        $mensaje = "Se ha aprobado correctamente como jefe o asistente, correo a secretario administrativo";
+                        $mensaje = "Se ha aprobado correctamente la solicitud, se ha enviado un correo al secretario administrativo";
                         $titulo = "Ha aprobado la solicitud";
                         $estado=2;
-                        //TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                        $secretariosAdministrativos = User::listaByRol('administrativo');
+
+                        foreach ($secretariosAdministrativos as $secretariosAdministrativo) {
+                            TODO: Mail::to($secretariosAdministrativo->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                        }
 
                     }
                 }
@@ -443,8 +456,11 @@ class SolicitudController extends Controller
         $solicitud->estatus=5;
         $solicitud->motivo_rechazo=$request['motivo_rechazo'];
         $solicitud->save();
+
         alert()->success("La solicitud se ha rechazado correctamente");
-        /*TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));*/
+
+        Mail::to($solicitud->user->email)->send(new NuevaSolicitudDeVehiculo("Solicitud rechazada","La solicitud \"".$solicitud->nombre_evento."\" Ha sido rechazada por alguna instancia. Motivo de rechazo: ".$solicitud->motivo_rechazo."."));
+
         return redirect()->route('solicitud.index');
     }
 

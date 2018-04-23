@@ -33,7 +33,7 @@ class Solicitud extends Model
     public $timestamps = false;
 
     public function user() {
-        return $this->belongsTo(Solicitud::class,'requests','id_solicitante','id');
+        return $this->belongsTo(User::class,'solicitante_id','id');
     }
 
     public function jefe() {
