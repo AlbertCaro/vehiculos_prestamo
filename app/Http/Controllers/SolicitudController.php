@@ -188,7 +188,7 @@ class SolicitudController extends Controller
             ])->id;
         } else
             $event_type = $request['tipo_evento'];
-
+        //dd($request->txt_fecha1);
        $sol = (new \App\Solicitud)->create([
            'nombre_evento'=>$request['txt_nombreE'],
            'domicilio'=>$request['txt_domicilioE'],
@@ -196,8 +196,8 @@ class SolicitudController extends Controller
            'personas'=>$request['txt_Personas'],
            'estatus'=>1,
            'fecha_solicitud'=>Carbon::now(),
-           'fecha_evento'=>$request['txt_fecha'],
-           'fecha_regreso'=>$request['txt_fecha1'],
+           'fecha_evento' => Carbon::createFromFormat('d/m/Y H:i:s',$request->txt_fecha.':00'),
+           'fecha_regreso' => Carbon::createFromFormat('d/m/Y H:i:s',$request->txt_fecha1.':00'),
            'event_types_id'=>$event_type,
            'driver_id'=>$id_conductor,
            'solicitante_id'=>auth()->user()->id,
@@ -244,7 +244,6 @@ class SolicitudController extends Controller
         //$jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         $categories = Category::all();
         $select_attribs = ['class' => 'form-control'];
-        //dd($jefes);
         $title = "Detalles de la solicitud";
         return view('show_request', compact('solicitud','categories','tipo','conductor', 'jefe', 'title', 'select_attribs'));
     }
@@ -275,10 +274,10 @@ class SolicitudController extends Controller
            'txt_fecha' => 'required',
            'txt_fecha1' => 'required'
         ]);
-        $solicitud = Solicitud::findOrFail($id);
-        $solicitud->fecha_evento = $request['txt_fecha'];
-        $solicitud->fecha_regreso = $request['txt_fecha1'];
-        $solicitud->save();
+        DB::table('requests')
+            ->where('id', $id)
+            ->update(['fecha_evento' => Carbon::createFromFormat('d/m/Y H:i:s', $request->txt_fecha.':00'),
+                'fecha_regreso' => Carbon::createFromFormat('d/m/Y H:i:s',$request->txt_fecha1.':00')]);
         return redirect('solicitud')->with('alert', 'Información de la solicitud actualizada correctamente.');
     }
 

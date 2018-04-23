@@ -12,7 +12,7 @@
                         <h1>{{$title}}</h1>
                         <h3>Folio: {{$solicitud->id}}</h3>
                         <h3>Fecha de la solicitud: {{\Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y H:i:s')}}</h3>
-                        @if($solicitud->solicita_conductor != null)
+                        @if($solicitud->driver_id != null)
                             <div class="form_wh formCenter">
                                 <div class="alert alert-warning">
                                     <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar conductor</a>.
@@ -27,8 +27,8 @@
                             </div>
                         @endif
                         <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
-                              action="{{route('solicitud.index')}}"
-                              method="get" enctype="multipart/form-data"><br>
+                              action=""
+                              method="" enctype="multipart/form-data"><br>
                             <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
                                 
                                 <h3>Funcionario que autoriza</h3>
@@ -173,7 +173,8 @@
                             @endif
 
                         @if($solicitud->solicita_conductor != null) </div> @endif
-                    <input type="submit" class="botones" id="btn_save" name="save_btn" value="Regresar" /><br><br>
+                    <a href="{{route('solicitud.index')}}">
+                        <input type="button" class="botones" id="btn_save" name="save_btn" value="Regresar" /><br><br></a>
 
 
                         </form>
