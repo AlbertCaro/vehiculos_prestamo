@@ -23,18 +23,17 @@ class SolicitudRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'nombre_evento'=>'required|max:245',
-            'fecha_evento'=>'required',
-            'event_types_id'=>'required|numeric',
-            'driver_id'=>'required1numeric',
+        return[
+            'txt_nombreE'=>'required|max:245',
+            'txt_fecha1'=>'required',
+            'event_types_id'=>'required',
+            //'driver_id'=>'required1numeric',
             'jefe_id'=>'required|numeric',
-            'domicilio'=>'required|max:191',
-            'escala'=>'required|max:191',
-            'personas'=>'required|max:191',
-            'distancia'=>'required|max:191',
-            'fecha_regreso'=>'required',
-            //'tipo_evento'=>'required'
+            'txt_domicilioE'=>'required|max:191',
+            'slc_escala'=>'required|max:191',
+            'txt_Personas'=>'required|max:191',
+            'txt_kilometros'=>'required|max:191',
+            'txt_fecha'=>'required',
         ];
     }
 }

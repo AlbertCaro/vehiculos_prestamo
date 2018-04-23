@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if($solicitud->vehicles_id == null)
+                        @if($solicitud->vehicles_id == null && $solicitud->vehiculo_propio == null)
                             <div class="form_wh formCenter">
                                 <div class="alert alert-warning">
                                     <strong>¡Atención!</strong> El solicitante no cuenta con vehículo asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar vehículo</a>.

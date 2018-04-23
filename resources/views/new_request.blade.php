@@ -43,11 +43,11 @@
                                     <span class="input-group-addon">Evento</span>
                                     <input type="text" class="form-control" name="txt_nombreE" placeholder='Nombre del Evento'
                                            onfocus="hideError('txt_nombreE')"
-                                           @if(count($errors)) value="{{ old('nombre_evento') }}"
+                                           @if(count($errors)) value="{{ old('txt_nombreE') }}"
                                            @elseif(!@empty($solicitud)) value="{{ $solicitud->nombre_evento }}" @endif/>
                                 </div><br>
                                     <div id="error_txt_nombreE">
-                                        {!! $errors->first('nombre_evento','<span class="alert-danger">El campo evento es obligatorio</span></br>') !!}
+                                        {!! $errors->first('txt_nombreE','<span class="alert-danger">El campo evento es obligatorio</span></br>') !!}
                                     </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Domicilio</span>
@@ -57,7 +57,7 @@
                                            @elseif(!@empty($solicitud)) value="{{ $solicitud->domicilio }}" @endif/>
                                 </div><br>
                                     <div id="error_txt_domicilioE">
-                                        {!! $errors->first('domicilio','<span class="alert-danger">:message</span></br>') !!}
+                                        {!! $errors->first('txt_domicilioE','<span class="alert-danger">:message</span></br>') !!}
                                     </div><br/>
                                 <h5>Categoría del evento</h5>
                                 <div class="form-group  col-centered">
@@ -72,7 +72,7 @@
                                 </div><br>
                                 <div class="form-group  col-centered">
                                     <label for="sel3">Escala:</label>
-                                    <select class="form-control" id="sel3" name="slc_escala" onfocus="hideError('escala')">
+                                    <select class="form-control" id="sel3" name="slc_escala" onfocus="hideError('slc_escala')">
                                         <option @if(count($errors)) @elseif(!@empty($solicitud))
                                                 @if($solicitud->escala == 'Local') selected @endif @endif>Local</option>
                                         <option @if(count($errors)) @elseif(!@empty($solicitud))
@@ -81,51 +81,51 @@
                                                 @if($solicitud->escala == 'Estatal') selected @endif @endif>Estatal</option>
                                         <option @if(count($errors)) @elseif(!@empty($solicitud))
                                                 @if($solicitud->escala == 'Nacional') selected @endif @endif>Nacional</option>
-                                    </select>
+                                    </select><br>
                                     <div id="error_escala">
-                                        {!! $errors->first('escala','<span class="alert-danger">:message</span></br>') !!}
+                                        {!! $errors->first('slc_escala','<span class="alert-danger">:message</span></br>') !!}
                                     </div><br/>
                                 </div>
                                 <h3>Itinerario</h3>
                                 <div class="input-group">
                                     <span class="input-group-addon">Personas</span>
                                     <input type="text" class="form-control" name="txt_Personas" id="txt_Personas" placeholder='Numero de personas'
-                                           onfocus="hideError('personas')"
-                                           @if(count($errors)) value="{{ old('personas') }}"
+                                           onfocus="hideError('txt_Personas')"
+                                           @if(count($errors)) value="{{ old('txt_Personas') }}"
                                            @elseif(!@empty($solicitud)) value="{{ $solicitud->personas }}" @endif/>
                                 </div><br>
                                     <div id="error_personas">
-                                        {!! $errors->first('personas','<span class="alert-danger">:message</span></br>') !!}
+                                        {!! $errors->first('txt_Personas','<span class="alert-danger">:message</span></br>') !!}
                                     </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Distancia</span>
                                     <input type="text" class="form-control" name="txt_kilometros" id="txt_kilometros" placeholder='Distancia dada en kilometros'
-                                           onfocus="hideError('distancia')"
-                                           @if(count($errors)) value="{{ old('distancia') }}"
+                                           onfocus="hideError('txt_kilometros')"
+                                           @if(count($errors)) value="{{ old('txt_kilometros') }}"
                                            @elseif(!@empty($solicitud)) value="{{ $solicitud->distancia }}" @endif/>
                                 </div><br>
                                     <div id="error_distancia">
-                                        {!! $errors->first('distancia','<span class="alert-danger">:message</span></br>') !!}
+                                        {!! $errors->first('txt_kilometros','<span class="alert-danger">:message</span></br>') !!}
                                     </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de salida</span>
                                     <input class="form-control" type="text" id="fecha_txt" name="txt_fecha" placeholder="Fecha y hora de salida"
-                                           onfocus="hideError('fecha_evento')"
-                                           @if(count($errors)) value="{{ old('fecha_evento') }}"
+                                           onfocus="hideError('txt_fecha')"
+                                           @if(count($errors)) value="{{ old('txt_fecha') }}"
                                            @elseif(!@empty($solicitud)) value="{{ $solicitud->fecha_evento }}" @endif/>
                                 </div><br>
                                     <div id="error_fecha_evento">
-                                        {!! $errors->first('fecha_evento','<span class="alert-danger">El campo fecha de salida es obligatorio</span></br>') !!}
+                                        {!! $errors->first('txt_fecha','<span class="alert-danger">El campo fecha de salida es obligatorio</span></br>') !!}
                                     </div><br/>
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de regreso</span>
                                     <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso"
-                                           onfocus="hideError('fecha_regreso')"
-                                           @if(count($errors)) value="{{ old('fecha_regreso') }}"
+                                           onfocus="hideError('txt_fecha1')"
+                                           @if(count($errors)) value="{{ old('txt_fecha1') }}"
                                            @elseif(!@empty($solicitud)) value="{{ $solicitud->fecha_regreso }}" @endif/>
                                 </div><br>
                                     <div id="error_fecha_regreso">
-                                        {!! $errors->first('fecha_regreso','<span class="alert-danger">El campo fecha de regreso es obligatorio</span></br>') !!}
+                                        {!! $errors->first('txt_fecha1','<span class="alert-danger">El campo fecha de regreso es obligatorio</span></br>') !!}
                                     </div><br/>
                             </div>
 

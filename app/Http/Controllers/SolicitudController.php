@@ -110,9 +110,10 @@ class SolicitudController extends Controller
     {
         $id_conductor = null;
         if ($request->has('solicito_conduc')) {
-            $this->validateWithDriver($request);
+            //$this->validateWithDriver($request);
 
             if (!$request->has('solicito_conduc')) {
+
                 $conductor = Driver::where('id', $request['txt_codigoC'])->get();
 
                 //dd($conductor);
@@ -131,6 +132,10 @@ class SolicitudController extends Controller
 
                 $licencia = Licence::where('numero', $request['txt_licencia'])->get();
                 if ($licencia->isEmpty()) {
+                    $this->validate($request, [
+                        'txt_licencia'=>'required|numeric',
+                        'otro_evento'=>'required'
+                    ]);
                     $l = (new \App\Licence)->create([
                         'numero' => $request['txt_licencia'],
                         'vencimiento' => $request['txt_venc'],
@@ -160,6 +165,10 @@ class SolicitudController extends Controller
         //if($request->has(''))
         //dd($request['txt_fecha'].':00');
         if ($request->has('otro_evento')) {
+            $this->validate($request,[//validacion en caso de que se agregue otro evento
+                'categoria_evento'=>'required|numeric',
+                'otro_evento'=>'required'
+            ]);
             $event_type = (new \App\Event_Type)->create([
                 'nombre' => $request['otro_evento'],
                 'categories_id' => $request['categoria_evento']
@@ -216,11 +225,8 @@ class SolicitudController extends Controller
                 'contacts.nombre AS cont_nombre', 'contacts.apaterno AS cont_paterno', 'contacts.amaterno AS cont_materno', 'contacts.parentesco', 'contacts.telefono', 'contacts.domicilio')
             ->where('drivers.id', '=',$solicitud->driver_id)
             ->first();
-        //$conductor = Driver::all()->where('id', '=',$solicitud->driver_id)->first();
-        //$jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
         $categories = Category::all();
         $select_attribs = ['class' => 'form-control'];
-        //dd($jefes);
         $title = "Detalles de la solicitud";
         return view('show_request', compact('solicitud','categories','tipo','conductor', 'jefe', 'title', 'select_attribs'));
     }
