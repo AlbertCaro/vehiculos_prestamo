@@ -33,6 +33,8 @@ class SolicitudRequest extends FormRequest
             'txt_Personas'=>'required|max:191',
             'txt_kilometros'=>'required|max:191',
             'txt_fecha'=>'required',
+            //'txt_codigoC'=>'required',
+
         ];
     }
 }

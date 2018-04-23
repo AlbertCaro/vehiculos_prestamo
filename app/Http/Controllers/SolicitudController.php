@@ -123,14 +123,15 @@ class SolicitudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SolicitudRequest $request)
+    public function store(Request $request)
     {
         $id_conductor = null;
         if ($request->has('solicito_conduc')) {
             $this->validateWithDriver($request);
-
+        }else{
+            $this->validateWithoutDriver($request);
+        }
             if (!$request->has('solicito_conduc')) {
-                $this->validateWithoutDriver($request);
                 $conductor = Driver::where('id', $request['txt_codigoC'])->get();
 
                 //dd($conductor);
@@ -172,7 +173,6 @@ class SolicitudController extends Controller
                     ]);
                 }
             }
-        }
 
 
         //if($request->has(''))
