@@ -125,7 +125,7 @@
                                     <li><a href='{{ route('role.index') }}'>Roles</a></li>
                                 </ul>
                             </li>
-                                @endifs
+                                @endif
                             <li>
                                 <a href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

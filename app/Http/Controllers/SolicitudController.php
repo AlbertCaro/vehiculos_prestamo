@@ -32,6 +32,11 @@ class SolicitudController extends Controller
      * @param Request $request
      **->Valida solo la parte del formulario que queda habilitada si se solicita conductor.
      */
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+    }
+
     public function validateWithDriver(Request $request){
         $this->validate($request,[
             'txt_nombreE'=>'required|max:245',
