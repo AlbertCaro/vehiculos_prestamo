@@ -46,9 +46,21 @@ class SolicitudController extends Controller
         ]);
     }
 
-    function validateWithoutDriver(Request $request){
-        $this->validateWithDriver($request);
+    /**
+     * @param Request $request
+     * Valida el formulario completo de solicitud
+     */
+    function validateWithOutDriver(Request $request){
         $this->validate($request,[
+            'txt_nombreE'=>'required|max:245',
+            'txt_fecha1'=>'required',
+            'tipo_evento'=>'required',
+            'jefe_id'=>'required|numeric',
+            'txt_domicilioE'=>'required|max:191',
+            'slc_escala'=>'required|max:191',
+            'txt_Personas'=>'required|max:191',
+            'txt_kilometros'=>'required|max:191',
+            'txt_fecha'=>'required',//
             'txt_codigoC'=>'required',
             'txt_nombreC'=>'required',
             'txt_celularC'=>'required',
@@ -122,13 +134,13 @@ class SolicitudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SolicitudRequest $request)
+    public function store(Request $request)
     {
         $id_conductor = null;
         if ($request->has('solicito_conduc')) {
             $this->validateWithDriver($request);
-        }else {
-            $this->validateWithoutDriver($request);
+        }else{
+            $this->validateWithOutDriver($request);
         }
             if (!$request->has('solicito_conduc')) {
                 $conductor = Driver::where('id', $request['txt_codigoC'])->get();
