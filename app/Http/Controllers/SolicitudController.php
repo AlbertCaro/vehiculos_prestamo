@@ -207,8 +207,8 @@ class SolicitudController extends Controller
            'personas'=>$request['txt_Personas'],
            'estatus'=>1,
            'fecha_solicitud'=>Carbon::now(),
-           'fecha_evento'=>$request['txt_fecha'],
-           'fecha_regreso'=>$request['txt_fecha1'],
+           'fecha_evento'=>Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha'].':00')->toDateTimeString(),
+           'fecha_regreso'=>Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha1'].':00')->toDateTimeString(),
            'event_types_id'=>$event_type,
            'driver_id'=>$id_conductor,
            'solicitante_id'=>auth()->user()->id,
@@ -219,7 +219,8 @@ class SolicitudController extends Controller
 
        ]);
 
-        $jefe = User::datosJefe($request['slc_jefe']);
+       //dd($request['slc_jefe']);
+        $jefe = User::datosJefe($request['jefe_id']);
 
         Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
@@ -280,15 +281,20 @@ class SolicitudController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
+
     {
+        $d = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha'].':00')->toDateTimeString();
+        $d1 = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha1'].':00')->toDateTimeString();
+       // dd($d1);
         $this->validate($request, [
            'txt_fecha' => 'required',
            'txt_fecha1' => 'required'
         ]);
         $solicitud = Solicitud::findOrFail($id);
-        $solicitud->fecha_evento = $request['txt_fecha'];
-        $solicitud->fecha_regreso = $request['txt_fecha1'];
+        $solicitud->fecha_evento = $d;
+        $solicitud->fecha_regreso = $d1;
         $solicitud->save();
+        dd($solicitud);
         return redirect('solicitud')->with('alert', 'Información de la solicitud actualizada correctamente.');
     }
 
@@ -381,6 +387,13 @@ class SolicitudController extends Controller
 
         $message = $message." correctamente";
         $solicitud->update($data);
+        Mail::to($solicitud->user->email)->send(new NuevaSolicitudDeVehiculo("Solicitud aprobada","La solicitud que ha realizado, fue aprobada por todas las instancias. Puede revisarla ingresando al sistema."));
+
+        $encargadoVehiculos = User::listaByRol('vehiculos');
+        $vehiculo = $solicitud->vehicle;
+        foreach ($encargadoVehiculos as $encargado){
+            Mail::to($encargado->email)->send(new NuevaSolicitudDeVehiculo("Se ha prestado un vehículo","Se realizó una petición de vehículo y se ha asignado el ".$vehiculo->modelo." placas: ".$vehiculo->placas.". Para el ".Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')));
+        }
 
         return redirect()->route('solicitud.index')->with('alert', $message);
     }
@@ -427,9 +440,19 @@ class SolicitudController extends Controller
             case 2:
                 if(auth()->user()->hasRoles(['administrativo'])){
                     $estado = 3;
-                    $mensaje = "Se ha aprobado correctamente como secretario administrativo, correo a coordinador srvgrales";
+                    $mensaje = "Se ha aprobado correctamente la solicitud como secretario administrativo, se ha enviado un correo al coordinador de servicios generales";
                     $titulo = "Ha aprobado la solicitud flujo normal";
-                    //TODO: Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+
+                    $coordGrales = User::listaByRol('coord_servicios_generales');
+                    $asistenteGrales = User::listaByRol('asist_srv_grales');
+                    //dd($coordGrales);
+
+                    foreach ($coordGrales as $coord){
+                        Mail::to($coord->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Tiene una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                    }
+                    foreach ($asistenteGrales as $asistenteGral){
+                        Mail::to($asistenteGral->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Tiene una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                    }
                 }
                 break;
             case 3:
@@ -437,7 +460,7 @@ class SolicitudController extends Controller
                     $estado=4;
                     $mensaje = "Se ha aprobado correctamente como coordinador de servicios generales";
                     $titulo = "Ha aprobado la solicitud";
-                    //TODO:Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                    Mail::to($solicitud->user->email)->send(new NuevaSolicitudDeVehiculo("Solicitud aprobada","La solicitud que ha realizado, fue aprobada por todas las instancias. Puede revisarla ingresando al sistema."));
                 }
                 break;
             case 4:
@@ -446,8 +469,10 @@ class SolicitudController extends Controller
             case 5:
                 //está rechazada por alguna instancia
                 if(auth()->user()->hasRoles(['coord_servicios_generales'])){//también la asistente del coordinador puede actualizar
-                    return "La solicitud pasa a 4";
-                    //TODO:Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                    $estado=4;
+                    $mensaje = "Se ha aprobado la solicitud por el coordinador de Servicios Generales";
+                    $titulo = "Solicitud antes rechazada, ha sido aprobada";
+                    Mail::to($solicitud->user->email)->send(new NuevaSolicitudDeVehiculo("Solicitud aprobada","La solicitud que ha realizado, fue aprobada por todas las instancias. Puede revisarla ingresando al sistema."));
 
                 }
                 break;

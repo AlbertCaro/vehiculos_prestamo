@@ -140,7 +140,10 @@ class User extends Authenticatable
     }
 
     public static function datosJefe($idJefe){
+       // dd($idJefe);
         $user = User::findOrFail($idJefe);
+
+
         return $user;
     }
 
