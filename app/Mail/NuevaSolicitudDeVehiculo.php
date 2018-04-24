@@ -31,6 +31,6 @@ class NuevaSolicitudDeVehiculo extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.confirmacion');
+        return $this->view('emails.email');
     }
 }

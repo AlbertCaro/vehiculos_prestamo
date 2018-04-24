@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>MOSAICO Responsive Email Designer</title>
+    <title>{{$titulo}}</title>
     <!--
 
 
@@ -245,17 +245,13 @@ TESTO INTENSE #ffffff
                                         <tbody>
                                         <tr>
                                             <td class="padding-copy" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33; padding-top: 0px;" align="center">
-                                                Email can be responsive!
+                                                {{$titulo}}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="padding-copy textlightStyle" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #3F3D33;" align="center">
                                                 <p style="margin:0px;">
-                                                    Far far away, behind the word mountains, far from the countries
-                                                    <a href="" style="color: #3F3D33; text-decoration: none; font-weight: bold;">Vokalia and Consonantia</a>, there live the
-                                                    blind texts. Separated they live in Bookmarksgrove right at the
-                                                    coast of the Semantics, a large language ocean. A small river named
-                                                    Duden flows by their place and supplies it with the necessary regelialia.
+                                                    {{$mensaje}}
                                                 </p>
                                             </td>
                                         </tr>
@@ -274,7 +270,7 @@ TESTO INTENSE #ffffff
                                                     <tbody>
                                                     <tr>
                                                         <td align="center">
-                                                            <a target="_new" class="mobile-button" style="display: inline-block; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #78b41e; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom: 3px solid #558015;" href="">Show More →</a>
+                                                            <a target="_new" class="mobile-button" style="display: inline-block; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; background-color: #78b41e; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-bottom: 3px solid #558015;" href="{{env('APP_URL')}}">Ir al sitio →</a>
                                                         </td>
                                                     </tr>
                                                     </tbody>

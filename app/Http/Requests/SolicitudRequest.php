@@ -24,16 +24,6 @@ class SolicitudRequest extends FormRequest
     public function rules()
     {
         return[
-            'txt_nombreE'=>'required|max:245',
-            'txt_fecha1'=>'required',
-            'tipo_evento'=>'required',
-            'jefe_id'=>'required|numeric',
-            'txt_domicilioE'=>'required|max:191',
-            'slc_escala'=>'required|max:191',
-            'txt_Personas'=>'required|max:191',
-            'txt_kilometros'=>'required|max:191',
-            'txt_fecha'=>'required',
-            //'txt_codigoC'=>'required',
 
         ];
     }

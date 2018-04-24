@@ -52,22 +52,22 @@ class Solicitud extends Model
         return $this->hasOne(Event_Type::class, 'id','event_types_id');
     }
 
-    public function setFechaSolicitudAttribute($value) {
+   /* public function setFechaSolicitudAttribute($value) {
        // dd($value);
         $this->attributes['fecha_solicitud'] = Carbon::parse(strtotime($value.':00'));
     }
 
     public function setFechaEventoAttribute($value) {
         $this->attributes['fecha_evento'] = Carbon::parse(strtotime($value.':00'));
-    }
+    }*/
 
     public function setFechaRespuestaAttribute($value) {
         $this->attributes['fecha_respuesta'] = Carbon::parse(strtotime($value.':00'));
     }
 
-    public function setFechaRegresoAttribute($value) {
+   /* public function setFechaRegresoAttribute($value) {
         $this->attributes['fecha_regreso'] = Carbon::parse(strtotime($value.':00'));
-    }
+    }*/
 
     public static function status($status) {
         switch ($status){
