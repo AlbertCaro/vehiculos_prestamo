@@ -54,10 +54,13 @@
                                 <a href="{{ route('usuario.create') }}">Registrarme</a>
                             </li>
                         @else
+                            @if(auth()->user()->hasRoles(['solicitante']))
                             <li>
                                 <a href='{{ route('solicitud.create' )}}'>Solicitar</a>
 
                             </li>
+                            @endif
+                        @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servgrales']))
                             <li>
                                 <a href="">Conductores</a>
                                 <ul>
@@ -66,7 +69,9 @@
                                 </ul>
                             </li>
 
-                        @if(auth()->user()->hasRoles(['admin']))
+                         @endif
+
+                        @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles['coord_servgrales'])
                             <li>
                                 <a href="">Eventos</a>
                                 <ul>
@@ -76,7 +81,7 @@
                                     <li><a href='{{ route('categoria.index') }}'>Gestionar Categoría</a></li>
                                 </ul>
                             </li>
-                            @endif
+
                             <li>
                                 <a href="">Jefes</a>
                                 <ul>
@@ -89,15 +94,22 @@
                                     <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
                                     <li><a href='{{route('solicitantes.index')}}'>Gestionar</a></li>
                                 </ul>
+
                             </li>
+
+                         @endif
+
                             <li>
                                 <a href="">Solicitudes</a>
                                 <ul>
                                     <li><a href='{{route('solicitud.index')}}'>Gestionar</a></li>
+                                    @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_srv_grales']))
                                     <li><a href='{{route('search_request')}}'>Buscar</a></li>
+                                @endif
                                 </ul>
                             </li>
 
+                            @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servgrales']))
                             <li>
                                 <a href="">Vehículos</a>
                                 <ul>
@@ -113,6 +125,7 @@
                                     <li><a href='{{ route('role.index') }}'>Roles</a></li>
                                 </ul>
                             </li>
+                                @endifs
                             <li>
                                 <a href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

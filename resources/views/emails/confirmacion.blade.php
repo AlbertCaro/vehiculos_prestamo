@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it"><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Tiene una nueva solicitud por aprobar</title><!--
+<html lang="it"><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>{{$title}}</title><!--
 
 
 COLORE INTENSE  #9C010F
