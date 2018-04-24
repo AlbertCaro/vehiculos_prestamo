@@ -60,7 +60,7 @@
 
                             </li>
                             @endif
-                        @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servgrales']))
+                        @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                             <li>
                                 <a href="">Conductores</a>
                                 <ul>
@@ -71,7 +71,7 @@
 
                          @endif
 
-                        @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles['coord_servgrales'])
+                        @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                             <li>
                                 <a href="">Eventos</a>
                                 <ul>
@@ -103,13 +103,13 @@
                                 <a href="">Solicitudes</a>
                                 <ul>
                                     <li><a href='{{route('solicitud.index')}}'>Gestionar</a></li>
-                                    @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_srv_grales']))
+                                    @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                                     <li><a href='{{route('search_request')}}'>Buscar</a></li>
                                 @endif
                                 </ul>
                             </li>
 
-                            @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servgrales']))
+                            @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                             <li>
                                 <a href="">Vehículos</a>
                                 <ul>
