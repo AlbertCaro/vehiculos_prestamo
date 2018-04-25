@@ -31,6 +31,7 @@ Route::get('terminos', ['as'=>'terminos', function(){
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('select_event_type', ['as' => 'select_event', function () {
+    $event_type = request()->event_type;
     if(request()->category != '') {
         $list = ['' => '- Seleccione una opción -'] + DB::table('event_types')
             ->where('categories_id','=',request()->category)
@@ -42,7 +43,7 @@ Route::post('select_event_type', ['as' => 'select_event', function () {
         $attribs = null;
     }
 
-    return view('select_event_types', compact('list', 'attribs'));
+    return view('select_event_types', compact('list', 'attribs', 'event_type'));
 }]);
 
 //rutas de Erick xD
