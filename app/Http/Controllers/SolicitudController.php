@@ -157,18 +157,17 @@ class SolicitudController extends Controller
                         'dependencies_id' => $request['dependencia']
                     ]);
                     $id_conductor = $c->id;
-                } else {
+                } else
                     $id_conductor = $request['txt_codigoC'];
-                }
-
 
                 $licencia = Licence::where('numero', $request['txt_licencia'])->get();
                 if ($licencia->isEmpty()) {
                     $l = (new \App\Licence)->create([
                         'numero' => $request['txt_licencia'],
-                        'vencimiento' => $request['txt_venc'],
+                        'vencimiento' => Carbon::parse($request['txt_venc'])->format('Y-m-d'),
                         'archivo' => $request->file('archivo')->
-                        storeAs('/public/licences', $request['txt_codigoC'].".".$request['archivo']->getClientOriginalExtension()),
+                        storeAs('/public/licences', $request['txt_codigoC'].".".$request['archivo']->
+                            getClientOriginalExtension()),
                         'licence_types_id' => $request['tipo_licencia'],
                         'driver_id' => $id_conductor,
                     ]);
