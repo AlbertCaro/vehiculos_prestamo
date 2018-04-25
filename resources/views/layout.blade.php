@@ -36,7 +36,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand topnav" href="{{ route('index') }}">@if(!auth()->guest()){{auth()->user()->nombre}} @else Préstamo de vehículos CUValles @endif</a>
+                    <a class="navbar-brand topnav" href="{{ route('index') }}">
+                        @if(!auth()->guest()){{ auth()->user()->nombre." ".auth()->user()->apaterno." ".auth()->user()->amaterno }}
+                        @else Préstamo de vehículos CUValles @endif</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right
@@ -57,12 +59,11 @@
                             @if(auth()->user()->hasRoles(['solicitante']))
                             <li>
                                 <a href='{{ route('solicitud.create' )}}'>Solicitar</a>
-
                             </li>
                             @endif
                         @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                             <li>
-                                <a href="">Conductores</a>
+                                <a href="{{ route('conductor.index') }}">Conductores</a>
                                 <ul>
                                     <li><a href='{{ route('conductor.create') }}'>Agregar</a></li>
                                     <li><a href='{{ route('conductor.index') }}'>Gestionar</a></li>
@@ -73,7 +74,7 @@
 
                         @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                             <li>
-                                <a href="">Eventos</a>
+                                <a href="{{route('tipo_evento.index')}}">Eventos</a>
                                 <ul>
                                     <li><a href='{{ route('tipo_evento.create') }}'>Agregar Eventos</a></li>
                                     <li><a href='{{ route('tipo_evento.index') }}'>Gestionar Eventos</a></li>
@@ -83,16 +84,16 @@
                             </li>
 
                             <li>
-                                <a href="">Jefes</a>
+                                <a href="{{route('jefes.index')}}">Jefes</a>
                                 <ul>
                                     <li><a href='{{route('jefes.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="">Solicitantes</a>
+                                <a href="{{ route('solicitud.index') }}">Solicitantes</a>
                                 <ul>
                                     <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
-                                    <li><a href='{{route('solicitantes.index')}}'>Gestionar</a></li>
+                                    <li><a href='{{ route('solicitantes.index') }}'>Gestionar</a></li>
                                 </ul>
 
                             </li>
@@ -100,7 +101,7 @@
                          @endif
 
                             <li>
-                                <a href="">Solicitudes</a>
+                                <a href="{{ route('solicitud.index') }}">Solicitudes</a>
                                 <ul>
                                     <li><a href='{{route('solicitud.index')}}'>Gestionar</a></li>
                                     @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
@@ -111,14 +112,14 @@
 
                             @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                             <li>
-                                <a href="">Vehículos</a>
+                                <a href="{{ route('vehiculo.index') }}">Vehículos</a>
                                 <ul>
                                     <li><a href='{{route('vehiculo.create')}}'>Agregar</a></li>
                                     <li><a href='{{route('vehiculo.index')}}'>Gestionar</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="">Usuarios</a>
+                                <a href="{{ route('usuario.index') }}">Usuarios</a>
                                 <ul>
                                     <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
                                     <li><a href='{{ route('usuario.index') }}'>Gestionar</a></li>
