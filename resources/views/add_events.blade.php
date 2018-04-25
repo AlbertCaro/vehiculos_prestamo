@@ -14,6 +14,7 @@
     <div class="form_wh formCenter">
         <br>
         <h1 class="center-text">{{ $title }}</h1>
+        <br/>
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="@if(@empty($event)){{route('tipo_evento.store')}} @else {{route('tipo_evento.update', $event->id)}} @endif"  method="post" entype="application/x-www-form-urlencoded">
             @if(@empty($event))
             @else

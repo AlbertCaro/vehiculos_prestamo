@@ -7,6 +7,7 @@
     <div class="form_wh formCenter">
         <br/>
         <h1 class="center-text">{{ $title }}</h1>
+        <br/>
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda"  action="@if(@empty($category)){{route('categoria.store')}} @else {{route('categoria.update', $category->id)}} @endif" method="post"   entype="application/x-www-form-urlencoded">
             @if(@empty($category))
             @else

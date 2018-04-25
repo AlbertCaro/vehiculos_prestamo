@@ -7,6 +7,7 @@
     <div class="form_wh formCenter">
         <br/>
         <h1 class="center-text">{{ $title }}</h1>
+        <br/>
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda"
               @if(@empty($driver)) action="{{ route('conductor.store') }}"
               @else action="{{ route('conductor.update',$driver->id) }}" @endif

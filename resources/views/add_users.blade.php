@@ -5,6 +5,7 @@
     <div class="form_wh formCenter">
         <br/>
         <h1 class="center-text">{{ $title }}</h1>
+        <br/>
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda"
               @if(@empty($user))action="{{ route('usuario.store') }}"
               @else action="{{ route('usuario.update',$user->id) }}" @endif

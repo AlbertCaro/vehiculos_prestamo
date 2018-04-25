@@ -10,6 +10,7 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                         <h1>{{$title}}</h1>
+                        <br/>
                         <h3>Folio: {{$solicitud->id}}</h3>
                         <h3>Fecha de la solicitud: {{\Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y H:i:s')}}</h3>
                         @if($solicitud->driver_id == null)

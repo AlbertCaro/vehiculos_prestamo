@@ -10,6 +10,7 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                         <h1 id="pivoteRadios">{{$title}}</h1>
+                        <br/>
                         <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
                               @if(@empty($solicitud)) action="{{route('solicitud.store')}}"
                               @else action="{{route('solicitud.update', $solicitud->id)}}" @endif
