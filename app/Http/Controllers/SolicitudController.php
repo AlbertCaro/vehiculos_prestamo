@@ -104,8 +104,6 @@ class SolicitudController extends Controller
             }
 
         } elseif(auth()->user()->hasRoles(['solicitante'])){
-            $solicitudes = Solicitud::all()->where('estatus',2);
-        } elseif (auth()->user()->hasRoles(['solicitante'])) {
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
         }
         /*
@@ -169,14 +167,16 @@ class SolicitudController extends Controller
                     $l = (new \App\Licence)->create([
                         'numero' => $request['txt_licencia'],
                         'vencimiento' => $request['txt_venc'],
+                        'archivo' => $request->file('archivo')->
+                        storeAs('/public/licences', $request['txt_codigoC'].".".$request['archivo']->getClientOriginalExtension()),
                         'licence_types_id' => $request['tipo_licencia'],
                         'driver_id' => $id_conductor,
                     ]);
 
-                    if ($request->hasFile('archivo')) {
+                    /*if ($request->hasFile('archivo')) {
                         $licencia->archivo = $request->file('archivo')->store('/public/licences');
                         $licencia->save();
-                    }
+                    }*/
                 }
                 $contacto = Contact::where('driver_id', '=', $id_conductor)->get();
                 if ($contacto->isEmpty()) {
