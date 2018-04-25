@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="css/tabla.css">
     <br><br>
     <div class="limit">
+        <br>
         <h1 class="center-text">{{$title}}</h1>
         <br>
         @if (session('alert'))

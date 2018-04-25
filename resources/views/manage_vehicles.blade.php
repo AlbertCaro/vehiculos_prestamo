@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{asset('css/tabla.css')}}">
     <br><br>
     <div class="limit">
+        <br>
         <h1 class="center-text">{{$title}}</h1>
         <br/>
         @if (session('alert'))
