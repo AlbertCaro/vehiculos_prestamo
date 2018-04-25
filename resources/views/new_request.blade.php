@@ -63,6 +63,7 @@
                                 <div class="form-group  col-centered">
                                     {{ Form::select('categoria_evento', ['' => '- Seleccione una opción -'] + \App\Category::all(['id', 'nombre'])->pluck('nombre','id')->toArray(), null, ['class' => 'form-control', 'onchange' => 'generarSelect()', 'id' => 'categoria_evento']) }}
                                 </div><br>
+                                    <input type="hidden" id="type_value" name="type_value" value="@if(count($errors)) {{ old('tipo_evento') }} @else {{ $tipo_evento }} @endif">
                                 <div id="select_tipo" class="form-group col-centered">
                                 </div><br>
                                     <div id="error_tipo_evento">
@@ -203,7 +204,7 @@
                                     </div><br/>
                                     <h5>Adjuntar archivo</h5>
                                     <div class="form-group  col-centered" align="center">
-                                        <input type="file" id="archivo" name="archivo" onfocus="hideError('archivo')">
+                                        <input type="file" id="archivo" name="archivo" onfocus="hideError('archivo')" />
                                     </div>
                                     <div id="error_archivo">
                                         {!! $errors->first('archivo','<span class="alert-danger">:message</span></br>') !!}
@@ -309,7 +310,8 @@
         function generaInput() {
             if (document.getElementById("tipo_evento").value === 'otro') {
                 $("#otro").html('<span class="input-group-addon">Especifique el evento</span>' +
-                    '<input type="text" class="form-control" id="otro_evento" name="otro_evento" onfocus="hideError(\'otro_evento\')" placeholder="Nombre del evento"/>');
+                    '<input type="text" class="form-control" id="otro_evento" name="otro_evento" ' +
+                    'onfocus="hideError(\'otro_evento\')" placeholder="Nombre del evento" @if(count($errors)) {{ 'value='.old('otro_evento') }} @endif/>');
             } else
                 $("#otro").html('');
         }
@@ -320,11 +322,15 @@
             });
 
             $.ajax({
-                data:{ "category" : $("#categoria_evento").val() },
-                type:'post',
+                data:{
+                    "category" : $("#categoria_evento").val(),
+                    "event_type" : $("#type_value").val()
+                },
+                type: 'post',
                 url: '{{ route('select_event') }}',
                 success:function(response) {
                     $("#select_tipo").html(response);
+                    generaInput();
                 }
             });
         }

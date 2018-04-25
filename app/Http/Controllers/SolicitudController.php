@@ -128,7 +128,8 @@ class SolicitudController extends Controller
         //dd($jefes);
         $select_attribs = ['class' => 'form-control'];
         $title = "Haz una nueva solicitud";
-        return view('new_request', compact('categories', 'title', 'select_attribs'));
+        $tipo_evento = null;
+        return view('new_request', compact('categories', 'title', 'select_attribs', 'tipo_evento'));
     }
 
     /**
