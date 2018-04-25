@@ -6,7 +6,6 @@ use App\Contact;
 use App\Driver;
 use App\Http\Requests\DriverRequest;
 use App\Licence;
-use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use UxWeb\SweetAlert\SweetAlert;
+use Carbon\Carbon;
 
 class DriverController extends Controller
 {
@@ -50,7 +50,7 @@ class DriverController extends Controller
     public function store(DriverRequest $request)
     {
         Driver::create([
-            'id' => $request['id'],
+            'id' => $request['codigo'],
             'dependencies_id' => $request['dependencia'],
             'nombre' => $request['nombre'],
             'apaterno' => $request['apaterno'],
@@ -61,11 +61,12 @@ class DriverController extends Controller
 
         Licence::create([
             'numero' => $request['licencia'],
-            'vencimiento' => Carbon::createFromFormat('d-m-Y',$request['vencimiento'])->toDateString(),
+            'vencimiento'=>Carbon::createFromFormat('d-m-Y H:i:s',$request['vencimiento']." 00:00:00")->toDateTimeString(),
+            //'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
             'archivo' => $request->file('archivo')->
             storeAs('/public/licences', $request['codigo'].".".$request['archivo']->getClientOriginalExtension()),
-            'driver_id' => $request['id']
+            'driver_id' => $request['codigo']
         ]);
 
         Contact::create([
@@ -75,7 +76,7 @@ class DriverController extends Controller
             'parentesco' => $request['parentesco_cont'],
             'telefono' => $request['telefono_cont'],
             'domicilio' => $request['domicilio_cont'],
-            'driver_id' => $request['id']
+            'driver_id' => $request['codigo']
         ]);
 
         //Retornamos vista con with() para mostrar un div de mensaje después de un cambio realizado
@@ -137,7 +138,8 @@ class DriverController extends Controller
 
         $licenceData = [
             'numero' => $request['licencia'],
-            'vencimiento' => Carbon::createFromFormat('d-m-Y',$request['vencimiento'])->toDateString(),
+            //'vencimiento' => $request['vencimiento'],
+            'vencimiento'=>Carbon::createFromFormat('d-m-Y H:i:s',$request['vencimiento']." 00:00:00")->toDateTimeString(),
             'licence_types_id' => $request['tipo_licencia'],
         ];
 
