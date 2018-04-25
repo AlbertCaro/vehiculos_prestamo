@@ -460,7 +460,7 @@ class SolicitudController extends Controller
                 }
                 break;
             case 3:
-                if(auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles['asist_srv_grales']){//también la asistente del coordinador puede actualizar
+                if(auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles['asistente_serv_generales']){//también la asistente del coordinador puede actualizar
                     $estado=4;
                     $mensaje = "Se ha aprobado correctamente como coordinador de servicios generales";
                     $titulo = "Ha aprobado la solicitud";

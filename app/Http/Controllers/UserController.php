@@ -76,7 +76,8 @@ class UserController extends Controller
        ]);*/
 
         $user = User::create($request->all());
-
+        $user->roles()->sync([1]);
+        $user->save();
 
         return redirect()->route('usuario.index')->with("alert", 'Usuario agregado correcamente');
     }
