@@ -4,7 +4,7 @@ $(document).ready(function(){
     $('#fecha1_txt').datetimepicker({dateFormat:"dd-mm-yy H:i:s"});
     $('#vencimiento').datepicker({dateFormat: "dd-mm-yy"});
     
-	$('#codigoC_txt').autocomplete({
+	$('#id').autocomplete({
 		source: "/completa_solicitud",
         minLength:1,
 		autoFocus:true,
