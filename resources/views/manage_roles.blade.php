@@ -1,10 +1,14 @@
 @extends('layout')
 
+@section('title', $title)
+
 @section('content')
     <link rel="stylesheet" href="css/tabla.css">
-    <br></br>
+    <br><br/>
     <div class="limit">
-        <h3 class="center-text">Roles</h3>
+        <br/>
+        <h1 class="center-text">{{ $title }}</h1>
+        <br/>
         <table class="table-fill">
             <thead>
             <tr>
@@ -12,7 +16,6 @@
                 <th>Nombre mostrado</th>
                 <th>Descripción</th>
                 <th>Acciones</th>
-
             </tr>
             </thead>
             <tbody class="table-hover">

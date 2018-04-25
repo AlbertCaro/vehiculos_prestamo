@@ -1,10 +1,12 @@
 @extends('layout')
 
-<!-- TODO: Implementar aquí directiva section para 'title', así se mostrará el nombre corrercto de la vista en el título -->
+@section('title', $title)
 
 @section('content')
     <br><br>
     <div class="form_wh formCenter">
+        <br/>
+        <h1 class="center-text">{{ $title }}</h1>
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda" action="@if(@empty($role)){{route('role.store')}} @else {{route('role.update', $role->id)}} @endif" method="post" entype="application/x-www-form-urlencoded">
             @if(@empty($role))
             @else

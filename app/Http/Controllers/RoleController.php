@@ -16,7 +16,8 @@ class RoleController extends Controller
     public function index()
     {
         $roles=Role::all();
-        return view('manage_roles',compact('roles'));
+        $title = "Gestionar roles";
+        return view('manage_roles',compact('roles', 'title'));
     }
 
     /**
@@ -26,7 +27,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('add_role');
+        $title = "Agregar rol";
+        return view('add_role', compact('title'));
     }
 
     /**
@@ -64,7 +66,8 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        return view('add_role',compact('role'));
+        $title = "Editar rol";
+        return view('add_role', compact('role', 'title'));
     }
 
     /**

@@ -1,18 +1,20 @@
 @extends('layout')
 
+@section('title', $titulo)
+
 @section('content')
 
     @if(Session('respuesta') !== null)
         <div class="alert alert-success" role="alert">
-            {{Session::get('respuesta')}}
+            {{ Session::get('respuesta') }}
         </div>
-
     @endif
 
     <link rel="stylesheet" href="css/tabla.css">
-    <br><br>
+    <br><br><br>
     <div class="limit">
-        <h3 class="center-text">{{$titulo}}</h3>
+        <h1 class="center-text">{{$titulo}}</h1>
+        <br/>
         <table class="table-fill">
             <thead>
             <tr>
