@@ -49,7 +49,6 @@ class DriverController extends Controller
      */
     public function store(DriverRequest $request)
     {
-        //dd($request['codigo']);
         Driver::create([
             'id' => $request['codigo'],
             'dependencies_id' => $request['dependencia'],

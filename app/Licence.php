@@ -26,7 +26,7 @@ class Licence extends Model
     }
 
     public function getVencimiento(){
-        return $this->attributes['vencimiento']->format('d/m/Y');
+        return Carbon::parse('Y-m-d',$this->attributes['vencimiento'])->format('d/m/Y');
     }
 
     public function getArchivo($value) {

@@ -85,7 +85,7 @@ class SolicitudController extends Controller
     {
         if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales'])){
             $solicitudes = Solicitud::all();
-        }elseif(auth()->user()->hasRoles(['administrativo']) && auth()->user()->hasRoles(['jefe'])){
+        }elseif(auth()->user()->hasRoles(['administrativo']) || auth()->user()->hasRoles(['jefe'])){
             $solicitudes = Solicitud::where('estatus',2)
             ->orWhere('jefe_id',auth()->user()->id)
                 ->whereIn('estatus',[1,2])
@@ -104,8 +104,6 @@ class SolicitudController extends Controller
             }
 
         } elseif(auth()->user()->hasRoles(['solicitante'])){
-            $solicitudes = Solicitud::all()->where('estatus',2);
-        } elseif (auth()->user()->hasRoles(['solicitante'])) {
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
         }
         /*
@@ -130,7 +128,8 @@ class SolicitudController extends Controller
         //dd($jefes);
         $select_attribs = ['class' => 'form-control'];
         $title = "Haz una nueva solicitud";
-        return view('new_request', compact('categories', 'title', 'select_attribs'));
+        $tipo_evento = null;
+        return view('new_request', compact('categories', 'title', 'select_attribs', 'tipo_evento'));
     }
 
     /**
@@ -159,16 +158,17 @@ class SolicitudController extends Controller
                         'dependencies_id' => $request['dependencia']
                     ]);
                     $id_conductor = $c->id;
-                } else {
+                } else
                     $id_conductor = $request['txt_codigoC'];
-                }
-
 
                 $licencia = Licence::where('numero', $request['txt_licencia'])->get();
                 if ($licencia->isEmpty()) {
                     $l = (new \App\Licence)->create([
                         'numero' => $request['txt_licencia'],
-                        'vencimiento' => $request['txt_venc'],
+                        'vencimiento' => Carbon::parse($request['txt_venc'])->format('Y-m-d'),
+                        'archivo' => $request->file('archivo')->
+                        storeAs('/public/licences', $request['txt_codigoC'].".".$request['archivo']->
+                            getClientOriginalExtension()),
                         'licence_types_id' => $request['tipo_licencia'],
                         'driver_id' => $id_conductor,
                     ]);
@@ -299,7 +299,7 @@ class SolicitudController extends Controller
         $solicitud->fecha_evento = $d;
         $solicitud->fecha_regreso = $d1;
         $solicitud->save();
-        dd($solicitud);
+        //dd($solicitud);
         return redirect('solicitud')->with('alert', 'Información de la solicitud actualizada correctamente.');
     }
 
@@ -417,7 +417,7 @@ class SolicitudController extends Controller
                     $mensaje = "Se ha aprobado correctamente la solicitud como secretario administrativo, se ha enviado un correo al coordinador de servicios generales";
                     $titulo = "Ha aprobado la solicitud";
                     $coordGrales = User::listaByRol('coord_servicios_generales');
-                    $asistenteGrales = User::listaByRol('asist_srv_grales');
+                    $asistenteGrales = User::listaByRol('asistente_serv_generales');
                     //dd($coordGrales);
 
                     foreach ($coordGrales as $coord){
@@ -449,7 +449,7 @@ class SolicitudController extends Controller
                     $titulo = "Ha aprobado la solicitud flujo normal";
 
                     $coordGrales = User::listaByRol('coord_servicios_generales');
-                    $asistenteGrales = User::listaByRol('asist_srv_grales');
+                    $asistenteGrales = User::listaByRol('asistente_serv_generales');
                     //dd($coordGrales);
 
                     foreach ($coordGrales as $coord){
@@ -461,7 +461,7 @@ class SolicitudController extends Controller
                 }
                 break;
             case 3:
-                if(auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles['asist_srv_grales']){//también la asistente del coordinador puede actualizar
+                if(auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles['asistente_serv_generales']){//también la asistente del coordinador puede actualizar
                     $estado=4;
                     $mensaje = "Se ha aprobado correctamente como coordinador de servicios generales";
                     $titulo = "Ha aprobado la solicitud";
