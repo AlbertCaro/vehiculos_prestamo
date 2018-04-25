@@ -298,7 +298,7 @@ class SolicitudController extends Controller
         $solicitud->fecha_evento = $d;
         $solicitud->fecha_regreso = $d1;
         $solicitud->save();
-        dd($solicitud);
+        //dd($solicitud);
         return redirect('solicitud')->with('alert', 'Información de la solicitud actualizada correctamente.');
     }
 
