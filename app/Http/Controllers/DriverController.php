@@ -6,6 +6,7 @@ use App\Contact;
 use App\Driver;
 use App\Http\Requests\DriverRequest;
 use App\Licence;
+use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -49,7 +50,7 @@ class DriverController extends Controller
     public function store(DriverRequest $request)
     {
         Driver::create([
-            'id' => $request['codigo'],
+            'id' => $request['id'],
             'dependencies_id' => $request['dependencia'],
             'nombre' => $request['nombre'],
             'apaterno' => $request['apaterno'],
@@ -60,11 +61,11 @@ class DriverController extends Controller
 
         Licence::create([
             'numero' => $request['licencia'],
-            'vencimiento' => $request['vencimiento'],
+            'vencimiento' => Carbon::createFromFormat('d-m-Y',$request['vencimiento'])->toDateString(),
             'licence_types_id' => $request['tipo_licencia'],
             'archivo' => $request->file('archivo')->
             storeAs('/public/licences', $request['codigo'].".".$request['archivo']->getClientOriginalExtension()),
-            'driver_id' => $request['codigo']
+            'driver_id' => $request['id']
         ]);
 
         Contact::create([
@@ -74,7 +75,7 @@ class DriverController extends Controller
             'parentesco' => $request['parentesco_cont'],
             'telefono' => $request['telefono_cont'],
             'domicilio' => $request['domicilio_cont'],
-            'driver_id' => $request['codigo']
+            'driver_id' => $request['id']
         ]);
 
         //Retornamos vista con with() para mostrar un div de mensaje después de un cambio realizado
@@ -136,7 +137,7 @@ class DriverController extends Controller
 
         $licenceData = [
             'numero' => $request['licencia'],
-            'vencimiento' => $request['vencimiento'],
+            'vencimiento' => Carbon::createFromFormat('d-m-Y',$request['vencimiento'])->toDateString(),
             'licence_types_id' => $request['tipo_licencia'],
         ];
 
