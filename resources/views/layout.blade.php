@@ -170,7 +170,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <ul class="list-inline">
+                        <!-- <ul class="list-inline">
                             <li>
                                 <a href="#">Inicio</a>
                             </li>
@@ -186,7 +186,7 @@
                             <li>
                                 <a href="#sol">Solicitud</a>
                             </li>
-                        </ul>
+                        </ul> -->
                         <p class="copyright text-muted small">Derechos reservados {{\Carbon\Carbon::now()}}. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
                     </div>
                 </div>

@@ -24,8 +24,8 @@
             @endif
             <div class="input-group">
                 <span class="input-group-addon">Código</span>
-                <input type="number" class="form-control" name="id" placeholder="Código" maxlength="10"
-                       onfocus="hideError('id')"
+                <input type="number" class="form-control" name="codigo" placeholder="Código" maxlength="10"
+                       onfocus="hideError('codigo')"
                        {{-- Si se tiene un error se pone como valor lo que se había introducido en el input anteriormente --}}
                        @if(count($errors)) value="{{ old('codigo') }}"
                        {{-- Cuando se entra en show o edit se crea el objeto driver, de manera que si no hay error y se entró
@@ -36,7 +36,7 @@
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_codigo">
-                {!! $errors->first('id','<span class="alert-danger">:message</span></br>') !!}
+                {!! $errors->first('codigo','<span class="alert-danger">:message</span></br>') !!}
             </div><br/>
             <div class="input-group">
                 <span class="input-group-addon">Nombre(s)</span>
@@ -125,7 +125,7 @@
                 <input type="text" class="form-control" id="vencimiento" name="vencimiento" placeholder="Fecha de vencimiento"
                        onfocus="hideError('vencimiento')"
                        @if(count($errors)) value="{{ old('vencimiento') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->licence->vencimiento }}" @endif
+                       @elseif(!@empty($driver)) value="{{\Carbon\Carbon::parse( $driver->licence->vencimiento)->format('d-m-Y') }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_vencimiento">

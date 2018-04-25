@@ -12,7 +12,7 @@
                         <h1>{{$title}}</h1>
                         <h3>Folio: {{$solicitud->id}}</h3>
                         <h3>Fecha de la solicitud: {{\Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y H:i:s')}}</h3>
-                        @if($solicitud->driver_id != null)
+                        @if($solicitud->driver_id == null)
                             <div class="form_wh formCenter">
                                 <div class="alert alert-warning">
                                     <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar conductor</a>.

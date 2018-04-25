@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use UxWeb\SweetAlert\SweetAlert;
+use Carbon\Carbon;
 
 class DriverController extends Controller
 {
@@ -48,6 +49,7 @@ class DriverController extends Controller
      */
     public function store(DriverRequest $request)
     {
+        //dd($request['codigo']);
         Driver::create([
             'id' => $request['codigo'],
             'dependencies_id' => $request['dependencia'],
@@ -60,7 +62,8 @@ class DriverController extends Controller
 
         Licence::create([
             'numero' => $request['licencia'],
-            'vencimiento' => $request['vencimiento'],
+            'vencimiento'=>Carbon::createFromFormat('d-m-Y H:i:s',$request['vencimiento']." 00:00:00")->toDateTimeString(),
+            //'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
             'archivo' => $request->file('archivo')->
             storeAs('/public/licences', $request['codigo'].".".$request['archivo']->getClientOriginalExtension()),
@@ -136,7 +139,8 @@ class DriverController extends Controller
 
         $licenceData = [
             'numero' => $request['licencia'],
-            'vencimiento' => $request['vencimiento'],
+            //'vencimiento' => $request['vencimiento'],
+            'vencimiento'=>Carbon::createFromFormat('d-m-Y H:i:s',$request['vencimiento']." 00:00:00")->toDateTimeString(),
             'licence_types_id' => $request['tipo_licencia'],
         ];
 
