@@ -61,7 +61,7 @@ class DriverController extends Controller
 
         Licence::create([
             'numero' => $request['licencia'],
-            'vencimiento'=>Carbon::createFromFormat('d-m-Y H:i:s',$request['vencimiento']." 00:00:00")->toDateTimeString(),
+            'vencimiento'=>Carbon::parse($request['vencimiento'])->format('Y-m-d'),
             //'vencimiento' => $request['vencimiento'],
             'licence_types_id' => $request['tipo_licencia'],
             'archivo' => $request->file('archivo')->

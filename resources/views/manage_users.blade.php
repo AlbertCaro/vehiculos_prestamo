@@ -24,8 +24,6 @@
             </thead>
             <tbody class="table-hover">
 
-
-
             @forelse($users as $user)
 
             <tr>

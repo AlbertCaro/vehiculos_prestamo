@@ -126,7 +126,7 @@
                 <input type="text" class="form-control" id="vencimiento" name="vencimiento" placeholder="Fecha de vencimiento"
                        onfocus="hideError('vencimiento')"
                        @if(count($errors)) value="{{ old('vencimiento') }}"
-                       @elseif(!@empty($driver)) value="{{\Carbon\Carbon::parse( $driver->licence->vencimiento)->format('d-m-Y') }}" @endif
+                       @elseif(!@empty($driver)) value="{{ \Carbon\Carbon::parse( $driver->licence->vencimiento)->format('d-m-Y') }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_vencimiento">
