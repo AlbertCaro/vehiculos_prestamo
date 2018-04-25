@@ -77,6 +77,7 @@
                                 <div class="form-group  col-centered">
                                     <label for="sel3">Escala:</label>
                                     <select class="form-control" id="sel3" name="slc_escala" onfocus="hideError('slc_escala')">
+                                        <option value="">- Seleccione una opción -</option>
                                         <option @if(count($errors)) @elseif(!@empty($solicitud))
                                                 @if($solicitud->escala == 'Local') selected @endif @endif>Local</option>
                                         <option @if(count($errors)) @elseif(!@empty($solicitud))
