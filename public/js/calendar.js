@@ -14,6 +14,11 @@ $(document).ready(function(){
             $("#celularC_txt").val(ui.item.celular);
             $("#licencia_txt").val(ui.item.num_licencia);
             $("#venc_txt").val(ui.item.vencimiento);
+            if(ui.item.archivo !== ""){
+            	$("#archivo").prop('disabled', true);
+            }else{
+                $("#archivo").prop('disabled', false);
+			}
             $("#tipo_licencia").val(ui.item.tipo);
             $("#nombreCont_txt").val(ui.item.nombre_contacto);
             $("#parentesco_txt").val(ui.item.parentesco);

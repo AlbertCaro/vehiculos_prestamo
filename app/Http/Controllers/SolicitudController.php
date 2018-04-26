@@ -73,7 +73,6 @@ class SolicitudController extends Controller
             'txt_licencia'=>'required',
             'txt_venc'=>'required',
             'tipo_licencia'=>'required',
-            'archivo'=>'required',
             'txt_contacto'=>'required',
             'txt_parentesco'=>'required',
             'txt_domicilio'=>'required',
