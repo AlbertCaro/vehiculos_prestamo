@@ -123,7 +123,9 @@
                                 <ul>
                                     <li><a href='{{ route('usuario.create') }}'>Agregar</a></li>
                                     <li><a href='{{ route('usuario.index') }}'>Gestionar</a></li>
+                                    @if(auth()->user()->email==='erickg@valles.udg.mx')
                                     <li><a href='{{ route('role.index') }}'>Roles</a></li>
+                                        @endif
                                 </ul>
                             </li>
                                 @endif

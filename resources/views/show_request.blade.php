@@ -112,28 +112,33 @@
                                         <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular'
                                                disabled @if(!@empty($conductor)) value="{{ $conductor->celular}}" @endif/>
                                     </div><br>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Dependencia</span>
-                                        <input type="text" class="form-control" name="txt_dependenciaC" placeholder='Numero de celular'
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->depen_nombre}}" @endif/>
-                                    </div><br>
+                                    <h5>Dependencia</h5>
+                                    <div class="form-group  col-centered">
+                                        {{ Form::select('dependencia', ['' => '- Seleccione una opción -'] + \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id')->toArray(),
+                                        $conductor->dependencies_id, ['class' => 'form-control','id' => 'dependencia', 'onfocus' => 'hideError(\'dependencia\')', 'disabled'=>'disabled']) }}
+                                    </div>
+                                    <div id="error_dependencia">
+                                        {!! $errors->first('dependencia','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
 
                                     <h4>Detalles de la licencia</h4>
                                     <div class="input-group">
                                         <span class="input-group-addon">Licencia</span>
                                         <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->numero}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->licence->numero}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Fecha de vencimiento</span>
                                         <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"
-                                               disabled @if(!@empty($conductor)) value="{{  \Carbon\Carbon::parse($conductor->vencimiento)->format('d-m-Y')}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{  \Carbon\Carbon::parse($conductor->licence->vencimiento)->format('d-m-Y')}}" @endif/>
                                     </div><br>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Tipo de licencia</span>
-                                        <input type="text" class="form-control" id="tipol_txt" name="txt_tipol" placeholder="Tipo de licencia"
-                                           disabled @if(!@empty($conductor)) value="{{ $conductor->tipo}}" @endif/>
-                                    </div><br>
+                                    <h5>Tipo de licencia</h5>
+                                    <div class="form-group  col-centered">
+                                        {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), $conductor->licence->licence_types_id, ['class' => 'form-control','id'=>'tipo_licencia', 'onfocus' => 'hideError(\'tipo_licencia\')','disabled'=>'disabled']) }}
+                                    </div>
+                                    <div id="error_tipo_licencia">
+                                        {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
+                                    </div><br/>
                                     <h5>Archivo de licencia</h5>
                                     @if($solicitud->driver->licence->archivo !== null)
                                         <div class="form-group  col-centered">
@@ -151,22 +156,22 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Contacto</span>
                                         <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->cont_nombre." ".$conductor->cont_paterno." ".$conductor->cont_materno}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->nombre." ".$conductor->contact->apaterno." ".$conductor->contact->amaterno}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Parentesco</span>
                                         <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->parentesco}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->parentesco}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Domicilio</span>
                                         <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->domicilio}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->domicilio}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Teléfono</span>
                                         <input type=text class="form-control" id="telefono_txt" name="txt_telefono" placeholder="Telefono"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->telefono}}" @endif/>
+                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->telefono}}" @endif/>
                                     </div><br>
                                 </div><br>
                                 </div>
