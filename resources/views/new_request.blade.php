@@ -299,7 +299,7 @@
 
         function vehiculopropio(){
             if (document.getElementById('rdio4').checked === true){
-                document.getElementById('rdio5').checked = true;
+                document.getElementById('rdio5').checked = false;
                 enableContent();
                 document.getElementById('rdio5').checked = false;
                 document.getElementById('rdio5').disabled = true;

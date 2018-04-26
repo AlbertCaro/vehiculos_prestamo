@@ -122,7 +122,7 @@
             </tr>
             @empty
                 <tr>
-                    <td colspan="6">No hay solicitudes</td>
+                    <td colspan="7">No hay solicitudes</td>
                 </tr>
             @endforelse
             </tbody>

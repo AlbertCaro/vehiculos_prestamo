@@ -246,15 +246,20 @@ class SolicitudController extends Controller
         $solicitud = Solicitud::findOrFail($id);
         $jefe = User::all()->where('id','=', $solicitud->jefe_id)->first();
         $tipo = Event_Type::all()->where('id','=',$solicitud->event_types_id)->first();
-        $conductor = Driver::findOrFail($solicitud->driver_id);
-        //$conductor = Driver::findOrFail($solicitud->driver_id);
-        //$conductor = Driver::all()->where('id', '=',$solicitud->driver_id)->first();
-        //$jefes = User::listaByRol('jefe')->pluck(['nombre','id']);
-        $categories = Category::all();
-        $select_attribs = ['class' => 'form-control'];
+        $conductor = Driver::find($solicitud->driver_id);
+
+        if($conductor == null){
+            $title = "Detalles de la solicitud";
+            return view('show_request', compact('solicitud','categories','tipo', 'jefe', 'title'));
+        }else{
+            $categories = Category::all();
+            $select_attribs = ['class' => 'form-control'];
+            $title = "Detalles de la solicitud";
+            return view('show_request', compact('solicitud','categories','tipo','conductor', 'jefe', 'title', 'select_attribs'));
+        }
+
         //dd($jefes);
-        $title = "Detalles de la solicitud";
-        return view('show_request', compact('solicitud','categories','tipo','conductor', 'jefe', 'title', 'select_attribs'));
+
     }
 
     /**
