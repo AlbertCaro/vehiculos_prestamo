@@ -173,24 +173,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <!-- <ul class="list-inline">
-                            <li>
-                                <a href="#">Inicio</a>
-                            </li>
-                            <li class="footer-menu-divider">&sdot;</li>
-                            <li>
-                                <a href="#contacto">Contacto</a>
-                            </li>
-                            <li class="footer-menu-divider">&sdot;</li>
-                            <li>
-                                <a href="#sol">Flujo de la solicitudes</a>
-                            </li>
-                            <li class="footer-menu-divider">&sdot;</li>
-                            <li>
-                                <a href="#sol">Solicitud</a>
-                            </li>
-                        </ul> -->
-                        <p class="copyright text-muted small">Derechos reservados {{\Carbon\Carbon::now()}}. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
+
+                        <p class="copyright text-muted small">Derechos reservados {{\Carbon\Carbon::now()->format('Y')}}. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
                     </div>
                 </div>
             </div>
