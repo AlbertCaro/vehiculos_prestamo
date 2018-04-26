@@ -173,7 +173,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-
                         <p class="copyright text-muted small">Derechos reservados {{\Carbon\Carbon::now()->format('Y')}}. Universidad de Guadalajara. Sitio desarrollado por CUValles</p>
                     </div>
                 </div>
