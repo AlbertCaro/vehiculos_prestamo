@@ -285,19 +285,42 @@ class SolicitudController extends Controller
     public function update(Request $request, $id)
 
     {
-        $d = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha'].':00')->toDateTimeString();
-        $d1 = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha1'].':00')->toDateTimeString();
+        $solicitud = Solicitud::findOrFail($id);
+
+        $cambiar = false;
+
+        if((Carbon::createFromFormat('Y-m-d H:i:s',$solicitud->fecha_evento)->format('d-m-Y H:i:s') != $request['txt_fecha']) && (Carbon::createFromFormat('Y-m-d H:i:s',$solicitud->fecha_regreso)->format('d-m-Y H:i:s') != $request['txt_fecha1'])){
+            $d = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha'].':00')->toDateTimeString();
+            $d1 = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha1'].':00')->toDateTimeString();
+            $cambiar = true;
+        }elseif((Carbon::createFromFormat('Y-m-d H:i:s',$solicitud->fecha_evento)->format('d-m-Y H:i:s') == $request['txt_fecha']) && (Carbon::createFromFormat('Y-m-d H:i:s',$solicitud->fecha_regreso)->format('d-m-Y H:i:s') != $request['txt_fecha1'])){
+            $d = Carbon::createFromFormat('d-m-Y H:i:s',$request['txt_fecha'])->toDateTimeString();
+            $d1 = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha1'].':00')->toDateTimeString();
+            $cambiar = true;
+        }elseif ((Carbon::createFromFormat('Y-m-d H:i:s',$solicitud->fecha_evento)->format('d-m-Y H:i:s') != $request['txt_fecha']) && (Carbon::createFromFormat('Y-m-d H:i:s',$solicitud->fecha_regreso)->format('d-m-Y H:i:s') == $request['txt_fecha1'])){
+            $d = Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha'].':00')->toDateTimeString();
+            $d1 = Carbon::createFromFormat('d-m-Y H:i:s',$request['txt_fecha1'])->toDateTimeString();
+            $cambiar=true;
+        }else{
+            $cambiar = false;
+        }
+
        // dd($d1);
         $this->validate($request, [
            'txt_fecha' => 'required',
            'txt_fecha1' => 'required'
         ]);
-        $solicitud = Solicitud::findOrFail($id);
-        $solicitud->fecha_evento = $d;
-        $solicitud->fecha_regreso = $d1;
-        $solicitud->save();
+        if($cambiar){
+            $solicitud->fecha_evento = $d;
+            $solicitud->fecha_regreso = $d1;
+            $solicitud->save();
+            return redirect('solicitud')->with('alert', 'Información de la solicitud actualizada correctamente.');
+        }else{
+            return redirect('solicitud')->with('alert', 'No se detectaron cambios.');
+        }
+
         //dd($solicitud);
-        return redirect('solicitud')->with('alert', 'Información de la solicitud actualizada correctamente.');
+
     }
 
     /**
