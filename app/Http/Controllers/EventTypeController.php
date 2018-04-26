@@ -24,12 +24,9 @@ class EventTypeController extends Controller
 
     public function index()
     {
-        $events = DB::table('event_types')
-            ->join('categories', 'event_types.categories_id', '=', 'categories.id')
-            ->select('categories.id AS id_cat','categories.nombre as categoria', 'event_types.*')
-            ->get();
+        $categories = Category::all();
         $title = 'Gestionar eventos';
-        return view('manage_events',compact('events', 'title'));
+        return view('manage_events',compact('categories', 'title'));
     }
 
     /**

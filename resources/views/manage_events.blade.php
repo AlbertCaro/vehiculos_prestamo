@@ -15,40 +15,46 @@
                 {{ session('alert') }}
             </div>
         @endif
-        @if(count($events))
+        @if(count($categories))
         <table class="table-fill">
             <thead>
             <tr>
-                <th>Categoría</th>
-                <th>Tipo de evento</th>
+                <th colspan="2">Tipo de evento</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody class="table-hover">
             @endif
-            @forelse($events as $event)
-
+            @forelse($categories as $category)
             <tr>
-                <td>{{ucfirst($event->categoria)}}</td>
-                <td>{{ucfirst($event->nombre)}}</td>
-                <td>
-                    <form id="delete_form_{{ $event->id }}" action="{{ route('tipo_evento.destroy' , $event->id)}}" method="POST">
-                        <a href='{{ route('tipo_evento.show', $event->id) }}'>
-                            <button type="button" class="btn btn-info">Detalles</button>
-                        </a>
-                        <a href='{{route('tipo_evento.edit', $event->id)}}'>
-                            <button type="button" class="btn btn-success">Editar</button>
-                        </a>
-                        <input name="_method" type="hidden" value="DELETE">
-                        {{ csrf_field() }}
-                        <a href='' onclick="deleteElement(
-                                '¿Está seguro de querer eliminar al evento {{$event->nombre}}?',
-                                'delete_form_{{ $event->id }}', event);
-                                ">
-                            <button type="button" class="btn btn-danger">Eliminar</button>
-                        </a>
-                    </form>
-                </td>
+                <td colspan="3"><center>Categoría de evento: {{$category->nombre}}</center></td>
+            </tr>
+                @forelse($category->event_types as $event)
+                    <tr>
+                        <td colspan="2">{{ucfirst($event->nombre)}}</td>
+                        <td>
+                            <form id="delete_form_{{ $event->id }}" action="{{ route('tipo_evento.destroy' , $event->id)}}" method="POST">
+                                <a href='{{ route('tipo_evento.show', $event->id) }}'>
+                                    <button type="button" class="btn btn-info">Detalles</button>
+                                </a>
+                                <a href='{{route('tipo_evento.edit', $event->id)}}'>
+                                    <button type="button" class="btn btn-success">Editar</button>
+                                </a>
+                                <input name="_method" type="hidden" value="DELETE">
+                                {{ csrf_field() }}
+                                <a href='' onclick="deleteElement(
+                                        '¿Está seguro de querer eliminar al evento {{$event->nombre}}?',
+                                        'delete_form_{{ $event->id }}', event);
+                                        ">
+                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                </a>
+                            </form>
+                        </td></tr>
+                @empty
+                    <tr>
+                        <td colspan="3">No hay eventos en esta categoría</td>
+                    </tr>
+                @endforelse
             </tbody>
             @empty
                 <h1>No hay eventos</h1>

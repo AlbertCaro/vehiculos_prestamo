@@ -24,6 +24,6 @@ class Event_Type extends Model
     }
 
     public function category(){
-        return $this->belongsTo(Category::class,'categories_id','id');
+        return $this->belongsTo(Event_Type::class,'categories_id','id');
     }
 }

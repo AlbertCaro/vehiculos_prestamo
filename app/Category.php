@@ -20,6 +20,6 @@ class Category extends Model
     }
 
     public function event_types(){
-        $this->hasMany(Event_Type::class);
+        return $this->hasMany(Event_Type::class,'categories_id','id');
     }
 }
