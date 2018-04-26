@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Requests\CreateCategory;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Validation\ValidatesRequests; //validaciones
 use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
-    use ValidatesRequests;
     /**
      * Display a listing of the resource.
      *
