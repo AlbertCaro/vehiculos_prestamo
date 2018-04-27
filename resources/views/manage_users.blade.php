@@ -32,7 +32,7 @@
                 <td>{{$user->email}}</td>
                 <td>
                     @foreach($user->roles as $role)
-                        {{$role->nombre_mostrado}}
+                        {{$role->nombre_mostrado}}<br>
                         @endforeach
                 </td>
 

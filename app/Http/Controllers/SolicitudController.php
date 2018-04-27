@@ -420,9 +420,9 @@ class SolicitudController extends Controller
     public function aceptarSolicitud($id){
 
         $solicitud = Solicitud::findOrFail($id);
-        $estado = 0;
-        $mensaje = "Mensaje por defecto";
-        $titulo = "Título por defecto";
+        $estado = $solicitud->estatus;
+        $mensaje = "Al parecer, no tiene privilegios sobre esta solicitud";
+        $titulo = "Sin cambios";
 
         switch ($solicitud->estatus){
             case 1:
