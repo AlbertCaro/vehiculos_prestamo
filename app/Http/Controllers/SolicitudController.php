@@ -394,21 +394,26 @@ class SolicitudController extends Controller
         $solicitud = \App\Solicitud::findOrFail($request['solicitud']);
         $data = [];
         $conductor = false;
+        $aceptado = false;
         $message = "Se ha asignado ";
 
         if ($request->has('conductor')) {
             $data = $data + ['driver_id' => $request['conductor']];
             $message = $message."conductor";
             $conductor = true;
+            $aceptado = true;
         }
         if ($request->has('vehiculo')) {
             $data = $data + ['vehicles_id' => $request['vehiculo']];
+            $aceptado = true;
             if ($conductor)
                 $message = $message." y ";
             $message = $message."vehículo";
         }
 
-        $data = $data + ['estatus'=>4];
+        if($aceptado)
+            $data = $data + ['estatus'=>4];
+
 
         $message = $message." correctamente";
         $solicitud->update($data);
