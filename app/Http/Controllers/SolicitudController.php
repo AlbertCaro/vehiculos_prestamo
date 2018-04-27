@@ -223,6 +223,10 @@ class SolicitudController extends Controller
 
         Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
+        if($jefe->asistente !== null){
+            Mail::to($jefe->asistente->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+        }
+
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
 
         //Mail::to(auth()->user()->email)

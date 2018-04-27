@@ -150,4 +150,9 @@ class User extends Authenticatable
     public function solicitudes(){
        return $this->hasMany(Solicitud::class,'jefe_id','id');
     }
+
+    public function asistente(){
+        return $this->hasOne(User::class,'id_jefe','id');
+    }
+
 }
