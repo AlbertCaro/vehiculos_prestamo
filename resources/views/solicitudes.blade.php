@@ -87,7 +87,7 @@
                                 ">
                             <button type="button" class="btn btn-danger">Cancelar</button>
                         @endif
-                            @if(auth()->user()->hasRoles(['coord_servicios_generales']) &&
+                            @if(auth()->user()->hasRoles(['asistente_serv_generales']) || auth()->user()->hasRoles(['coord_servicios_generales']) &&
                             ($solicitud->driver_id === null || $solicitud->vehicles_id === null) &&
                              is_null($solicitud->vehiculo_propio))
                                 <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
@@ -109,6 +109,20 @@
                         </a>
                     @endif
                 </td>
+                @elseif(auth()->user()->hasRoles(['administrativo']))
+                    <td>
+                        <a href="{{route('aceptar',$solicitud->id)}}">
+                            <button type="button" class="btn btn-success">Aceptar</button>
+                        </a>
+                        @if($solicitud->estatus === 2)
+                            <a href="" onclick="cancelElement(
+                                    '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
+                                    '{{route('cancelar',$solicitud->id) }}', event);
+                                    ">
+                                <button type="button" class="btn btn-danger">Cancelar</button>
+                            </a>
+                        @endif
+                    </td>
                 @elseif(auth()->user()->hasRoles(['solicitante']))
                     <td>
                         <a href='{{ route('solicitud.edit', $solicitud->id) }}'>

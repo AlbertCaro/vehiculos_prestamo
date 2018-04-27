@@ -408,6 +408,8 @@ class SolicitudController extends Controller
             $message = $message."vehículo";
         }
 
+        $data = $data + ['estatus'=>4];
+
         $message = $message." correctamente";
         $solicitud->update($data);
         Mail::to($solicitud->user->email)->send(new NuevaSolicitudDeVehiculo("Solicitud aprobada","La solicitud que ha realizado, fue aprobada por todas las instancias. Puede revisarla ingresando al sistema."));
