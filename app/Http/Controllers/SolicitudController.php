@@ -352,7 +352,7 @@ class SolicitudController extends Controller
                     })
                     ->orWhere(function ($query) {
                         $query
-                            ->whereNotBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
+                            ->whereNotBetween(DB::raw('DATE(requests.fecha_evento'), $GLOBALS['date_interval'])
                             ->whereNotBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval'])
                             ->where(DB::raw('DATE(requests.fecha_evento)'), '!=', $GLOBALS['date_interval'][0])
                             ->where(DB::raw('DATE(requests.fecha_evento)'), '!=', $GLOBALS['date_interval'][1])
