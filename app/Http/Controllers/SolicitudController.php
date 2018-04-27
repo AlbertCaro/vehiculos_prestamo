@@ -171,11 +171,6 @@ class SolicitudController extends Controller
                         'licence_types_id' => $request['tipo_licencia'],
                         'driver_id' => $id_conductor,
                     ]);
-
-                    if ($request->hasFile('archivo')) {
-                        $licencia->archivo = $request->file('archivo')->store('/public/licences');
-                        $licencia->save();
-                    }
                 }
                 $contacto = Contact::where('driver_id', '=', $id_conductor)->get();
                 if ($contacto->isEmpty()) {
