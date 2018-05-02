@@ -12,6 +12,7 @@ use App\Licence;
 use App\Mail\NuevaSolicitudDeVehiculo;
 use App\Solicitud;
 use App\User;
+use App\Vehicle;
 use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Http\Request;
@@ -337,48 +338,33 @@ class SolicitudController extends Controller
         $solicitud = \App\Solicitud::findOrFail($id);
         $empty_option = ['' => '- Selecciona una opción -'];
         $GLOBALS['date_interval'] = [
-            Carbon::parse($solicitud->fecha_evento)->toDateString(),
-            Carbon::parse($solicitud->fecha_regreso)->toDateString()
+            Carbon::parse($solicitud->fecha_evento)->toDateTimeString(),
+            Carbon::parse($solicitud->fecha_regreso)->toDateTimeString()
         ];
 
         if ($solicitud->vehicles_id === null) {
-            $vehiculos = $empty_option + DB::table('vehicles')
-                    ->leftJoin('requests','vehicles.id','=','requests.vehicles_id')
-                    ->select('vehicles.id', 'vehicles.nombre')
-                    ->where(function ($query) {
-                        $query
-                            ->whereNull('requests.fecha_evento')
-                            ->whereNull('requests.fecha_evento');
-                    })
-                    ->orWhere(function ($query) {
-                        $query
-                            ->whereNotBetween(DB::raw('DATE(requests.fecha_evento'), $GLOBALS['date_interval'])
-                            ->whereNotBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval'])
-                            ->where(DB::raw('DATE(requests.fecha_evento)'), '!=', $GLOBALS['date_interval'][0])
-                            ->where(DB::raw('DATE(requests.fecha_evento)'), '!=', $GLOBALS['date_interval'][1])
-                            ->where(DB::raw('DATE(requests.fecha_regreso)'), '!=', $GLOBALS['date_interval'][0])
-                            ->where(DB::raw('DATE(requests.fecha_regreso)'), '!=', $GLOBALS['date_interval'][1]);
-                    })->get()->pluck('nombre','id')->toArray();
+
+            $vehiculosOcupados = DB::table('vehicles')
+                                ->join('requests','vehicles.id','=','requests.vehicles_id')
+                                ->select('vehicles.id as vehiculo_id')
+                                ->whereDate('requests.fecha_evento','<=', $GLOBALS['date_interval'])
+                                ->whereDate('requests.fecha_regreso','>=', $GLOBALS['date_interval'])
+                                ->get()->pluck('vehiculo_id')->toArray();
+
+
+            $vehiculos = $empty_option + Vehicle::select(['nombre','id'])->whereNotIn('id',$vehiculosOcupados)->get()->pluck('nombre','id')->toArray();
+
         }
 
         if ($solicitud->driver_id === null) {
-            $conductores = $empty_option + DB::table('drivers')
-                    ->leftJoin('requests','drivers.id','=','requests.driver_id')
-                    ->select('drivers.id', 'drivers.nombre', 'requests.fecha_evento', 'requests.fecha_regreso')
-                    ->where(function ($query) {
-                        $query
-                            ->whereNull('requests.fecha_evento')
-                            ->whereNull('requests.fecha_evento');
-                    })
-                    ->orWhere(function ($query) {
-                        $query
-                            ->whereNotBetween(DB::raw('DATE(requests.fecha_evento)'), $GLOBALS['date_interval'])
-                            ->whereNotBetween(DB::raw('DATE(requests.fecha_regreso)'), $GLOBALS['date_interval'])
-                            ->where(DB::raw('DATE(requests.fecha_evento)'), '!=', $GLOBALS['date_interval'][0])
-                            ->where(DB::raw('DATE(requests.fecha_evento)'), '!=', $GLOBALS['date_interval'][1])
-                            ->where(DB::raw('DATE(requests.fecha_regreso)'), '!=', $GLOBALS['date_interval'][0])
-                            ->where(DB::raw('DATE(requests.fecha_regreso)'), '!=', $GLOBALS['date_interval'][1]);
-                    })->get()->pluck('nombre','id')->toArray();
+             $conductoresOcupados = DB::table('drivers')
+                ->join('requests','drivers.id','=','requests.driver_id')
+                ->select('drivers.id as conductor_id')
+                ->whereDate('requests.fecha_evento','<=', $GLOBALS['date_interval'])
+                ->whereDate('requests.fecha_regreso','>=', $GLOBALS['date_interval'])
+                ->get()->pluck('conductor_id')->toArray();
+
+            $conductores = $empty_option + Driver::select(['nombre','apaterno','amaterno','id'])->whereNotIn('id',$conductoresOcupados)->get()->pluck('nombre','id')->toArray();
         }
 
         $vehiculo = null;

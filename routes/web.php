@@ -1,5 +1,9 @@
 <?php
 
+/*DB::listen(function($query){
+    echo "<pre>{{$query->sql}}</pre>";
+});*/
+
 
 Route::get('/', ['as' => 'index', function () {
     return view('index');
