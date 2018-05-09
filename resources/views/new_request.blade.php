@@ -204,7 +204,7 @@
                                     <div id="error_tipo_licencia">
                                         {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
                                     </div><br/>
-                                    <h5>Adjuntar archivo</h5>
+                                    <h5>Adjuntar archivo(Licencia de conducir)</h5>
                                     <div class="form-group  col-centered" align="center">
                                         <input type="file" id="archivo" name="archivo" onfocus="hideError('archivo')" />
                                     </div>
