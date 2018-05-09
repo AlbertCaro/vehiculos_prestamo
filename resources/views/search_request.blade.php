@@ -19,7 +19,7 @@
                 <input type="text" class="form-control" id="fecha2" placeholder="Segunda fecha..." onkeyup=""/>
             </div>
             <div class="input-group">
-                <span class="input-group-addon">Estatus</span>
+                <span class="input-group-addon">Estado</span>
                 <select class="form-control" id="estatus">
                     <option value="">- Seleccione una opción -</option>
                     <option value="0">Todos</option>
