@@ -157,7 +157,7 @@ class SolicitudController extends Controller
                         'celular' => $request['txt_celularC'],
                         'dependencies_id' => $request['dependencia']
                     ]);
-                    $id_conductor = $c->id;
+                    $id_conductor = $c -> id;
                 } else
                     $id_conductor = $request['txt_codigoC'];
 

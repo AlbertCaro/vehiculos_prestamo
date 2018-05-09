@@ -138,11 +138,11 @@
                             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                                 <div class="form-group  col-centered">
                                     <h3>Información sobre el conductor</h3>
-                                    <div class="input-group">
+                                    <!--div class="input-group">
                                         <label class="radio-inline" for="rdio5">
                                             <input type="checkbox" id="rdio5" name="solicito_conduc" value="1"
                                                    onclick="enableContent();"/>Solicito conductor</label><br><br>
-                                    </div>
+                                    </div-->
                                     <div class="input-group">
                                         <span class="input-group-addon">Código</span>
                                         <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"
@@ -204,7 +204,7 @@
                                     <div id="error_tipo_licencia">
                                         {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
                                     </div><br/>
-                                    <h5>Adjuntar archivo</h5>
+                                    <h5>Adjuntar archivo (licencia de conducir)</h5>
                                     <div class="form-group  col-centered" align="center">
                                         <input type="file" id="archivo" name="archivo" onfocus="hideError('archivo')" />
                                     </div>
@@ -266,6 +266,7 @@
         </div>
     </div><br>
     <script type="text/javascript">
+        /*
         function enableContent() {
             if (document.getElementById('rdio5').checked === true) {
                 document.getElementById('codigoC_txt').disabled = true;
@@ -296,6 +297,7 @@
                 document.getElementById('telefono_txt').disabled = false;
             }
         }
+        */
 
         function vehiculopropio(){
             if (document.getElementById('rdio4').checked === true){

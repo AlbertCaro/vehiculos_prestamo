@@ -148,7 +148,7 @@
                     <a href="{{ Storage::url($driver->licence->archivo)  }}">Descargar el archivo</a>
                 </div>
                 @else
-                <h5>Adjuntar licencia</h5>
+                <h5>Adjuntar licencia (licencia de conducir)</h5>
                 <div class="form-group col-centered" align="center">
                     <input type="file" name="archivo" id="archivo">
                 </div>
