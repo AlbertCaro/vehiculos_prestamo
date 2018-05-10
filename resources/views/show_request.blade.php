@@ -3,6 +3,7 @@
 @section('title', $title)
 
 @section('content')
+
     <a name="sol"></a>
     <div class="intro-header">
         <div class="container">
@@ -13,7 +14,7 @@
                         <br/>
                         <h3>Folio: {{$solicitud->id}}</h3>
                         <h3>Fecha de la solicitud: {{\Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y H:i:s')}}</h3>
-                        @if($solicitud->driver_id == null)
+                        @if($solicitud->driver == null)
                             <div class="form_wh formCenter">
                                 <div class="alert alert-warning">
                                     <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar conductor</a>.
@@ -27,9 +28,12 @@
                                 </div>
                             </div>
                         @endif
-                        <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
-                              action=""
-                              method="" enctype="multipart/form-data"><br>
+
+                            <h3 class="center-text">Observaciones</h3>
+                            <label for="observaciones"><br><textarea id="observaciones" name="observaciones" cols="70" rows="5" placeholder="Observaciones adicionales" style="color: #000;" disabled="disabled">{{$solicitud->observaciones}}</textarea>
+
+                        <br>
+
                             <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
                                 
                                 <h3>Funcionario que autoriza</h3>
@@ -92,7 +96,8 @@
                                     <input class="form-control" type="text" id="fecha1_txt" name="txt_fecha1" placeholder="Fecha y hora de regreso"
                                            disabled @if(!@empty($solicitud)) value="{{ \Carbon\Carbon::parse($solicitud->fecha_regreso )->format('d-m-Y H:i:s')}}" @endif/>
                                 </div><br>
-                            @if($solicitud->driver_id !== null)
+
+                       @if($solicitud->driver != null)
                             </div> <!-- aqui se hace la division en dos del formulario en caso de que haya datos del conductor -->
                             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                                 <div class="form-group  col-centered">
@@ -100,22 +105,22 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Código</span>
                                         <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"
-                                               disabled @if(!@empty($solicitud)) value="{{ $solicitud->driver_id}}" @endif/>
+                                               disabled @if(!@empty($solicitud)) value="{{ $solicitud->driver->id}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Nombre</span>
                                         <input type="text" class="form-control" id="nombreC_txt" name="txt_nombreC" placeholder="Nombre"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->nombre." ". $conductor->apaterno." ".$conductor->amaterno}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->nombre." ". $solicitud->driver->apaterno." ".$solicitud->driver->amaterno}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Celular</span>
                                         <input type="text" class="form-control" id="celularC_txt" name="txt_celularC" placeholder='Numero de celular'
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->celular}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->celular}}" @endif/>
                                     </div><br>
                                     <h5>Dependencia</h5>
                                     <div class="form-group  col-centered">
                                         {{ Form::select('dependencia', ['' => '- Seleccione una opción -'] + \App\Dependence::all(['id', 'nombre'])->pluck('nombre', 'id')->toArray(),
-                                        $conductor->dependencies_id, ['class' => 'form-control','id' => 'dependencia', 'onfocus' => 'hideError(\'dependencia\')', 'disabled'=>'disabled']) }}
+                                        $solicitud->driver->dependencies_id, ['class' => 'form-control','id' => 'dependencia', 'onfocus' => 'hideError(\'dependencia\')', 'disabled'=>'disabled']) }}
                                     </div>
                                     <div id="error_dependencia">
                                         {!! $errors->first('dependencia','<span class="alert-danger">:message</span></br>') !!}
@@ -125,16 +130,16 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Licencia</span>
                                         <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->licence->numero}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->licence->numero}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Fecha de vencimiento</span>
                                         <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"
-                                               disabled @if(!@empty($conductor)) value="{{  \Carbon\Carbon::parse($conductor->licence->vencimiento)->format('d-m-Y')}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{  \Carbon\Carbon::parse($solicitud->driver->licence->vencimiento)->format('d-m-Y')}}" @endif/>
                                     </div><br>
                                     <h5>Tipo de licencia</h5>
                                     <div class="form-group  col-centered">
-                                        {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), $conductor->licence->licence_types_id, ['class' => 'form-control','id'=>'tipo_licencia', 'onfocus' => 'hideError(\'tipo_licencia\')','disabled'=>'disabled']) }}
+                                        {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), $solicitud->driver->licence->licence_types_id, ['class' => 'form-control','id'=>'tipo_licencia', 'onfocus' => 'hideError(\'tipo_licencia\')','disabled'=>'disabled']) }}
                                     </div>
                                     <div id="error_tipo_licencia">
                                         {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
@@ -156,27 +161,31 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Contacto</span>
                                         <input type="text" class="form-control" id="nombreCont_txt" name="txt_contacto" placeholder="Nombre del contacto"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->nombre." ".$conductor->contact->apaterno." ".$conductor->contact->amaterno}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->contact->nombre." ".$solicitud->driver->contact->apaterno." ".$solicitud->driver->contact->amaterno}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Parentesco</span>
                                         <input type="text" class="form-control" id="parentesco_txt" name="txt_parentesco" placeholder="Parentesco"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->parentesco}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->contact->parentesco}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Domicilio</span>
                                         <input type="text" class="form-control" id="domicilio_txt" name="txt_domicilio" placeholder="Domicilio completo"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->domicilio}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->contact->domicilio}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Teléfono</span>
                                         <input type=text class="form-control" id="telefono_txt" name="txt_telefono" placeholder="Telefono"
-                                               disabled @if(!@empty($conductor)) value="{{ $conductor->contact->telefono}}" @endif/>
+                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->contact->telefono}}" @endif/>
                                     </div><br>
                                 </div><br>
+
                                 </div>
+
                             </div>
-                            @endif
+                       @else
+                           No se ha asignado un conductor <br>
+                           @endif
 
                         @if($solicitud->solicita_conductor != null) </div> @endif
                 @if(auth()->user()->hasRoles(['admin', 'jefe', 'coord_servicios_generales', 'asistente_serv_generales']))
@@ -187,7 +196,7 @@
                 @if(auth()->user()->hasRoles(['coord_servicios_generales']) && ($solicitud->driver_id === null or $solicitud === null))
                     <a class="btn btn-primary" href="{{ route('assign_request', $solicitud->id) }}">Asignar peticiones</a>
                 @endif
-                        </form>
+
                     </div>
                 </div>
             </div>

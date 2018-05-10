@@ -27,7 +27,8 @@ class Solicitud extends Model
         'distancia',
         'fecha_regreso',
         'vehiculo_propio',
-        'solicita_conductor'
+        'solicita_conductor',
+        'observaciones'
     ];
 
     public $timestamps = false;

@@ -86,7 +86,7 @@ class SolicitudController extends Controller
         if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales'])){
             $solicitudes = Solicitud::all();
         }elseif(auth()->user()->hasRoles(['administrativo']) || auth()->user()->hasRoles(['jefe'])){
-            $solicitudes = Solicitud::where('estatus',2)
+            $solicitudes = Solicitud::where('estatus',"=",2)
             ->orWhere('jefe_id',auth()->user()->id)
                 ->whereIn('estatus',[1,2])
             ->get();
@@ -94,17 +94,19 @@ class SolicitudController extends Controller
             if(auth()->user()->hasRoles(['jefe'])){
                 $solicitudes = Solicitud::all()
                     ->where('jefe_id', auth()->user()->id)
-                    ->where('estatus',1);
+                    ->where('estatus',"=",1);
             }elseif(auth()->user()->hasRoles(['asistente_jefe'])){
                 $asistente = auth()->user();
                // dd($asistente::jefe($asistente->id)[0]->id_jefe);
                 $solicitudes = Solicitud::all()
                     ->where('jefe_id', $asistente::jefe($asistente->id)[0]->id_jefe)
-                    ->where('estatus',1);
+                    ->where('estatus',"=",1);
             }
 
         } elseif(auth()->user()->hasRoles(['solicitante'])){
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
+        }elseif(auth()->user()->hasRoles(['vehiculos'])){
+            $solicitudes = Solicitud::where('estatus',"=","4")->get();
         }
         /*
         Si es solicitante solo las del solicitante
@@ -216,6 +218,7 @@ class SolicitudController extends Controller
            'distancia'=>$request['txt_kilometros'],
            'solicita_conductor'=>$request['solicito_conduc'],
            'vehiculo_propio'=>$request['rdio_disp'],
+           'observaciones'=>$request['observaciones'],
 
        ]);
 
@@ -342,7 +345,7 @@ class SolicitudController extends Controller
             Carbon::parse($solicitud->fecha_regreso)->toDateTimeString()
         ];
 
-        if ($solicitud->vehicles_id === null) {
+        if ($solicitud->vehicle === null) {
 
             $vehiculosOcupados = DB::table('vehicles')
                                 ->join('requests','vehicles.id','=','requests.vehicles_id')
@@ -356,7 +359,7 @@ class SolicitudController extends Controller
 
         }
 
-        if ($solicitud->driver_id === null) {
+        if ($solicitud->driver == null) {
              $conductoresOcupados = DB::table('drivers')
                 ->join('requests','drivers.id','=','requests.driver_id')
                 ->select('drivers.id as conductor_id')
@@ -371,6 +374,7 @@ class SolicitudController extends Controller
         $conductor = null;
         $select_attribs = ['class' => 'form-control'];
 
+       // dd($conductores,$conductoresOcupados);
         return view('assign_request',
             compact('vehiculos', 'conductores', 'conductor', 'vehiculo', 'select_attribs', 'id'));
     }
@@ -440,7 +444,7 @@ class SolicitudController extends Controller
 
 
                 }else{
-                    if(auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])){//también la asistente del jefe puede autorizar
+                    if(auth()->user()->hasRoles(['jefe'])){
                         $mensaje = "Se ha aprobado correctamente la solicitud, se ha enviado un correo al secretario administrativo";
                         $titulo = "Ha aprobado la solicitud";
                         $estado=2;
