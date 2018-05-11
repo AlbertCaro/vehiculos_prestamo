@@ -385,17 +385,21 @@ class SolicitudController extends Controller
         $data = [];
         $conductor = false;
         $aceptado = false;
+        $vehiculoValles = false;
         $message = "Se ha asignado ";
 
+        dd($request->all());
         if ($request->has('conductor')) {
             $data = $data + ['driver_id' => $request['conductor']];
             $message = $message."conductor";
             $conductor = true;
             $aceptado = true;
         }
-        if ($request->has('vehiculo')) {
+        if ($request->has('vehiculo') && $request['vehiculo']!="") {
             $data = $data + ['vehicles_id' => $request['vehiculo']];
             $aceptado = true;
+            $vehiculoValles = true;
+
             if ($conductor)
                 $message = $message." y ";
             $message = $message."vehículo";
@@ -409,11 +413,15 @@ class SolicitudController extends Controller
         $solicitud->update($data);
         Mail::to($solicitud->user->email)->send(new NuevaSolicitudDeVehiculo("Solicitud aprobada","La solicitud que ha realizado, fue aprobada por todas las instancias. Puede revisarla ingresando al sistema."));
 
-        $encargadoVehiculos = User::listaByRol('vehiculos');
-        $vehiculo = $solicitud->vehicle;
-        foreach ($encargadoVehiculos as $encargado){
-            Mail::to($encargado->email)->send(new NuevaSolicitudDeVehiculo("Se ha prestado un vehículo","Se realizó una petición de vehículo y se ha asignado el ".$vehiculo->modelo." placas: ".$vehiculo->placas.". Para el ".Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')));
+
+        if($vehiculoValles){
+            $encargadoVehiculos = User::listaByRol('vehiculos');
+            $vehiculo = $solicitud->vehicle;
+            foreach ($encargadoVehiculos as $encargado){
+                Mail::to($encargado->email)->send(new NuevaSolicitudDeVehiculo("Se ha prestado un vehículo","Se realizó una petición de vehículo y se ha asignado el ".$vehiculo->modelo." placas: ".$vehiculo->placas.". Para el ".Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')));
+            }
         }
+
 
         return redirect()->route('solicitud.index')->with('alert', $message);
     }
