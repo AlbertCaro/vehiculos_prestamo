@@ -254,8 +254,10 @@
                             <br/>
                             <br/>
                             <br/>
-                            <h3 class="center-text">Vehículo propio</h3>
+                            <h4 class="center-text">Vehículo propio</h4>
                             <label class="radio-inline" for="rdio4"><input type="checkbox" id="rdio4" name="rdio_disp" onclick="vehiculopropio();" value="1"/>En caso de no contar con la disponibilidad de un vehículo oficial, está dispuesto a usar un vehículo propio para hacer el viaje</label><br><br>
+                            <h4 class="center-text">Observaciones</h4>
+                            <label for="observaciones"><br><textarea id="observaciones" name="observaciones" cols="70" rows="5" placeholder="Observaciones adicionales" style="color: #000;"></textarea><br><br>
                             <h1>Términos y condiciones</h1>
                             <p>Al hacer clic en guardar, usted acepta los <a href="{{route('terminos')}}" target="_blank">términos y condiciones</a></p>
                             <input type="submit" class="botones" id="btn_save" name="save_btn" value="Guardar" />
@@ -266,38 +268,7 @@
         </div>
     </div><br>
     <script type="text/javascript">
-        /*
-        function enableContent() {
-            if (document.getElementById('rdio5').checked === true) {
-                document.getElementById('codigoC_txt').disabled = true;
-                document.getElementById('nombreC_txt').disabled = true;
-                document.getElementById('celularC_txt').disabled = true;
-                document.getElementById('licencia_txt').disabled = true;
-                document.getElementById('venc_txt').disabled = true;
-                document.getElementById('tipo_licencia').disabled = true;
-                document.getElementById('dependencia').disabled = true;
-                document.getElementById('archivo').disabled = true;
-                document.getElementById('nombreCont_txt').disabled = true;
-                document.getElementById('parentesco_txt').disabled = true;
-                document.getElementById('domicilio_txt').disabled = true;
-                document.getElementById('telefono_txt').disabled = true;
 
-            } else {
-                document.getElementById('codigoC_txt').disabled = false;
-                document.getElementById('nombreC_txt').disabled = false;
-                document.getElementById('celularC_txt').disabled = false;
-                document.getElementById('licencia_txt').disabled = false;
-                document.getElementById('venc_txt').disabled = false;
-                document.getElementById('tipo_licencia').disabled = false;
-                document.getElementById('dependencia').disabled = false;
-                document.getElementById('archivo').disabled = false;
-                document.getElementById('nombreCont_txt').disabled = false;
-                document.getElementById('parentesco_txt').disabled = false;
-                document.getElementById('domicilio_txt').disabled = false;
-                document.getElementById('telefono_txt').disabled = false;
-            }
-        }
-        */
 
         function vehiculopropio(){
             if (document.getElementById('rdio4').checked === true){
