@@ -105,7 +105,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Código</span>
                                         <input type="text" class="form-control" id="codigoC_txt" name="txt_codigoC" placeholder="Código"
-                                               disabled @if(!@empty($solicitud)) value="{{ $solicitud->driver->id}}" @endif/>
+                                               disabled @if($solicitud->driver!=null) value="{{ $solicitud->driver->id}}" @endif/>
                                     </div><br>
                                     <div class="input-group">
                                         <span class="input-group-addon">Nombre</span>

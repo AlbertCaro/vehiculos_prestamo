@@ -169,7 +169,7 @@ class SolicitudController extends Controller
                         'numero' => $request['txt_licencia'],
                         'vencimiento' => Carbon::parse($request['txt_venc'])->format('Y-m-d'),
                         'archivo' => $request->file('archivo')->
-                        storeAs('/public/licences', $request['txt_codigoC'].".".$request['archivo']->
+                        storeAs('/licences', $request['txt_codigoC'].".".$request['archivo']->
                             getClientOriginalExtension()),
                         'licence_types_id' => $request['tipo_licencia'],
                         'driver_id' => $id_conductor,
