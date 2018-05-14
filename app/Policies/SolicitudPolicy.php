@@ -6,7 +6,7 @@ use App\Solicitud;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class SolicitudPolicy
 {
     use HandlesAuthorization;
 
@@ -19,19 +19,13 @@ class UserPolicy
     {
         //
     }
-
     public function before(User $authUser, $ability){
         if($authUser->hasRoles(['admin'])){
             return true;
         }
     }
 
-    public function edit(User $authUser, User $user){
-        return $authUser->id === $user->id;
+    public function owner(User $authUser, Solicitud $solicitud){
+        return $authUser->id === $solicitud->solicitante_id;
     }
-    public function update(User $authUser, User $user){
-        return $authUser->id === $user->id;
-    }
-
-
 }

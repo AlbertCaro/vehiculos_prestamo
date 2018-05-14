@@ -15,6 +15,7 @@ use App\User;
 use App\Vehicle;
 use Carbon\Carbon;
 use function foo\func;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -246,6 +247,13 @@ class SolicitudController extends Controller
     public function show($id)
     {
         $solicitud = Solicitud::findOrFail($id);
+
+        try {
+            $this->authorize('owner', $solicitud);
+        } catch (AuthorizationException $e) {
+            return view('errors.no_autorizado');
+        }
+
         $jefe = User::all()->where('id','=', $solicitud->jefe_id)->first();
         $tipo = Event_Type::all()->where('id','=',$solicitud->event_types_id)->first();
         $conductor = Driver::find($solicitud->driver_id);
@@ -273,6 +281,11 @@ class SolicitudController extends Controller
     public function edit($id)
     {
         $solicitud = Solicitud::findOrFail($id);
+        try {
+            $this->authorize('owner', $solicitud);
+        } catch (AuthorizationException $e) {
+            return view('errors.no_autorizado');
+        }
         $title = "Editar solicitud";
         return view('edit_request',compact('title','solicitud'));
     }
@@ -288,6 +301,8 @@ class SolicitudController extends Controller
 
     {
         $solicitud = Solicitud::findOrFail($id);
+
+        $this->authorize('owner',$solicitud);
 
         $cambiar = false;
 
