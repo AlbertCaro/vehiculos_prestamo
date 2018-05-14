@@ -3,7 +3,6 @@
 @section('title', $title)
 
 @section('content')
-
     <a name="sol"></a>
     <div class="intro-header">
         <div class="container">
@@ -14,26 +13,25 @@
                         <br/>
                         <h3>Folio: {{$solicitud->id}}</h3>
                         <h3>Fecha de la solicitud: {{\Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y H:i:s')}}</h3>
-                        @if($solicitud->driver == null)
-                            <div class="form_wh formCenter">
-                                <div class="alert alert-warning">
-                                    <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar conductor</a>.
+                        @if($solicitud->estatus !== 5)
+                            @if($solicitud->driver == null)
+                                <div class="form_wh formCenter">
+                                    <div class="alert alert-warning">
+                                        <strong>¡Atención!</strong> El solicitante no cuenta con conductor asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar conductor</a>.
+                                    </div>
                                 </div>
-                            </div>
-                        @endif
-                        @if($solicitud->vehicles_id == null && $solicitud->vehiculo_propio == null)
-                            <div class="form_wh formCenter">
-                                <div class="alert alert-warning">
-                                    <strong>¡Atención!</strong> El solicitante no cuenta con vehículo asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar vehículo</a>.
+                            @endif
+                            @if($solicitud->vehicles_id == null && $solicitud->vehiculo_propio == null)
+                                <div class="form_wh formCenter">
+                                    <div class="alert alert-warning">
+                                        <strong>¡Atención!</strong> El solicitante no cuenta con vehículo asignado <a href="{{ route('assign_request',$solicitud->id) }}" class="alert-link">Asignar vehículo</a>.
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
-
                             <h3 class="center-text">Observaciones</h3>
                             <label for="observaciones"><br><textarea id="observaciones" name="observaciones" cols="70" rows="5" placeholder="Observaciones adicionales" style="color: #000;" disabled="disabled">{{$solicitud->observaciones}}</textarea>
-
                         <br>
-
                             <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
                                 
                                 <h3>Funcionario que autoriza</h3>
@@ -179,24 +177,24 @@
                                                disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->contact->telefono}}" @endif/>
                                     </div><br>
                                 </div><br>
-
-                                </div>
-
                             </div>
                        @else
                            No se ha asignado un conductor <br>
                            @endif
 
                         @if($solicitud->solicita_conductor != null) </div> @endif
-                @if(auth()->user()->hasRoles(['admin', 'jefe', 'coord_servicios_generales', 'asistente_serv_generales']))
-                    <a class="btn btn-success" href="{{ route('aceptar', $solicitud->id) }}">Aceptar</a>
-                @endif
-                <a class="btn btn-danger" href="{{ route('cancelar', $solicitud->id) }}">Rechazar</a>
-                <a class="btn btn-info" href="{{ route('solicitud.index') }}">Regresar</a>
-                @if(auth()->user()->hasRoles(['coord_servicios_generales']) && ($solicitud->driver_id === null or $solicitud === null))
-                    <a class="btn btn-primary" href="{{ route('assign_request', $solicitud->id) }}">Asignar peticiones</a>
+                @if($solicitud->estatus !== 5)
+                    @if(auth()->user()->hasRoles(['admin', 'jefe', 'coord_servicios_generales', 'asistente_serv_generales']))
+                        <a class="btn btn-success" href="{{ route('aceptar', $solicitud->id) }}">Aceptar</a>
+                        <a class="btn btn-danger" href="{{ route('cancelar', $solicitud->id) }}">Rechazar</a>
+                    @endif
+
+                    @if(auth()->user()->hasRoles(['coord_servicios_generales']) && ($solicitud->driver_id === null or $solicitud === null))
+                        <a class="btn btn-primary" href="{{ route('assign_request', $solicitud->id) }}">Asignar peticiones</a>
+                    @endif
                 @endif
 
+                <a class="btn btn-info" href="{{ route('solicitud.index') }}">Regresar</a>
                     </div>
                 </div>
             </div>

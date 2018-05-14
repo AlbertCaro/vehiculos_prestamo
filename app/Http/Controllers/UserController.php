@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Role;
 use App\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -116,8 +117,13 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
         $title = 'Editar usuario';
-        /*$this->authorize($user);/revisará la política de acceso para ver si este usuario tiene permiso
-        de editar el usuario que quiere editar, si no es él mismo, no podrá editarse.*/
+
+        try {
+            $this->authorize('edit', $user);
+        } catch (AuthorizationException $e) {
+            return view('errors.no_autorizado');
+        }
+
         //$jefe = User::datosJefe('slc_jefe');
         $edit = true;
         $jefe = $user->id_jefe;
@@ -139,6 +145,11 @@ class UserController extends Controller
        // dd($request->all());
         $usuario = User::findOrFail($id);
 
+        try {
+            $this->authorize('update', $usuario);
+        } catch (AuthorizationException $e) {
+            return view('errors.no_autorizado');
+        }
 
         if ($request->has('cambiar_pw')) {//si se solicita cambiar contraseña, la cambiamos
             $request['password'] = Hash::make($request['password']);
