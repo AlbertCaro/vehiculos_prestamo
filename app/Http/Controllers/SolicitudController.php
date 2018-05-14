@@ -86,17 +86,26 @@ class SolicitudController extends Controller
     {
         if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales'])){
             $solicitudes = Solicitud::all();
-        }elseif(auth()->user()->hasRoles(['administrativo']) || auth()->user()->hasRoles(['jefe'])){
-            $solicitudes = Solicitud::where('estatus',"=",2)
-            ->orWhere('jefe_id',auth()->user()->id)
-                ->whereIn('estatus',[1,2])
-            ->get();
-        }elseif (auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])) {
+        } elseif(auth()->user()->hasRoles(['administrativo']) || auth()->user()->hasRoles(['jefe'])){
+            if (auth()->user()->hasRoles(['administrativo']) && auth()->user()->hasRoles(['jefe'])) {
+                $solicitudes = Solicitud::where('estatus',"=",2)
+                ->orWhere('jefe_id', auth()->user()->id)
+                    ->whereIn('estatus',[1,2])
+                ->get();
+            } else {
+                if (auth()->user()->hasRoles(['administrativo'])) {
+                    $solicitudes = Solicitud::where('estatus', '=', 2)->get();
+                } else if (auth()->user()->hasRoles(['jefe'])) {
+                    $solicitudes = Solicitud::where('estatus', '=', 1)->
+                    where('jefe_id', '=', auth()->user()->id)->get();
+                }
+            }
+        } elseif (auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])) {
             if(auth()->user()->hasRoles(['jefe'])){
                 $solicitudes = Solicitud::all()
                     ->where('jefe_id', auth()->user()->id)
                     ->where('estatus',"=",1);
-            }elseif(auth()->user()->hasRoles(['asistente_jefe'])){
+            } elseif(auth()->user()->hasRoles(['asistente_jefe'])){
                 $asistente = auth()->user();
                // dd($asistente::jefe($asistente->id)[0]->id_jefe);
                 $solicitudes = Solicitud::all()
@@ -106,7 +115,7 @@ class SolicitudController extends Controller
 
         } elseif(auth()->user()->hasRoles(['solicitante'])){
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
-        }elseif(auth()->user()->hasRoles(['vehiculos'])){
+        } elseif(auth()->user()->hasRoles(['vehiculos'])){
             $solicitudes = Solicitud::where('estatus',"=","4")->get();
         }
         /*
