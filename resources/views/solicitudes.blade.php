@@ -36,7 +36,7 @@
                     <th>Disponibilidad de Vehículo</th>
                     @if(!auth()->user()->hasRoles(['asistente_jefe']))
                     <th>Acciones</th>
-                        @endif
+                    @endif
                 </tr>
                 @endif
             </thead>
