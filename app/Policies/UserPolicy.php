@@ -21,7 +21,7 @@ class UserPolicy
     }
 
     public function before(User $authUser, $ability){
-        if($authUser->hasRoles(['admin'])){
+        if($authUser->hasRoles(['admin','coord_servicios_generales'])){
             return true;
         }
     }

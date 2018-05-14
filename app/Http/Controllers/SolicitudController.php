@@ -235,10 +235,10 @@ class SolicitudController extends Controller
        //dd($request['slc_jefe']);
         $jefe = User::datosJefe($request['jefe_id']);
 
-        Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+        Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         if($jefe->asistente !== null){
-            Mail::to($jefe->asistente->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+            Mail::to($jefe->asistente->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
         }
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
