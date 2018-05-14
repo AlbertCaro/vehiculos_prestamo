@@ -123,38 +123,44 @@
                                     <div id="error_dependencia">
                                         {!! $errors->first('dependencia','<span class="alert-danger">:message</span></br>') !!}
                                     </div><br/>
-
-                                    <h4>Detalles de la licencia</h4>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Licencia</span>
-                                        <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"
-                                               disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->licence->numero}}" @endif/>
-                                    </div><br>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Fecha de vencimiento</span>
-                                        <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"
-                                               disabled @if($solicitud->driver != null) value="{{  \Carbon\Carbon::parse($solicitud->driver->licence->vencimiento)->format('d-m-Y')}}" @endif/>
-                                    </div><br>
-                                    <h5>Tipo de licencia</h5>
-                                    <div class="form-group  col-centered">
-                                        {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), $solicitud->driver->licence->licence_types_id, ['class' => 'form-control','id'=>'tipo_licencia', 'onfocus' => 'hideError(\'tipo_licencia\')','disabled'=>'disabled']) }}
-                                    </div>
-                                    <div id="error_tipo_licencia">
-                                        {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
-                                    </div><br/>
-                                    <h5>Archivo de licencia</h5>
-                                    @if($solicitud->driver->licence->archivo !== null)
-                                        <div class="form-group  col-centered">
-                                            <a href="{{ Storage::url($solicitud->driver->licence->archivo)  }}">Descargar el archivo</a>
+                                    @if(isset($solicitud->driver->licence))
+                                        <h4>Detalles de la licencia</h4>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Licencia</span>
+                                            <input type="text" class="form-control" id="licencia_txt" name="txt_licencia" placeholder="Numero de licencia"
+                                                   disabled @if($solicitud->driver != null) value="{{ $solicitud->driver->licence->numero}}" @endif/>
                                         </div><br>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Fecha de vencimiento</span>
+                                            <input type="text" class="form-control" id="venc_txt" name="txt_venc" placeholder="Fecha de vencimiento"
+                                                   disabled @if($solicitud->driver != null) value="{{  \Carbon\Carbon::parse($solicitud->driver->licence->vencimiento)->format('d-m-Y')}}" @endif/>
+                                        </div><br>
+                                        <h5>Tipo de licencia</h5>
+                                        <div class="form-group  col-centered">
+                                            {{ Form::select('tipo_licencia', ['' => '- Seleccione una opción -'] + \App\LicenceType::all(['id', 'tipo'])->pluck('tipo', 'id')->toArray(), $solicitud->driver->licence->licence_types_id, ['class' => 'form-control','id'=>'tipo_licencia', 'onfocus' => 'hideError(\'tipo_licencia\')','disabled'=>'disabled']) }}
+                                        </div>
+                                        <div id="error_tipo_licencia">
+                                            {!! $errors->first('tipo_licencia','<span class="alert-danger">:message</span></br>') !!}
+                                        </div><br/>
+                                        <h5>Archivo de licencia</h5>
+                                        @if($solicitud->driver->licence->archivo !== null)
+                                            <div class="form-group  col-centered">
+                                                <a href="{{ Storage::url($solicitud->driver->licence->archivo)  }}">Descargar el archivo</a>
+                                            </div><br>
+                                        @else
+                                            <div class="form_wh formCenter">
+                                                <div class="alert alert-info">
+                                                    <strong>¡Sin archivo de licencia!</strong>
+                                                </div>
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="form_wh formCenter">
-                                            <div class="alert alert-info">
-                                                <strong>¡Sin archivo de licencia!</strong>
+                                            <div class="alert alert-warning">
+                                                <strong>¡Atención!</strong> La licencia del conductor se encuentra con datos erroneos <a href="{{ route('conductor.edit',$solicitud->driver->id) }}" class="alert-link">Editar conductor</a>.
                                             </div>
                                         </div>
                                     @endif
-
                                     <h4>Contacto para casos de emergencia</h4>
                                     <div class="input-group">
                                         <span class="input-group-addon">Contacto</span>
@@ -196,6 +202,11 @@
 
                 <a class="btn btn-info" href="{{ route('solicitud.index') }}">Regresar</a>
                     </div>
+            <!--
+                En algún momento Jonathan Pérez Uribe andubo por estos códigos
+                cuando fue becario del area de generación de contenidos educativos
+                jonny.perez.u@gmail.com
+             -->
                 </div>
             </div>
         </div>

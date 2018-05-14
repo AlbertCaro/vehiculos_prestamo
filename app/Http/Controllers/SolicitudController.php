@@ -403,7 +403,7 @@ class SolicitudController extends Controller
         $vehiculoValles = false;
         $message = "Se ha asignado ";
 
-        dd($request->all());
+        //dd($request->all());
         if ($request->has('conductor')) {
             $data = $data + ['driver_id' => $request['conductor']];
             $message = $message."conductor";
