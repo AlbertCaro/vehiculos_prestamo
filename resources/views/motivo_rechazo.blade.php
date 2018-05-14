@@ -1,5 +1,11 @@
 @extends('layout')
 
+@if(auth()->user()->id == $id_solicitante)
+    @section('title', 'Cancelar solicitud')
+@else
+    @section('title', 'Rechazar solicitud')
+@endif
+
 
 @section('content')
     <div class="container" style="margin-top: 5%;margin-bottom: 20%">

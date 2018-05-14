@@ -103,10 +103,12 @@
                         </td>
                         @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales']) )
                             <td>
+
                                 <form id="delete_form_{{ $solicitud->id }}" action="{{ route('solicitud.destroy' , $solicitud->id)}}" method="POST">
                                     <a href='{{ route('solicitud.show', $solicitud->id) }}'>
                                         <button type="button" class="btn btn-info">Detalles</button>
                                     </a>
+                                    @if($solicitud->estatus !== 5)
                                     <a href='{{route('solicitud.edit', $solicitud->id)}}'>
                                         <button type="button" class="btn btn-success">Editar</button>
                                     </a>
@@ -125,44 +127,52 @@
                                                 <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
                                             @endif
                                         </a>
+                                        @endif
                                 </form>
+
                             </td>
                         @elseif(auth()->user()->hasRoles(['jefe']))
                             <td>
-                                <a href="{{route('aceptar',$solicitud->id)}}">
-                                    <button type="button" class="btn btn-success">Aceptar</button>
-                                </a>
-                                @if($solicitud->estatus === 1)
-                                    <a href="" onclick="cancelElement(
-                                            '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
-                                            '{{route('cancelar',$solicitud->id) }}', event);
-                                            ">
-                                        <button type="button" class="btn btn-danger">Cancelar</button>
+                                @if($solicitud->estatus !== 5)
+                                    <a href="{{route('aceptar',$solicitud->id)}}">
+                                        <button type="button" class="btn btn-success">Aceptar</button>
                                     </a>
+                                    @if($solicitud->estatus === 1)
+                                        <a href="" onclick="cancelElement(
+                                                '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
+                                                '{{route('cancelar',$solicitud->id) }}', event);
+                                                ">
+                                            <button type="button" class="btn btn-danger">Cancelar</button>
+                                        </a>
+                                    @endif
                                 @endif
                             </td>
                         @elseif(auth()->user()->hasRoles(['administrativo']))
                             <td>
-                                <a href="{{route('aceptar',$solicitud->id)}}">
-                                    <button type="button" class="btn btn-success">Aceptar</button>
-                                </a>
-                                @if($solicitud->estatus === 2)
-                                    <a href="" onclick="cancelElement(
-                                            '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
-                                            '{{route('cancelar',$solicitud->id) }}', event);
-                                            ">
-                                        <button type="button" class="btn btn-danger">Cancelar</button>
+                                @if($solicitud->estatus !== 5)
+                                    <a href="{{route('aceptar',$solicitud->id)}}">
+                                        <button type="button" class="btn btn-success">Aceptar</button>
                                     </a>
+                                    @if($solicitud->estatus === 2)
+                                        <a href="" onclick="cancelElement(
+                                                '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
+                                                '{{route('cancelar',$solicitud->id) }}', event);
+                                                ">
+                                            <button type="button" class="btn btn-danger">Cancelar</button>
+                                        </a>
+                                    @endif
                                 @endif
                             </td>
                         @elseif(auth()->user()->hasRoles(['solicitante']))
                             <td>
+                                @if($solicitud->estatus !== 5)
                                 <a href='{{ route('solicitud.edit', $solicitud->id) }}'>
                                     <button type="button" class="btn btn-success">Editar</button>
                                 </a>
                                 <a href='{{ route('cancelar', $solicitud->id) }}'>
                                     <button type="button" class="btn btn-danger">Cancelar</button>
                                 </a>
+                                @endif
                             </td>
                         @endif
                     </tr>

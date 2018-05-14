@@ -259,7 +259,7 @@
                             <h4 class="center-text">Observaciones</h4>
                             <label for="observaciones"><br><textarea id="observaciones" name="observaciones" cols="70" rows="5" placeholder="Observaciones adicionales" style="color: #000;"></textarea><br><br>
                             <h1>Términos y condiciones</h1>
-                            <p>Al hacer clic en guardar, usted acepta los <a href="{{route('terminos')}}" target="_blank">términos y condiciones</a></p>
+                            <p>Al hacer clic en guardar, usted acepta los <a href="{{ route('terminos') }}" target="_blank">términos y condiciones</a></p>
                             <input type="submit" class="botones" id="btn_save" name="save_btn" value="Guardar" />
                         </form>
                     </div>
