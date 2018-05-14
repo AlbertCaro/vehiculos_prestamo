@@ -20,7 +20,7 @@ class SolicitudPolicy
         //
     }
     public function before(User $authUser, $ability){
-        if($authUser->hasRoles(['admin'])){
+        if($authUser->hasRoles(['admin','jefe','coord_servicios_generales','administrativo','asistente_serv_generales'])){
             return true;
         }
     }
