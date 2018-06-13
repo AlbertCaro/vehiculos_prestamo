@@ -6,15 +6,13 @@ use App\Category;
 use App\Contact;
 use App\Driver;
 use App\Event_Type;
-use App\Http\Requests\GuardaSolicitudRequest;
-use App\Http\Requests\SolicitudRequest;
 use App\Licence;
 use App\Mail\NuevaSolicitudDeVehiculo;
 use App\Solicitud;
 use App\User;
 use App\Vehicle;
 use Carbon\Carbon;
-use function foo\func;
+
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -84,46 +82,54 @@ class SolicitudController extends Controller
 
     public function index()
     {
+        //dd(Solicitud::all()[0]->fecha_evento>=Carbon::now()->format('Y-m-d H:i:s'));
         if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales'])){
-            $solicitudes = Solicitud::all();
+            $hoy = Carbon::now()->format('Y-m-d H:i:s');
+            //dd(date($hoy));
+            $solicitudes = Solicitud::where('fecha_regreso','>=',date($hoy))
+                ->where('estatus','<>',5)->get();
+            //dd($solicitudes);
         } elseif(auth()->user()->hasRoles(['administrativo']) || auth()->user()->hasRoles(['jefe'])){
             if (auth()->user()->hasRoles(['administrativo']) && auth()->user()->hasRoles(['jefe'])) {
                 $solicitudes = Solicitud::where('estatus',"=",2)
-                ->orWhere('jefe_id', auth()->user()->id)
+                    ->orWhere('jefe_id', auth()->user()->id)
                     ->whereIn('estatus',[1,2])
-                ->get();
+
+                    ->get();
+//->where('fecha_evento','>',Carbon::now())
             } else {
                 if (auth()->user()->hasRoles(['administrativo'])) {
-                    $solicitudes = Solicitud::where('estatus', '=', 2)->get();
+                    $solicitudes = Solicitud::where('estatus', '=', 2)->where('fecha_evento','>',Carbon::now())->get();
                 } else if (auth()->user()->hasRoles(['jefe'])) {
                     $solicitudes = Solicitud::where('estatus', '=', 1)->
                     where('jefe_id', '=', auth()->user()->id)->get();
+                    //->where('fecha_evento','>',Carbon::now())->where('fecha_evento','>',Carbon::now()->format("Y-m-d H:i:s"))
                 }
             }
         } elseif (auth()->user()->hasRoles(['jefe']) || auth()->user()->hasRoles(['asistente_jefe'])) {
             if(auth()->user()->hasRoles(['jefe'])){
-                $solicitudes = Solicitud::all()
-                    ->where('jefe_id', auth()->user()->id)
-                    ->where('estatus',"=",1);
+                $solicitudes = Solicitud::where('jefe_id', auth()->user()->id)
+                    ->where('estatus',"=",1)->where('fecha_evento','>',Carbon::now())->get();
             } elseif(auth()->user()->hasRoles(['asistente_jefe'])){
                 $asistente = auth()->user();
-               // dd($asistente::jefe($asistente->id)[0]->id_jefe);
-                $solicitudes = Solicitud::all()
-                    ->where('jefe_id', $asistente::jefe($asistente->id)[0]->id_jefe)
-                    ->where('estatus',"=",1);
+                // dd($asistente::jefe($asistente->id)[0]->id_jefe);
+                $solicitudes = Solicitud::where('jefe_id', $asistente::jefe($asistente->id)[0]->id_jefe)
+                    ->where('estatus',"=",1)->get();
+                ////->where('fecha_evento','>',Carbon::now())
             }
 
         } elseif(auth()->user()->hasRoles(['solicitante'])){
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
         } elseif(auth()->user()->hasRoles(['vehiculos'])){
-            $solicitudes = Solicitud::where('estatus',"=","4")->get();
+            $hoy = Carbon::now()->format('Y-m-d H:i:s');
+            $solicitudes = Solicitud::where('estatus',"=","4")->where('fecha_regreso','>=',date($hoy))->get();
         }
         /*
         Si es solicitante solo las del solicitante
         si es jefe, las que le han pedido
         si es coordinador de servicios generales, todas
         */
-       // dd($solicitudes);
+        // dd($solicitudes);
         $title = 'Gestionar solicitudes';
         return view('solicitudes', compact('solicitudes', 'title'));
 
@@ -153,56 +159,84 @@ class SolicitudController extends Controller
     public function store(Request $request)
     {
         $id_conductor = null;
-        if ($request->has('solicito_conduc')) {
-            $this->validateWithDriver($request);
+
+        $this->validateWithOutDriver($request);
+
+        //dd($request->all());
+        //if (!$request->has('solicito_conduc')) {
+        $conductor = Driver::where('id','=', $request['txt_codigoC'])->get();
+
+
+        if ($conductor->isEmpty()) {
+            $c = Driver::create([
+                'id' => $request['txt_codigoC'],
+                'nombre' => $request['txt_nombreC'],
+                'celular' => $request['txt_celularC'],
+                'dependencies_id' => $request['dependencia']
+            ]);
+
+            $c2 = Driver::findOrFail($request['txt_codigoC']);
+            $conductor =  $c2;
+
         }else{
-            $this->validateWithOutDriver($request);
+            $conductor = $conductor[0];
         }
-            if (!$request->has('solicito_conduc')) {
-                $conductor = Driver::where('id', $request['txt_codigoC'])->get();
+        // dd($conductor->id);
+        $id_conductor = $conductor->id;
 
-                //dd($conductor);
-                if ($conductor->isEmpty()) {
-                    $c = (new \App\Driver)->create([
-                        'id' => $request['txt_codigoC'],
-                        'nombre' => $request['txt_nombreC'],
-                        'celular' => $request['txt_celularC'],
-                        'dependencies_id' => $request['dependencia']
-                    ]);
-                    $id_conductor = $c -> id;
-                } else
-                    $id_conductor = $request['txt_codigoC'];
+        //dd($conductor,$id_conductor);
 
-                $licencia = Licence::where('numero', $request['txt_licencia'])->get();
-                if ($licencia->isEmpty()) {
-                    $l = (new \App\Licence)->create([
-                        'numero' => $request['txt_licencia'],
-                        'vencimiento' => Carbon::parse($request['txt_venc'])->format('Y-m-d'),
-                        'archivo' => $request->file('archivo')->
-                        storeAs('/licences', $request['txt_codigoC'].".".$request['archivo']->
-                            getClientOriginalExtension()),
-                        'licence_types_id' => $request['tipo_licencia'],
-                        'driver_id' => $id_conductor,
-                    ]);
-                }
-                $contacto = Contact::where('driver_id', '=', $id_conductor)->get();
-                if ($contacto->isEmpty()) {
-                    $contact = (new \App\Contact)->create([
-                        'nombre' => $request['txt_contacto'],
-                        'parentesco' => $request['txt_parentesco'],
-                        'domicilio' => $request['txt_domicilio'],
-                        'telefono' => $request['txt_telefono'],
-                        'driver_id' => $id_conductor,
-                    ]);
-                }
+
+        $diagonal = strpos($request['txt_venc'],'/');
+        //dd($request['txt_venc'],$diagonal);
+
+        if($diagonal > 0){
+
+            $fecha_form = $request['txt_venc'];
+
+            //dd($fecha_form);
+            $fecha_vencimiento = Carbon::createFromFormat('d/m/Y',$fecha_form)->toDateString();
+            //dd($fecha_vencimiento);
+        }else{
+            $fecha_vencimiento = Carbon::parse($request['txt_venc'])->format('Y-m-d');
+        }
+        //dd($conductor,$id_conductor,$fecha_vencimiento);
+        $licencia = Licence::where('numero','=', $request['txt_licencia'])->get();
+        ///dd($id_conductor);
+        if ($licencia->isEmpty()) {
+            $l = Licence::create([
+                'numero' => $request['txt_licencia'],
+                'vencimiento' => $fecha_vencimiento,
+                'licence_types_id' => $request['tipo_licencia'],
+                'driver_id' => $id_conductor,
+            ]);
+            if($request->hasFile('archivo')){
+                $l->archivo = $request->file('archivo')->
+                storeAs('', $request['txt_codigoC'].".".$request['archivo']->
+                    getClientOriginalExtension());
+                $l->save();
             }
+
+        }
+        $contacto = Contact::where('driver_id', '=', $id_conductor)->get();
+        if ($contacto->isEmpty()) {
+            $contact = Contact::create([
+                'nombre' => $request['txt_contacto'],
+                'parentesco' => $request['txt_parentesco'],
+                'domicilio' => $request['txt_domicilio'],
+                'telefono' => $request['txt_telefono'],
+                'driver_id' => $id_conductor,
+            ]);
+        }
+        //dd($l,$contact);
+        //}
 
 
         //if($request->has(''))
         //dd($request['txt_fecha'].':00');
         if ($request->has('otro_evento')) {
             $this->validate($request,[
-               'categoria_evento' => 'required|numeric',
+                'categoria_evento' => 'required|numeric',
                 'otro_evento' => 'required'
             ]);
             $event_type = (new \App\Event_Type)->create([
@@ -212,27 +246,27 @@ class SolicitudController extends Controller
         } else
             $event_type = $request['tipo_evento'];
 
-       $sol = (new \App\Solicitud)->create([
-           'nombre_evento'=>$request['txt_nombreE'],
-           'domicilio'=>$request['txt_domicilioE'],
-           'escala'=>$request['slc_escala'],
-           'personas'=>$request['txt_Personas'],
-           'estatus'=>1,
-           'fecha_solicitud'=>Carbon::now(),
-           'fecha_evento'=>Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha'].':00')->toDateTimeString(),
-           'fecha_regreso'=>Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha1'].':00')->toDateTimeString(),
-           'event_types_id'=>$event_type,
-           'driver_id'=>$id_conductor,
-           'solicitante_id'=>auth()->user()->id,
-           'jefe_id'=>$request['jefe_id'],
-           'distancia'=>$request['txt_kilometros'],
-           'solicita_conductor'=>$request['solicito_conduc'],
-           'vehiculo_propio'=>$request['rdio_disp'],
-           'observaciones'=>$request['observaciones'],
+        $sol = Solicitud::create([
+            'nombre_evento'=>$request['txt_nombreE'],
+            'domicilio'=>$request['txt_domicilioE'],
+            'escala'=>$request['slc_escala'],
+            'personas'=>$request['txt_Personas'],
+            'estatus'=>1,
+            'fecha_solicitud'=>Carbon::now(),
+            'fecha_evento'=>Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha'].':00')->toDateTimeString(),
+            'fecha_regreso'=>Carbon::createFromFormat('d/m/Y H:i:s',$request['txt_fecha1'].':00')->toDateTimeString(),
+            'event_types_id'=>$event_type,
+            'driver_id'=>$id_conductor,
+            'solicitante_id'=>auth()->user()->id,
+            'jefe_id'=>$request['jefe_id'],
+            'distancia'=>$request['txt_kilometros'],
+            'solicita_conductor'=>$request['solicito_conduc'],
+            'vehiculo_propio'=>$request['rdio_disp'],
+            'observaciones'=>$request['observaciones'],
 
-       ]);
+        ]);
 
-       //dd($request['slc_jefe']);
+        //dd($request['slc_jefe']);
         $jefe = User::datosJefe($request['jefe_id']);
 
         Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
@@ -331,10 +365,10 @@ class SolicitudController extends Controller
             $cambiar = false;
         }
 
-       // dd($d1);
+        // dd($d1);
         $this->validate($request, [
-           'txt_fecha' => 'required',
-           'txt_fecha1' => 'required'
+            'txt_fecha' => 'required',
+            'txt_fecha1' => 'required'
         ]);
         if($cambiar){
             $solicitud->fecha_evento = $d;
@@ -355,9 +389,11 @@ class SolicitudController extends Controller
      * @param  \App\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Solicitud $solicitud)
+    public function destroy($id)
     {
-        //
+        $solicitud = Solicitud::findOrFail($id);
+        $solicitud->delete();
+        return redirect('solicitud')->with('alert', 'Se ha eliminado la solicitud');
     }
 
     public function assignRequest($id)
@@ -369,22 +405,18 @@ class SolicitudController extends Controller
             Carbon::parse($solicitud->fecha_regreso)->toDateTimeString()
         ];
 
-        if ($solicitud->vehicle === null) {
-
-            $vehiculosOcupados = DB::table('vehicles')
-                                ->join('requests','vehicles.id','=','requests.vehicles_id')
-                                ->select('vehicles.id as vehiculo_id')
-                                ->whereDate('requests.fecha_evento','<=', $GLOBALS['date_interval'])
-                                ->whereDate('requests.fecha_regreso','>=', $GLOBALS['date_interval'])
-                                ->get()->pluck('vehiculo_id')->toArray();
+        $vehiculosOcupados = DB::table('vehicles')
+            ->join('requests','vehicles.id','=','requests.vehicles_id')
+            ->select('vehicles.id as vehiculo_id')
+            ->whereDate('requests.fecha_evento','<=', $GLOBALS['date_interval'])
+            ->whereDate('requests.fecha_regreso','>=', $GLOBALS['date_interval'])
+            ->get()->pluck('vehiculo_id')->toArray();
 
 
-            $vehiculos = $empty_option + Vehicle::select(['nombre','id'])->whereNotIn('id',$vehiculosOcupados)->get()->pluck('nombre','id')->toArray();
-
-        }
+        $vehiculos = $empty_option + Vehicle::select(['nombre','id'])->whereNotIn('id',$vehiculosOcupados)->get()->pluck('nombre','id')->toArray();
 
         if ($solicitud->driver == null) {
-             $conductoresOcupados = DB::table('drivers')
+            $conductoresOcupados = DB::table('drivers')
                 ->join('requests','drivers.id','=','requests.driver_id')
                 ->select('drivers.id as conductor_id')
                 ->whereDate('requests.fecha_evento','<=', $GLOBALS['date_interval'])
@@ -394,13 +426,25 @@ class SolicitudController extends Controller
             $conductores = $empty_option + Driver::select(['nombre','apaterno','amaterno','id'])->whereNotIn('id',$conductoresOcupados)->get()->pluck('nombre','id')->toArray();
         }
 
-        $vehiculo = null;
+        if ($solicitud->vehicles_id !== null && $solicitud->driver !== null) {
+            $title = "Editar vehiculo";
+            $subtitle = "Cambiar vehiculo";
+            $vehiculo = $solicitud->vehicles_id;
+            $boton = "Editar";
+        } else {
+            $title = "Asignar peticiones";
+            $subtitle = "Proporcionar peticiones";
+            $vehiculo = null;
+            $boton = "Guardar";
+        }
+
+
         $conductor = null;
         $select_attribs = ['class' => 'form-control'];
 
-       // dd($conductores,$conductoresOcupados);
+        // dd($conductores,$conductoresOcupados);
         return view('assign_request',
-            compact('vehiculos', 'conductores', 'conductor', 'vehiculo', 'select_attribs', 'id'));
+            compact('vehiculos', 'conductores', 'conductor', 'vehiculo', 'select_attribs', 'id', 'title', 'subtitle', 'boton'));
     }
 
     public function saveDriverVehicleRequest(Request $request)
@@ -412,7 +456,6 @@ class SolicitudController extends Controller
         $vehiculoValles = false;
         $message = "Se ha asignado ";
 
-        //dd($request->all());
         if ($request->has('conductor')) {
             $data = $data + ['driver_id' => $request['conductor']];
             $message = $message."conductor";
@@ -446,8 +489,15 @@ class SolicitudController extends Controller
             }
         }
 
-
         return redirect()->route('solicitud.index')->with('alert', $message);
+    }
+
+    public function editDriverVehicleRequest(Request $request) {
+        $solicitud = \App\Solicitud::findOrFail($request['solicitud']);
+
+        $solicitud->update(['vehicles_id' => $request['vehiculo']]);
+
+        return redirect()->route('solicitud.index')->with('alert', 'Se ha actualizado el vehiculo correctamente.');
     }
 
     public function aceptarSolicitud($id){

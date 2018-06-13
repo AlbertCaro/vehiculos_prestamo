@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'Iniciar sesión')
+
 @section('content')
     <a name="log"></a>
     <div class="intro-header">

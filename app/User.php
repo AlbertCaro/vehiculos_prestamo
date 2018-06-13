@@ -11,6 +11,7 @@ use App\Solicitud;
 
 class User extends Authenticatable
 {
+    public $table = 'users';
 
     use Notifiable;
     /*

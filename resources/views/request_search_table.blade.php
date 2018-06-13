@@ -12,8 +12,10 @@
                 @if($solicitud->solicita_conductor !== null)
                     {{\App\Solicitud::SolicitaConductor($solicitud->solicita_conductor)}}
                 @else
-                    @if(@isset($solicitud->driver))
-                        {{$solicitud->driver->nombre.' '.$solicitud->driver->apaterno.' '.$solicitud->driver->amaterno}} ({{$solicitud->driver->dependencia->nombre}})
+                    @if($solicitud->driver_id !== null)
+                        @php $conductor = \App\Driver::findOrFail($solicitud->driver_id) @endphp
+
+                        {{$conductor->nombre.' '.$conductor->apaterno.' '.$conductor->amaterno}} ({{$conductor->dependencia->nombre}})
                     @else
                         {{ "No asignado" }}
                     @endif
@@ -59,6 +61,7 @@
                                 <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
                             @endif
                         </a>
+                            <input type="submit" value="zi">
                     </form>
                 </td>
             @endif

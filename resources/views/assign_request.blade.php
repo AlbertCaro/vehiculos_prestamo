@@ -1,16 +1,17 @@
 @extends('layout')
 
-@section('title', 'Asignar peticiones')
+@section('title', $title)
 
 @section('content')
     <br><br>
     <div class="form_wh formCenter">
         <br/>
-        <h1 class="center-text">Asignar peticiones</h1>
+        <h1 class="center-text">{{ $title }}</h1>
         <br/>
         <form id="busqueda_form" class="form-horizontal" name="form_busqueda"
-              action="{{ route('save_request') }}" method="post" enctype="multipart/form-data">
-            <h3>Proporcionar peticiones</h3>
+              action="@if(is_null($vehiculo)) {{ route('save_request') }} @else {{ route('edit_request') }} @endif"
+              method="post" enctype="multipart/form-data">
+            <h3>{{ $subtitle }}</h3>
             {{ method_field('POST') }}
             {{ csrf_field() }}
             <input type="hidden" id="solicitud" name="solicitud" value="{{ $id }}">
@@ -21,7 +22,6 @@
                     <span>Ha dejado campos vacíos o introdujo datos erróneos</span>
                 </div>
             @endif
-            @if(@isset($vehiculos))
                 <h5>Vehículo</h5>
                 <div class="form-group col-centered">
                     @if(count($errors)) @php $vehiculo = old('vehiculo'); @endphp @endif
@@ -31,7 +31,6 @@
                 <div id="error_conductor">
                     {!! $errors->first('conductor','<span class="alert-danger">:message</span></br>') !!}
                 </div><br/>
-            @endif
             @if(@isset($conductores))
                 <h5>Conductor</h5>
                 <div class="form-group col-centered">
@@ -44,7 +43,7 @@
                 </div><br/>
             @endif
             <br/>
-            <input type="submit" class="botones" name="save_btn" value="Guardar"/>
+            <input type="submit" class="botones" name="save_btn" value="{{ $boton }}"/>
             <br><br>
             <hr class="intro-divider">
         </form>

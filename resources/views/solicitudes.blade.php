@@ -125,9 +125,14 @@
                                             ($solicitud->driver_id === null || $solicitud->vehicles_id === null) &&
                                              is_null($solicitud->vehiculo_propio))
                                                 <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
+                                            @else
+                                                <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Cambiar vehiculo</a>
                                             @endif
                                         </a>
                                         @endif
+                                        <button class="btn btn-danger"
+                                               onclick="return deleteElement('¿Está seguro que desea eliminar la solicitud {{ $solicitud->nombre_evento }}?',
+                                                       'delete_form_{{ $solicitud->id }}', event)">Eliminar</button>
                                 </form>
 
                             </td>

@@ -61,6 +61,7 @@ Route::get('cancelar/{id}',['as'=>'cancelar',function($id){
 
 Route::get('solicitud/{id}/asignar_peticion', ['as' => 'assign_request', 'uses' => 'SolicitudController@assignRequest']);
 Route::post('asignar_peticion', ['as' => 'save_request', 'uses' => 'SolicitudController@saveDriverVehicleRequest']);
+Route::post('editar_peticion', ['as' => 'edit_request', 'uses' => 'SolicitudController@editDriverVehicleRequest']);
 Route::get('buscar_solicitud', ['as' => 'search_request', function() {
     return view('search_request');
 }]);

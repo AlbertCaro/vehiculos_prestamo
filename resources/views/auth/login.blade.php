@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'Iniciar sesión')
+
 @section('content')
 <div class="container" style="margin-top: 5%;margin-bottom: 20%">
     <div class="row">
