@@ -61,7 +61,9 @@
                                 <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
                             @endif
                         </a>
-                            <input type="submit" value="zi">
+                            <button class="btn btn-danger"
+                                    onclick="return deleteElement('¿Está seguro que desea eliminar la solicitud {{ $solicitud->nombre_evento }}?',
+                                            'delete_form_{{ $solicitud->id }}', event)">Eliminar</button>
                     </form>
                 </td>
             @endif
