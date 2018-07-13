@@ -13,7 +13,7 @@
                         <br/>
                         <h3>Folio: {{$solicitud->id}}</h3>
                         <h3>Fecha de la solicitud: {{\Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y H:i:s')}}</h3>
-                        @if($solicitud->estatus !== 5)
+                        @if($solicitud->estatus !== 5 && (auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales'])))
                             @if($solicitud->driver == null)
                                 <div class="form_wh formCenter">
                                     <div class="alert alert-warning">

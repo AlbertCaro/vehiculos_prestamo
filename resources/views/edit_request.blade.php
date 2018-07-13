@@ -25,6 +25,7 @@
                                     <span>Ha dejado campos vacíos o introdujo datos erróneos</span>
                                 </div>
                             @endif
+                                                                
                                 <div class="input-group">
                                     <span class="input-group-addon">Fecha y hora de salida</span>
                                     <input class="form-control" type="text" id="fecha_txt" name="txt_fecha" placeholder="Fecha y hora de salida"

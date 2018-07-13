@@ -100,6 +100,7 @@ class SolicitudController extends Controller
             } else {
                 if (auth()->user()->hasRoles(['administrativo'])) {
                     $solicitudes = Solicitud::where('estatus', '=', 2)->where('fecha_evento','>',Carbon::now())->get();
+                   // dd($solicitudes);
                 } else if (auth()->user()->hasRoles(['jefe'])) {
                     $solicitudes = Solicitud::where('estatus', '=', 1)->
                     where('jefe_id', '=', auth()->user()->id)->get();

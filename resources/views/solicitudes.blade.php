@@ -25,6 +25,7 @@
                 <th>Fecha de regreso</th>
                 <th>Destino</th>
                 <th>Kilómetros</th>
+                <th>Vehiculo</th>
             </tr>
                 @else
                 <tr>
@@ -53,7 +54,7 @@
                 @if(auth()->user()->hasRoles(['vehiculos']))
             <tr>
                 <td>{{$solicitud->driver->nombre}} {{$solicitud->driver->apaterno}} {{$solicitud->driver->amaterno}}</td>
-                <td><a href="{{asset($solicitud->driver->licence->archivo)}}">Descargar</a></td>
+                <td><a href="{{ Storage::url($driver->licence->archivo)  }}">Descargar</a></td>
                 <td>
                     <strong>Salida:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')}} <br>
 
@@ -66,6 +67,8 @@
                 <td>
                         {{$solicitud->distancia}} kilómetros
                 </td>
+
+                <td>{{$solicitud->vehicle->nombre." ".$solicitud->vehicle->placas}}</td>
 
             </tr>
                     {{-- Si no son el role vehículos se verán aquí--}}
@@ -121,9 +124,7 @@
                                                 ">
                                             <button type="button" class="btn btn-danger">Cancelar</button>
                                             @endif
-                                            @if(auth()->user()->hasRoles(['asistente_serv_generales']) || auth()->user()->hasRoles(['coord_servicios_generales']) &&
-                                            ($solicitud->driver_id === null || $solicitud->vehicles_id === null) &&
-                                             is_null($solicitud->vehiculo_propio))
+                                            @if(auth()->user()->hasRoles(['asistente_serv_generales']) || auth()->user()->hasRoles(['coord_servicios_generales']))
                                                 <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Asignar peticiones</a>
                                             @else
                                                 <a href="{{ route('assign_request', $solicitud->id) }}" class="btn btn-default">Cambiar vehiculo</a>
@@ -142,6 +143,9 @@
                                     <a href="{{route('aceptar',$solicitud->id)}}">
                                         <button type="button" class="btn btn-success">Aceptar</button>
                                     </a>
+                                    <a href='{{ route('solicitud.show', $solicitud->id) }}'>
+                                        <button type="button" class="btn btn-info">Detalles</button>
+                                    </a>
                                     @if($solicitud->estatus === 1)
                                         <a href="" onclick="cancelElement(
                                                 '¿Está seguro de querer cancelar a la solicitud {{$solicitud->nombre_evento}}?',
@@ -157,6 +161,9 @@
                                 @if($solicitud->estatus !== 5)
                                     <a href="{{route('aceptar',$solicitud->id)}}">
                                         <button type="button" class="btn btn-success">Aceptar</button>
+                                    </a>
+                                    <a href='{{ route('solicitud.show', $solicitud->id) }}'>
+                                        <button type="button" class="btn btn-info">Detalles</button>
                                     </a>
                                     @if($solicitud->estatus === 2)
                                         <a href="" onclick="cancelElement(
