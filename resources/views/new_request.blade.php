@@ -207,6 +207,7 @@
                                     <h5>Adjuntar archivo (licencia de conducir)</h5>
                                     <div class="form-group  col-centered" align="center">
                                         <input type="file" id="archivo" name="archivo" onfocus="hideError('archivo')" />
+                                        <input type="hidden" name="subir_archivo" id="subir_archivo" @if(count($errors)) value="{{old('subir_archivo')}}" @else value="1" @endif>
                                     </div>
                                     <div id="error_archivo">
                                         {!! $errors->first('archivo','<span class="alert-danger">:message</span></br>') !!}

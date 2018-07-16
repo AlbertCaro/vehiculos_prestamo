@@ -1,18 +1,5 @@
 <!DOCTYPE html>
-<!--
 
- Sitio desarrollado por el Área de Generación de Contenidos Educativos de la Coordinación de Tecnologías para el Aprendizaje.
-
- Estuvo por aquí:
- Jonathan Iván "El abuelo" Pérez Uribe
- José Ignacio "Bayas locas" Menchaca Castro
- Luis Ángel García Castro
- Alberto Caro Navarro (albertcaronava@gmail.com)
-
- Y el patrón que no sabe que pusimos esto:
- Erick Jorge Roberto Miguel Fernando Andrés Guerrero de la Cruz Martinez Mendez Mendoza Múñoz Alvarez
-
--->
 <html lang="es">
     <head>
         <meta charset="utf-8">

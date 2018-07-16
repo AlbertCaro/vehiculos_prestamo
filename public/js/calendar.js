@@ -16,8 +16,17 @@ $(document).ready(function(){
             $("#venc_txt").val(ui.item.vencimiento);
             if(ui.item.archivo !== ""){
             	$("#archivo").prop('disabled', true);
+                $("#subir_archivo").prop('value',0);
             }else{
-                $("#archivo").prop('disabled', false);
+            	if(ui.item.archivo == "public/licences/"){
+                    $("#archivo").prop('disabled', false);
+                    $("#subir_archivo").prop('value',1);
+				}
+				if(ui.item.archivo == ""){
+                    $("#archivo").prop('disabled', false);
+                    $("#subir_archivo").prop('value',1);
+				}
+
 			}
             $("#tipo_licencia").val(ui.item.tipo);
             $("#nombreCont_txt").val(ui.item.nombre_contacto);

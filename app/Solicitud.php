@@ -109,4 +109,8 @@ class Solicitud extends Model
         }
     }
 
+    public function observacionesRel(){
+        return $this->hasMany(Observacion::class,'requests_id','id');
+    }
+
 }

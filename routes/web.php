@@ -68,3 +68,8 @@ Route::get('buscar_solicitud', ['as' => 'search_request', function() {
 }]);
 
 Route::post('busqueda_solicitud',['as'=>'searching_request', 'uses'=>'SolicitudController@busquedaSolicitud']);
+
+Route::get('observacion/{id}',['as'=>'observacion.nueva', 'uses'=>'SolicitudController@nuevaObservacion']);
+Route::get('show_observaciones/{id}',['as'=>'observacion.show', 'uses'=>'SolicitudController@muestraObservaciones']);
+Route::post('observacion/{id}',['as'=>'observacion.store', 'uses'=>'SolicitudController@guardaObservacion']);
+

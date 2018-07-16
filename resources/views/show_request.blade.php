@@ -29,8 +29,21 @@
                                 </div>
                             @endif
                         @endif
-                            <h3 class="center-text">Observaciones</h3>
+
+                            <h3 class="center-text">Observaciones del usuario</h3>
                             <label for="observaciones"><br><textarea id="observaciones" name="observaciones" cols="70" rows="5" placeholder="Observaciones adicionales" style="color: #000;" disabled="disabled">{{$solicitud->observaciones}}</textarea>
+                                <div class="form_wh formCenter">
+                                    <div class="alert alert-warning">
+                                        <strong>¡Atención!</strong> Si desea añadir una nueva observación, puede hacerlo <a href="{{ route('observacion.nueva',$solicitud->id) }}" class="alert-link"> desde aquí</a>.
+                                    </div>
+                                </div>
+                                @if(count($solicitud->observacionesRel)>0)
+                                    <div class="form_wh formCenter">
+                                        <div class="alert alert-success">
+                                            <strong>¡Atención!</strong> Hay observaciones adicionales en esta solicitud <a href="{{ route('observacion.show',$solicitud->id) }}" class="alert-link"> (ver)</a>.
+                                        </div>
+                                    </div>
+                                    @endif
                         <br>
                             <div @if($solicitud->solicita_conductor == null) class="col-lg-5 col-sm-6" @else class="form_wh formCenter"  @endif>
                                 

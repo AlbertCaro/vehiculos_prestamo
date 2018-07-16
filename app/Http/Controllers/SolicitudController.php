@@ -6,8 +6,10 @@ use App\Category;
 use App\Contact;
 use App\Driver;
 use App\Event_Type;
+use App\Http\Requests\ObservacionesRequest;
 use App\Licence;
 use App\Mail\NuevaSolicitudDeVehiculo;
+use App\Observacion;
 use App\Solicitud;
 use App\User;
 use App\Vehicle;
@@ -37,48 +39,7 @@ class SolicitudController extends Controller
         $this->middleware(['auth']);
     }
 
-    public function validateWithDriver(Request $request){
-        $this->validate($request,[
-            'txt_nombreE'=>'required|max:245',
-            'txt_fecha1'=>'required',
-            'tipo_evento'=>'required',
-            'jefe_id'=>'required|numeric',
-            'txt_domicilioE'=>'required|max:191',
-            'slc_escala'=>'required|max:191',
-            'txt_Personas'=>'required|max:191',
-            'txt_kilometros'=>'required|max:191',
-            'txt_fecha'=>'required',
-        ]);
-    }
 
-    /**
-     * @param Request $request
-     * Valida el formulario completo de solicitud
-     */
-    function validateWithOutDriver(Request $request){
-        $this->validate($request,[
-            'txt_nombreE'=>'required|max:245',
-            'txt_fecha1'=>'required',
-            'tipo_evento'=>'required',
-            'jefe_id'=>'required|numeric',
-            'txt_domicilioE'=>'required|max:191',
-            'slc_escala'=>'required|max:191',
-            'txt_Personas'=>'required|max:191',
-            'txt_kilometros'=>'required|max:191',
-            'txt_fecha'=>'required',//
-            'txt_codigoC'=>'required',
-            'txt_nombreC'=>'required',
-            'txt_celularC'=>'required',
-            'dependencia'=>'required',
-            'txt_licencia'=>'required',
-            'txt_venc'=>'required',
-            'tipo_licencia'=>'required',
-            'txt_contacto'=>'required',
-            'txt_parentesco'=>'required',
-            'txt_domicilio'=>'required',
-            'txt_telefono'=>'required',
-        ]);
-    }
 
     public function index()
     {
@@ -87,7 +48,10 @@ class SolicitudController extends Controller
             $hoy = Carbon::now()->format('Y-m-d H:i:s');
             //dd(date($hoy));
             $solicitudes = Solicitud::where('fecha_regreso','>=',date($hoy))
-                ->where('estatus','<>',5)->get();
+                ->where('estatus','<>',5)->where('estatus','<>',4)->orderBy("fecha_evento","ASC")->get();
+            $aprobadas = Solicitud::where('fecha_regreso','>=',date($hoy))
+                ->where('estatus','=',4)->orderBy("fecha_evento","ASC")->get();
+
             //dd($solicitudes);
         } elseif(auth()->user()->hasRoles(['administrativo']) || auth()->user()->hasRoles(['jefe'])){
             if (auth()->user()->hasRoles(['administrativo']) && auth()->user()->hasRoles(['jefe'])) {
@@ -96,14 +60,17 @@ class SolicitudController extends Controller
                     ->whereIn('estatus',[1,2])
 
                     ->get();
+                $aprobadas = null;
 //->where('fecha_evento','>',Carbon::now())
             } else {
                 if (auth()->user()->hasRoles(['administrativo'])) {
                     $solicitudes = Solicitud::where('estatus', '=', 2)->where('fecha_evento','>',Carbon::now())->get();
+                    $aprobadas = null;
                    // dd($solicitudes);
                 } else if (auth()->user()->hasRoles(['jefe'])) {
                     $solicitudes = Solicitud::where('estatus', '=', 1)->
                     where('jefe_id', '=', auth()->user()->id)->get();
+                    $aprobadas = null;
                     //->where('fecha_evento','>',Carbon::now())->where('fecha_evento','>',Carbon::now()->format("Y-m-d H:i:s"))
                 }
             }
@@ -111,19 +78,23 @@ class SolicitudController extends Controller
             if(auth()->user()->hasRoles(['jefe'])){
                 $solicitudes = Solicitud::where('jefe_id', auth()->user()->id)
                     ->where('estatus',"=",1)->where('fecha_evento','>',Carbon::now())->get();
+                $aprobadas = null;
             } elseif(auth()->user()->hasRoles(['asistente_jefe'])){
                 $asistente = auth()->user();
                 // dd($asistente::jefe($asistente->id)[0]->id_jefe);
                 $solicitudes = Solicitud::where('jefe_id', $asistente::jefe($asistente->id)[0]->id_jefe)
                     ->where('estatus',"=",1)->get();
+                $aprobadas = null;
                 ////->where('fecha_evento','>',Carbon::now())
             }
 
         } elseif(auth()->user()->hasRoles(['solicitante'])){
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
+            $aprobadas = null;
         } elseif(auth()->user()->hasRoles(['vehiculos'])){
             $hoy = Carbon::now()->format('Y-m-d H:i:s');
             $solicitudes = Solicitud::where('estatus',"=","4")->where('fecha_regreso','>=',date($hoy))->get();
+            $aprobadas = null;
         }
         /*
         Si es solicitante solo las del solicitante
@@ -132,7 +103,7 @@ class SolicitudController extends Controller
         */
         // dd($solicitudes);
         $title = 'Gestionar solicitudes';
-        return view('solicitudes', compact('solicitudes', 'title'));
+        return view('solicitudes', compact('solicitudes', 'title','aprobadas'));
 
     }
 
@@ -211,6 +182,10 @@ class SolicitudController extends Controller
                 'licence_types_id' => $request['tipo_licencia'],
                 'driver_id' => $id_conductor,
             ]);
+
+            if($request['subir_archivo']=="1"){
+                $this->validarLicencia($request);
+            }
             if($request->hasFile('archivo')){
                 $l->archivo = $request->file('archivo')->
                 storeAs('', $request['txt_codigoC'].".".$request['archivo']->
@@ -282,6 +257,54 @@ class SolicitudController extends Controller
         return redirect()->route('solicitud.index');
     }
 
+    public function validarLicencia(Request $request){
+        $this->validate($request,[
+            'archivo'=>'required|max:2000|mimes:jpg,jpeg,pdf,doc,docx'
+        ]);
+    }
+
+    public function validateWithDriver(Request $request){
+        $this->validate($request,[
+            'txt_nombreE'=>'required|max:245',
+            'txt_fecha1'=>'required',
+            'tipo_evento'=>'required',
+            'jefe_id'=>'required|numeric',
+            'txt_domicilioE'=>'required|max:191',
+            'slc_escala'=>'required|max:191',
+            'txt_Personas'=>'required|max:191',
+            'txt_kilometros'=>'required|max:191',
+            'txt_fecha'=>'required',
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * Valida el formulario completo de solicitud
+     */
+    function validateWithOutDriver(Request $request){
+        $this->validate($request,[
+            'txt_nombreE'=>'required|max:245',
+            'txt_fecha1'=>'required',
+            'tipo_evento'=>'required',
+            'jefe_id'=>'required|numeric',
+            'txt_domicilioE'=>'required|max:191',
+            'slc_escala'=>'required|max:191',
+            'txt_Personas'=>'required|max:191',
+            'txt_kilometros'=>'required|max:191',
+            'txt_fecha'=>'required',//
+            'txt_codigoC'=>'required',
+            'txt_nombreC'=>'required',
+            'txt_celularC'=>'required',
+            'dependencia'=>'required',
+            'txt_licencia'=>'required',
+            'txt_venc'=>'required',
+            'tipo_licencia'=>'required',
+            'txt_contacto'=>'required',
+            'txt_parentesco'=>'required',
+            'txt_domicilio'=>'required',
+            'txt_telefono'=>'required',
+        ]);
+    }
     /**
      * Display the specified resource.
      *
@@ -667,5 +690,35 @@ class SolicitudController extends Controller
                 ->get();
         }
         return view('request_search_table', compact('solicitudes'));
+    }
+
+
+    public function nuevaObservacion($id){
+        return view('observacion',compact('id'));
+    }
+    public function guardaObservacion(ObservacionesRequest $request, $id){
+
+        $solicitud = Solicitud::findOrFail($id);
+        $request['users_id']=auth()->user()->id;
+        $request['requests_id']=$id;
+        $solicitud->observacionesRel()->save(new Observacion($request->all()));
+        alert()->success("Se añadió una nueva observación a esta solicitud","¡Éxito!")->persistent();
+
+        return redirect()->route('solicitud.show',$id);
+    }
+
+    public function muestraObservaciones($id){
+        $sol = Solicitud::findOrFail($id);
+
+        $info ="<ul>";
+
+        foreach ($sol->observacionesRel as $observacion){
+            $info .= "<li>". $observacion->observacion." - ".$observacion->creador->nombre." ".$observacion->creador->apaterno." (".$observacion->created_at.")<li/>";
+        }
+
+        $info .= "</ul>";
+        alert()->info($info,"Observaciones para esta solicitud")->html()->persistent("OK");
+
+        return redirect()->route('solicitud.show',$id);
     }
 }
