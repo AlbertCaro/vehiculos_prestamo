@@ -707,7 +707,7 @@ class SolicitudController extends Controller
         dd($solicitante,$solicitud->jefeAutoriza);
 
 
-        Mail::to($solicitud->jefeAutoriza->email)->send(new NuevaSolicitudDeVehiculo("Observaciones nuevas para la solicitud de ".$solicitud->solicitante->nombre,"Se ha creado una nueva observación a la solicitud que realizó ".$solicitud->solicitante->nombre." para el préstamo de un vehículo:".$solicitud->observacionesRel->observacion."."));
+        Mail::to($solicitud->jefeAutoriza->email)->send(new NuevaSolicitudDeVehiculo("Observaciones nuevas para la solicitud de ".$solicitud->solicitante->nombre,"Se ha creado una nueva observación a la solicitud que realizó ".$solicitud->solicitante->nombre." para el préstamo de un vehículo: ".$solicitud->observacionesRel->observacion."."));
         Mail::to($solicitud->solicitante->email)->send(new NuevaSolicitudDeVehiculo("Observaciones nuevas para su solicitud","Hola ".$solicitud->solicitante->nombre.", Se ha realizado una observación para su solicitud de préstamo de un vehículo. La observación es la siguiente: ".$solicitud->observacionesRel->observacion."."));
 
 
