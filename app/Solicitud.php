@@ -113,4 +113,12 @@ class Solicitud extends Model
         return $this->hasMany(Observacion::class,'requests_id','id');
     }
 
+    public function solicitante(){
+        return $this->belongsTo(User::class,'solicitante_id','id');
+    }
+
+    public function jefeAutoriza(){
+        return $this->belongsTo(User::class,'jefe_id','id');
+    }
+
 }

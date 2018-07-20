@@ -245,12 +245,12 @@ class SolicitudController extends Controller
         //dd($request['slc_jefe']);
         $jefe = User::datosJefe($request['jefe_id']);
 
-      /*  Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+        Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         if($jefe->asistente !== null){
             Mail::to($jefe->asistente->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
         }
-*/
+
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
 
         //Mail::to(auth()->user()->email)
@@ -702,7 +702,18 @@ class SolicitudController extends Controller
         $request['users_id']=auth()->user()->id;
         $request['requests_id']=$id;
         $solicitud->observacionesRel()->save(new Observacion($request->all()));
-        alert()->success("Se añadió una nueva observación a esta solicitud","¡Éxito!")->persistent();
+
+        $solicitante = $solicitud->solicitante;
+        dd($solicitante,$solicitud->jefeAutoriza);
+
+
+        Mail::to($solicitud->jefeAutoriza->email)->send(new NuevaSolicitudDeVehiculo("Observaciones nuevas para la solicitud de ".$solicitud->solicitante->nombre,"Se ha creado una nueva observación a la solicitud que realizó ".$solicitud->solicitante->nombre." para el préstamo de un vehículo:".$solicitud->observacionesRel->observacion."."));
+        Mail::to($solicitud->solicitante->email)->send(new NuevaSolicitudDeVehiculo("Observaciones nuevas para su solicitud","Hola ".$solicitud->solicitante->nombre.", Se ha realizado una observación para su solicitud de préstamo de un vehículo. La observación es la siguiente: ".$solicitud->observacionesRel->observacion."."));
+
+
+
+
+        alert()->success("Se añadió una nueva observación a esta solicitud y se notificó a los interesados","¡Éxito!")->persistent();
 
         return redirect()->route('solicitud.show',$id);
     }
