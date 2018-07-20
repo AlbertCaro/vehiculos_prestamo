@@ -96,13 +96,19 @@ class DriverController extends Controller
      */
     public function show($id)
     {
-        $driver = Driver::findOrFail($id);
-        $licence_type = $driver->licence->licence_types_id; //Se obtiene id de la licencia para mostrarse en el select
-        $dependence = $driver->dependencies_id; //Lo mismo que la de arriba, pero para la dependencia
-        $select_attribs = ['class' => 'form-control', 'disabled' => '']; //Atributos base que tendrá el select, tiene disabled para deshabilitar el select
-        $show = true; //Variable que determina si se deshabilitarán los campos para sólo mostrar los datos, además de cambiar del botón
-        $title = 'Detalles del conductor'; //Título de la página
-        return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'show', 'select_attribs', 'title'));
+        try{
+            $driver = Driver::findOrFail($id);
+            $licence_type = $driver->licence->licence_types_id; //Se obtiene id de la licencia para mostrarse en el select
+            $dependence = $driver->dependencies_id; //Lo mismo que la de arriba, pero para la dependencia
+            $select_attribs = ['class' => 'form-control', 'disabled' => '']; //Atributos base que tendrá el select, tiene disabled para deshabilitar el select
+            $show = true; //Variable que determina si se deshabilitarán los campos para sólo mostrar los datos, además de cambiar del botón
+            $title = 'Detalles del conductor'; //Título de la página
+            return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'show', 'select_attribs', 'title'));
+        }catch(\Exception $exception){
+            //dd($exception);
+            return redirect()->action('DriverController@edit',$id);
+        }
+
     }
 
     /**
@@ -113,13 +119,18 @@ class DriverController extends Controller
      */
     public function edit($id)
     {
+        $defectuoso = false;
         //Añadido, podemos buscar mediante el método find que recibe como parámetro el id de la clase.
         $driver = Driver::findOrFail($id); //con findOrFail retorna un 404
-        $licence_type = $driver->licence->licence_types_id; //Se obtiene id de la licencia para mostrarse en el select
+
+        $licence_type = ($driver->licence) !== null ? $defectuoso=false:$defectuoso=true; //Se obtiene id de la licencia para mostrarse en el select
+
         $dependence = $driver->dependencies_id; //Lo mismo que la de arriba, pero para la dependencia
+
         $select_attribs = ['class' => 'form-control']; //Atributos base que tendrá el select
         $title = 'Editar conductor'; //Título de la página
-        return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'select_attribs', 'title'));
+        //dd(view('conductor_form', compact('driver', 'licence_type', 'dependence', 'select_attribs', 'title')));
+        return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'select_attribs', 'title','defectuoso'));
     }
 
     /**
@@ -181,7 +192,9 @@ class DriverController extends Controller
     public function destroy($id)
     {
         $driver = Driver::findOrFail($id);
+        if($driver->licence!=null)
         $driver->licence->delete();
+        if($driver->contact!=null)
         $driver->contact->delete();
         $driver->delete();
         //Retornamos vista con with() para mostrar un div de mensaje después de un cambio realizado

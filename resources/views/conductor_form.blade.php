@@ -23,6 +23,12 @@
                     <span>Ha dejado campos vacíos o introdujo datos erróneos</span>
                 </div>
             @endif
+            @if (@isset($defectuoso) && $defectuoso)
+                <div id="message" class="alert alert-danger">
+                    <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
+                    <span>Este conductor tiene conflictos, por favor llene los datos que faltan</span>
+                </div>
+            @endif
             <div class="input-group">
                 <span class="input-group-addon">Código</span>
                 <input type="number" class="form-control" name="codigo" placeholder="Código" maxlength="10"
@@ -115,7 +121,7 @@
                 <input type="text" class="form-control" name="licencia" placeholder="Número de licencia" maxlength="45"
                        onfocus="hideError('licencia')"
                        @if(count($errors)) value="{{ old('licencia') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->licence->numero }}" @endif
+                       @elseif(!@empty($driver->licence)) value="{{ $driver->licence->numero }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_licencia">
@@ -126,7 +132,7 @@
                 <input type="text" class="form-control" id="vencimiento" name="vencimiento" placeholder="Fecha de vencimiento"
                        onfocus="hideError('vencimiento')"
                        @if(count($errors)) value="{{ old('vencimiento') }}"
-                       @elseif(!@empty($driver)) value="{{ \Carbon\Carbon::parse( $driver->licence->vencimiento)->format('d-m-Y') }}" @endif
+                       @elseif(!@empty($driver->licence)) value="{{ \Carbon\Carbon::parse( $driver->licence->vencimiento)->format('d-m-Y') }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_vencimiento">
@@ -163,7 +169,7 @@
                 <input type="text" class="form-control" name="nombre_cont" placeholder="Nombre del contacto" maxlength="75"
                        onfocus="hideError('nombre_cont')"
                        @if(count($errors)) value="{{ old('nombre_cont') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->contact->nombre }}" @endif
+                       @elseif(!@empty($driver->contact)) value="{{ $driver->contact->nombre }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_nombre_cont">
@@ -174,7 +180,7 @@
                 <input type="text" class="form-control" name="apaterno_cont" placeholder="Apellido paterno" maxlength="75"
                        onfocus="hideError('apaterno_cont')"
                        @if(count($errors)) value="{{ old('apaterno_cont') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->contact->apaterno }}" @endif
+                       @elseif(!@empty($driver->contact)) value="{{ $driver->contact->apaterno }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_apaterno_cont">
@@ -185,7 +191,7 @@
                 <input type="text" class="form-control" name="amaterno_cont" placeholder="Apellido materno" maxlength="75"
                        onfocus="hideError('amaterno_cont')"
                        @if(count($errors)) value="{{ old('amaterno_cont') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->contact->amaterno }}" @endif
+                       @elseif(!@empty($driver->contact)) value="{{ $driver->contact->amaterno }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_amaterno_cont">
@@ -196,7 +202,7 @@
                 <input type="text" class="form-control" name="parentesco_cont" placeholder="Parentesco" maxlength="75"
                        onfocus="hideError('parentesco_cont')"
                        @if(count($errors)) value="{{ old('parentesco_cont') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->contact->parentesco }}" @endif
+                       @elseif(!@empty($driver->contact)) value="{{ $driver->contact->parentesco }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_parentesco_cont">
@@ -207,7 +213,7 @@
                 <input type="text" class="form-control" name="domicilio_cont" placeholder="Domicilio completo"
                        onfocus="hideError('domicilio_cont')"
                        @if(count($errors)) value="{{ old('domicilio_cont') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->contact->domicilio }}" @endif
+                       @elseif(!@empty($driver->contact)) value="{{ $driver->contact->domicilio }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_domicilio_cont">
@@ -218,7 +224,7 @@
                 <input type="text" class="form-control" name="telefono_cont" placeholder="Teléfono" maxlength="12"
                        onfocus="hideError('telefono_cont')"
                        @if(count($errors)) value="{{ old('telefono_cont') }}"
-                       @elseif(!@empty($driver)) value="{{ $driver->contact->telefono }}" @endif
+                       @elseif(!@empty($driver->contact)) value="{{ $driver->contact->telefono }}" @endif
                        @if(@isset($show)) disabled @endif/>
             </div>
             <div id="error_telefono_contt">
