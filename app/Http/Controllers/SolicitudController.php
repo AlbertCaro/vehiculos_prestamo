@@ -60,17 +60,17 @@ class SolicitudController extends Controller
                     ->whereIn('estatus',[1,2])
 
                     ->get();
-                $aprobadas = null;
+                $aprobadas = collect();
 //->where('fecha_evento','>',Carbon::now())
             } else {
                 if (auth()->user()->hasRoles(['administrativo'])) {
                     $solicitudes = Solicitud::where('estatus', '=', 2)->where('fecha_evento','>',Carbon::now())->get();
-                    $aprobadas = null;
+                    $aprobadas = collect();
                    // dd($solicitudes);
                 } else if (auth()->user()->hasRoles(['jefe'])) {
                     $solicitudes = Solicitud::where('estatus', '=', 1)->
                     where('jefe_id', '=', auth()->user()->id)->get();
-                    $aprobadas = null;
+                    $aprobadas = collect();
                     //->where('fecha_evento','>',Carbon::now())->where('fecha_evento','>',Carbon::now()->format("Y-m-d H:i:s"))
                 }
             }
@@ -78,23 +78,23 @@ class SolicitudController extends Controller
             if(auth()->user()->hasRoles(['jefe'])){
                 $solicitudes = Solicitud::where('jefe_id', auth()->user()->id)
                     ->where('estatus',"=",1)->where('fecha_evento','>',Carbon::now())->get();
-                $aprobadas = null;
+                $aprobadas = collect();
             } elseif(auth()->user()->hasRoles(['asistente_jefe'])){
                 $asistente = auth()->user();
                 // dd($asistente::jefe($asistente->id)[0]->id_jefe);
                 $solicitudes = Solicitud::where('jefe_id', $asistente::jefe($asistente->id)[0]->id_jefe)
                     ->where('estatus',"=",1)->get();
-                $aprobadas = null;
+                $aprobadas = collect();
                 ////->where('fecha_evento','>',Carbon::now())
             }
 
         } elseif(auth()->user()->hasRoles(['solicitante'])){
             $solicitudes = Solicitud::all()->where('solicitante_id', auth()->user()->id);
-            $aprobadas = null;
+            $aprobadas = collect();
         } elseif(auth()->user()->hasRoles(['vehiculos'])){
             $hoy = Carbon::now()->format('Y-m-d H:i:s');
             $solicitudes = Solicitud::where('estatus',"=","4")->where('fecha_regreso','>=',date($hoy))->get();
-            $aprobadas = null;
+            $aprobadas = collect();
         }
         /*
         Si es solicitante solo las del solicitante
@@ -557,7 +557,7 @@ class SolicitudController extends Controller
                         $secretariosAdministrativos = User::listaByRol('administrativo');
 
                         foreach ($secretariosAdministrativos as $secretariosAdministrativo) {
-                            TODO: Mail::to($secretariosAdministrativo->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+                            Mail::to($secretariosAdministrativo->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
                         }
 
                     }
