@@ -159,7 +159,7 @@
                                         <h5>Archivo de licencia</h5>
                                         @if($solicitud->driver->licence->archivo !== null)
                                             <div class="form-group  col-centered">
-                                                <a href="{{ Storage::url($solicitud->driver->licence->archivo)  }}">Descargar el archivo</a>
+                                                <a href="{{env('APP_URL')}}{{ Storage::url($solicitud->driver->licence->archivo)  }}">Descargar el archivo</a>
                                             </div><br>
                                         @else
                                             <div class="form_wh formCenter">

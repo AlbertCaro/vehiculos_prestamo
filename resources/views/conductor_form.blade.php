@@ -151,7 +151,7 @@
                 @if(@isset($show))
                 <h5>Archivo de licencia</h5>
                 <div class="form-group col-centered" align="center">
-                    <a href="{{ Storage::url($driver->licence->archivo)  }}">Descargar el archivo</a>
+                    <a href="{{env('APP_URL')}}{{ Storage::url($driver->licence->archivo)  }}">Descargar el archivo</a>
                 </div>
                 @else
                 <h5>Adjuntar licencia (licencia de conducir)</h5>

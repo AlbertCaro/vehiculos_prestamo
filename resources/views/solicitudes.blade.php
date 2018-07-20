@@ -232,7 +232,7 @@
                 @if(auth()->user()->hasRoles(['vehiculos']))
                     <tr>
                         <td>{{$solicitud->driver->nombre}} {{$solicitud->driver->apaterno}} {{$solicitud->driver->amaterno}}</td>
-                        <td><a href="{{ Storage::url($driver->licence->archivo)  }}">Descargar</a></td>
+                        <td><a href="{{env('APP_URL')}}{{ Storage::url($driver->licence->archivo)  }}">Descargar</a></td>
                         <td>
                             <strong>Salida:</strong> {{\Carbon\Carbon::parse($solicitud->fecha_evento)->format('d-m-Y H:i:s')}} <br>
 
