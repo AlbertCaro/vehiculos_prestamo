@@ -202,7 +202,7 @@
         {{--  De aquí en adelante será terreno de las solicitudes ya aprobadas --}}
 
         <br/>
-        <h1 class="center-text">Solcitudes ya aprobadas</h1>
+        <h1 class="center-text">Solicitudes aprobadas</h1>
         <table class="table-fill">
             <thead>
             @if(auth()->user()->hasRoles(['admin']) || auth()->user()->hasRoles(['coord_servicios_generales']) || auth()->user()->hasRoles(['asistente_serv_generales']) )
