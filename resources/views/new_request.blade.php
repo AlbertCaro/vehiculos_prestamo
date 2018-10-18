@@ -11,6 +11,12 @@
                     <div class="intro-message">
                         <h1 id="pivoteRadios">{{$title}}</h1>
                         <br/>
+                        @if (session('alert'))
+                            <div id="message" class="alert alert-danger">
+                                <a href="#" onclick="fadeMessage()" class="close" title="close">×</a>
+                                {{ session('alert') }}
+                            </div>
+                        @endif
                         <form class="form-horizontal" type="submit" id="solicitud_frm" name="frm_solicitud"
                               @if(@empty($solicitud)) action="{{route('solicitud.store')}}"
                               @else action="{{route('solicitud.update', $solicitud->id)}}" @endif

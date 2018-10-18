@@ -179,6 +179,5 @@
                 </div>
             </div>
         </footer>
-        @include('sweet::alert')
     </body>
 </html>

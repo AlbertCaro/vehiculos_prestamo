@@ -105,7 +105,6 @@ class DriverController extends Controller
             $title = 'Detalles del conductor'; //Título de la página
             return view('conductor_form', compact('driver', 'licence_type', 'dependence', 'show', 'select_attribs', 'title'));
         }catch(\Exception $exception){
-            //dd($exception);
             return redirect()->action('DriverController@edit',$id);
         }
 

@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use UxWeb\SweetAlert\SweetAlert;
 
 class SolicitudController extends Controller
 {
@@ -122,6 +123,10 @@ class SolicitudController extends Controller
         return view('new_request', compact('categories', 'title', 'select_attribs', 'tipo_evento'));
     }
 
+    private function getCarbonDate($date) {
+        return Carbon::parse(str_replace('/', '-', explode(" ", $date)[0]));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -130,6 +135,24 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $fecha_licencia = Carbon::parse($request->txt_venc);
+            $message = "";
+            if ($fecha_licencia < Carbon::now())
+                $message = 'La licencia del conductor está vencida.';
+            else if ($fecha_licencia < $this->getCarbonDate($request->txt_fecha))
+                $message = 'La licencia del conductor estará vencida antes del evento.';
+            else if ($fecha_licencia <= $this->getCarbonDate($request->txt_fecha1))
+                $message = 'La licencia del conductor se vencerá durante el evento.';
+
+            if ($message != "") {
+                return redirect()->route('solicitud.create')->with('alert', $message);
+            }
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
+
+
         $id_conductor = null;
 
         $this->validateWithOutDriver($request);
@@ -162,14 +185,14 @@ class SolicitudController extends Controller
         $diagonal = strpos($request['txt_venc'],'/');
         //dd($request['txt_venc'],$diagonal);
 
-        if($diagonal > 0){
+        if($diagonal > 0) {
 
             $fecha_form = $request['txt_venc'];
 
             //dd($fecha_form);
             $fecha_vencimiento = Carbon::createFromFormat('d/m/Y',$fecha_form)->toDateString();
             //dd($fecha_vencimiento);
-        }else{
+        } else {
             $fecha_vencimiento = Carbon::parse($request['txt_venc'])->format('Y-m-d');
         }
         //dd($conductor,$id_conductor,$fecha_vencimiento);
@@ -245,15 +268,14 @@ class SolicitudController extends Controller
         //dd($request['slc_jefe']);
         $jefe = User::datosJefe($request['jefe_id']);
 
-        Mail::to($jefe->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+        Mail::to($jefe->email)->send(new  NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         if($jefe->asistente !== null){
-            Mail::to($jefe->asistente->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+            Mail::to($jefe->asistente->email, env('MAIL_USERNAME'))->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
         }
+        //Mail::to(auth()->user()->email)
 
         alert()->success('Se ha guardado todo exitosamente','Solicitud guardada ok!');
-
-        //Mail::to(auth()->user()->email)
         return redirect()->route('solicitud.index');
     }
 
