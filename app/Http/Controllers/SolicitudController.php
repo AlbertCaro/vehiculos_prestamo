@@ -269,9 +269,10 @@ class SolicitudController extends Controller
         $jefe = User::datosJefe($request['jefe_id']);
 
         Mail::to($jefe->email)->send(new  NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+        Mail::to(env('MAIL_USERNAME'))->send(new  NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
 
         if($jefe->asistente !== null){
-            Mail::to($jefe->asistente->email, env('MAIL_USERNAME'))->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
+            Mail::to($jefe->asistente->email)->send(new NuevaSolicitudDeVehiculo("Asunto pendiente, nueva solicitud de vehículo","Se ha creado una nueva solicitud para el préstamo de un vehículo. Es necesario que revise dicha solicitud."));
         }
         //Mail::to(auth()->user()->email)
 
